@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.example.tempus.MainActivity;
 import com.example.tempus.R;
+import com.example.tempus.SignupActivity;
 import com.example.tempus.ui.login.LoginViewModel;
 import com.example.tempus.ui.login.LoginViewModelFactory;
 
@@ -58,8 +59,8 @@ public class LoginActivity extends Activity {
 
         SignuppButton.setOnClickListener(v -> {
             //회원 가입 페이지로 이동
-            Intent intent = new Intent(this, MainActivity.class);//임시 페이지
-            startActivity(intent);
+            Intent Signintent = new Intent(this, SignupActivity.class);//임시 페이지
+            startActivity(Signintent);
         });
 
 
@@ -86,7 +87,7 @@ public class LoginActivity extends Activity {
             }
         });
 
-        // Button
+
 
 
 
