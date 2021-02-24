@@ -1,11 +1,11 @@
-package com.applandeo.materialcalendarsampleapp;
+package com.applandeo.Tempus;
 
 import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.applandeo.materialcalendarsampleapp.utils.DrawableUtils;
+import com.applandeo.Tempus.utils.DrawableUtils;
 import com.applandeo.materialcalendarview.CalendarView;
 import com.applandeo.materialcalendarview.CalendarWeekDay;
 import com.applandeo.materialcalendarview.EventDay;

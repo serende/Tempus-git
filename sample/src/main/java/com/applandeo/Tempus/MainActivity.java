@@ -1,4 +1,4 @@
-package com.applandeo.materialcalendarsampleapp;
+package com.applandeo.Tempus;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -40,8 +40,10 @@ public class MainActivity extends AppCompatActivity implements OnSelectDateListe
         Button openCalendarWithCustomRowButton = findViewById(R.id.openCalendarWithCustomRowButton);
 
         openCalendarWithCustomRowButton.setOnClickListener(v -> {
-            Intent intent = new Intent(this, CalendarWithCustomRowActivity.class);
-            startActivity(intent);
+//            Intent intent = new Intent(this, CalendarWithCustomRowActivity.class);
+//            startActivity(intent);
+            Intent loginintent = new Intent(this, LoginActivity.class);
+            startActivity(loginintent);
         });
 
         Button openOneDayPicker = (Button) findViewById(R.id.openOneDayPickerButton);

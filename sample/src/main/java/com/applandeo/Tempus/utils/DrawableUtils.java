@@ -1,4 +1,4 @@
-package com.applandeo.materialcalendarsampleapp.utils;
+package com.applandeo.Tempus.utils;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -9,7 +9,7 @@ import android.graphics.drawable.LayerDrawable;
 import androidx.annotation.ColorRes;
 import androidx.core.content.ContextCompat;
 
-import com.applandeo.materialcalendarsampleapp.R;
+import com.applandeo.Tempus.R;
 import com.applandeo.materialcalendarview.CalendarUtils;
 import com.applandeo.materialcalendarview.utils.DayColorsUtils;
 

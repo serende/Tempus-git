@@ -1,4 +1,4 @@
-package com.applandeo.materialcalendarsampleapp;
+package com.applandeo.Tempus;
 
 import android.os.Bundle;
 import android.widget.Button;
