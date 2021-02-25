@@ -19,14 +19,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Standard calendar with custom row" />
+        android:text="loginactivity" />
 
     <Button
         android:id="@+id/openOneDayPickerButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="One day picker" />
+        android:text="BoardMainActivity" />
 
     <Button
         android:id="@+id/openOneDayPickerDialogButton"
