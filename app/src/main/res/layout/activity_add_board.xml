@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.boards.AddBoardActivity"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:background="@drawable/layoutborder">
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="29dp"
+            android:text="게시판 생성"
+            android:layout_marginLeft="52dp"
+            android:gravity="center" />
+
+        <Button
+            android:id="@+id/finButton"
+            android:layout_width="70dp"
+            android:layout_height="38dp"
+            android:text="저장"
+            android:background="#00ff0000"
+            android:textColor="#ff50bcdf"
+            android:layout_marginLeft="200dp"
+            android:gravity="center" />
+    </LinearLayout>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="17dp">
+
+        <TableRow
+            android:background="@drawable/layoutborder4">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="center"
+                android:text="게시판명"
+                android:background="@drawable/layoutborder4"
+                />
+
+            <EditText
+                android:id="@+id/productNameEdit"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                />
+        </TableRow>
+
+        <TableRow
+            android:background="@drawable/layoutborder4">
+            <TextView
+                android:layout_width="150dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="커버 이미지 설정"
+                android:background="@drawable/layoutborder4"/>
+
+            <LinearLayout
+                android:layout_width="223dp"
+                android:layout_height="match_parent">
+
+                <ImageButton
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:id="@+id/imageButton"
+                    android:layout_marginLeft="80dp"
+                    android:background="#00ff0000"
+                    android:layout_gravity="center"
+                    android:src="@drawable/add_photo_icon"/>
+            </LinearLayout>
+        </TableRow>
+
+        <TableRow
+            android:background="@drawable/layoutborder4">
+            <TextView
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:gravity="center"
+                android:text="멤버 초대"
+                android:background="@drawable/layoutborder4"/>
+
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/addFriends"
+                android:background="#00ff0000"
+                android:src="@drawable/ic_add_icons"/>
+        </TableRow>
+
+    </TableLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="376dp"
+            android:layout_height="39dp"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:text="초대 메시지"
+            android:background="@drawable/layoutborder4"
+            />
+        <EditText
+            android:id="@+id/memoEdit"
+            android:layout_width="376dp"
+            android:layout_height="200dp"
+            android:layout_marginLeft="17dp"
+            android:background="@drawable/layoutborder4"
+            />
+    </LinearLayout>
+
+    <include layout="@layout/content_add_board" />
+
+</LinearLayout>

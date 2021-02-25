@@ -33,9 +33,9 @@
 
         <Button
             android:id="@+id/finButton"
-            android:layout_width="50dp"
+            android:layout_width="60dp"
             android:layout_height="38dp"
-            android:layout_marginLeft="90dp"
+            android:layout_marginLeft="80dp"
             android:text="완료"
             android:background="#00ff0000"
             android:textColor="#ff50bcdf"

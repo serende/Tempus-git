@@ -9,14 +9,42 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Tempus">
-	<activity android:name=".expenditureBreakdownActivity">
+        <activity
+            android:name=".ui.boards.ExpenditureBreakdownActivityForWrite"
+            android:label="@string/title_activity_expenditure_breakdown_for_write"
+            android:theme="@style/Theme.Tempus.NoActionBar"></activity>
+        <activity
+            android:name=".ui.boards.WriteActivity"
+            android:label="@string/title_activity_write"
+            android:theme="@style/Theme.Tempus.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SignupActivity"></activity>
+        <activity
+            android:name=".ui.boards.AddBoardActivity"
+            android:label="@string/title_activity_add_board"
+            android:theme="@style/Theme.Tempus.NoActionBar" />
+        <activity
+            android:name=".ui.boards.BoardMainActivity"
+            android:label="@string/title_activity_board"
+            android:theme="@style/Theme.Tempus.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ui.addSchedule.expenditureBreakdownActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".SignupActivity" />
         <activity
             android:name=".ui.login.LoginActivity"
             android:label="@string/title_activity_login" />
