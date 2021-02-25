@@ -3,7 +3,7 @@
     package="com.applandeo.Tempus">
 
     <application
-        android:allowBackup="false"
+        android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
@@ -36,6 +36,53 @@
         <activity
             android:name="com.applandeo.Tempus.RangePickerActivity"
             android:label="Range picker" />
+
+        <activity
+            android:name="com.example.tempus.ui.boards.ExpenditureBreakdownActivityForWrite"
+            android:label="@string/title_activity_expenditure_breakdown_for_write"
+            android:theme="@style/Theme.Tempus.NoActionBar"></activity>
+        <activity
+            android:name="com.example.tempus.ui.boards.WriteActivity"
+            android:label="@string/title_activity_write"
+            android:theme="@style/Theme.Tempus.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.example.tempus.ui.boards.AddBoardActivity"
+            android:label="@string/title_activity_add_board"
+            android:theme="@style/Theme.Tempus.NoActionBar" />
+        <activity
+            android:name="com.example.tempus.ui.boards.BoardMainActivity"
+            android:label="@string/title_activity_board"
+            android:theme="@style/Theme.Tempus.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.example.tempus.ui.addSchedule.expenditureBreakdownActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".SignupActivity" />
+        <activity
+            android:name="com.applandeo.Tempus.LoginActivity"
+            android:label="@string/title_activity_login" />
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

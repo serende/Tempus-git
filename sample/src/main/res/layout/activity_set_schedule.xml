@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.addSchedule.SetScheduleActivity"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/layoutborder">
+
+        <TextView
+            android:id="@+id/dayView"
+            android:layout_width="80dp"
+            android:layout_height="29dp"
+            android:text="날짜"
+            android:gravity="center"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="25dp"/>
+
+        <Button
+            android:id="@+id/changeDisplay"
+            android:layout_width="111dp"
+            android:layout_height="41dp"
+            android:text="지출 목록 작성"
+            android:layout_marginLeft="70dp"
+            tools:layout_editor_absoluteX="150dp"
+            tools:layout_editor_absoluteY="25dp"/>
+
+        <Button
+            android:id="@+id/finButton"
+            android:layout_width="60dp"
+            android:layout_height="38dp"
+            android:layout_marginLeft="80dp"
+            android:text="완료"
+            android:background="#00ff0000"
+            android:textColor="#ff50bcdf"
+            tools:layout_editor_absoluteX="318dp"
+            tools:layout_editor_absoluteY="16dp"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="일정 제목"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="20dp"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="102dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="하루 종일"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="25dp"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="102dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="시작 시간"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="25dp"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="102dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="종료 시간"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="25dp"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="102dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="세부 내용"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="25dp"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="102dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="파일 추가"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="25dp"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="102dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="지인과 공유"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="25dp"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="102dp" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/editText"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginRight="10dp"/>
+
+            <Switch
+                android:id="@+id/allDaySwitch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"/>
+
+            <Button
+                android:id="@+id/startTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right|center"
+                android:text="12월 26일 (토) 오후 1:00"
+                android:background="#00ff0000"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="10dp"
+                />
+
+            <Button
+                android:id="@+id/endTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right|center"
+                android:text="오후 2:00"
+                android:background="#00ff0000"
+                android:layout_marginRight="10dp"
+                />
+
+            <Button
+                android:id="@+id/details"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="right"
+                android:gravity="center"
+                android:text="+"
+                android:background="#00ff0000"
+                android:layout_marginRight="10dp"/>
+
+            <Button
+                android:id="@+id/addFile"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="right"
+                android:gravity="center"
+                android:text="+"
+                android:background="#00ff0000"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="10dp"/>
+
+            <Switch
+                android:id="@+id/sharingSwitch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

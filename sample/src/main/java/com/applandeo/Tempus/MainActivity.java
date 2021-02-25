@@ -16,6 +16,7 @@ import com.applandeo.materialcalendarview.DatePicker;
 import com.applandeo.materialcalendarview.builders.DatePickerBuilder;
 import com.applandeo.materialcalendarview.listeners.OnSelectDateListener;
 import com.applandeo.materialcalendarview.utils.DateUtils;
+import com.example.tempus.ui.boards.BoardMainActivity;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -42,12 +43,12 @@ public class MainActivity extends AppCompatActivity implements OnSelectDateListe
         openCalendarWithCustomRowButton.setOnClickListener(v -> {
 //            Intent intent = new Intent(this, CalendarWithCustomRowActivity.class);
 //            startActivity(intent);
-            Intent loginintent = new Intent(this, LoginActivity.class);
-            startActivity(loginintent);
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
         });
 
         Button openOneDayPicker = (Button) findViewById(R.id.openOneDayPickerButton);
-        openOneDayPicker.setOnClickListener(v -> startActivity(new Intent(this, OneDayPickerActivity.class)));
+        openOneDayPicker.setOnClickListener(v -> /*startActivity(new Intent(this, OneDayPickerActivity.class))*/startActivity(new Intent(this, BoardMainActivity.class)));
 
         Button openManyDaysPicker = (Button) findViewById(R.id.openManyDayPickerButton);
         openManyDaysPicker.setOnClickListener(v -> startActivity(new Intent(this, ManyDaysPickerActivity.class)));
