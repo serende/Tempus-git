@@ -17,6 +17,8 @@ import com.applandeo.materialcalendarview.builders.DatePickerBuilder;
 import com.applandeo.materialcalendarview.listeners.OnSelectDateListener;
 import com.applandeo.materialcalendarview.utils.DateUtils;
 import com.example.tempus.ui.boards.BoardMainActivity;
+import com.example.tempus.ui.boards.WriteActivity;
+import com.example.tempus.ui.friends.FriendListActivity;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -64,6 +66,18 @@ public class MainActivity extends AppCompatActivity implements OnSelectDateListe
 
         Button openRangePickerDialog = (Button) findViewById(R.id.openRangePickerDialogButton);
         openRangePickerDialog.setOnClickListener(v -> openRangePicker());
+
+        Button testWriteButton = (Button) findViewById(R.id.testWriteButton);
+        testWriteButton.setOnClickListener(v -> {
+            Intent intent = new Intent(this, WriteActivity.class);
+            startActivity(intent);
+        });
+
+        Button friendsListButton = (Button) findViewById(R.id.friendsListButton);
+        friendsListButton.setOnClickListener(v -> {
+            Intent intent = new Intent(this, FriendListActivity.class);
+            startActivity(intent);
+        });
     }
 
     private void openOneDayPicker() {

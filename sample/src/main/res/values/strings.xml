@@ -24,4 +24,9 @@
     <string name="title_activity_expenditure_breakdown_for_write">
         ExpenditureBreakdownActivityForWrite
     </string>
+    <string name="title_activity_add_friends">AddFriendsActivity</string>
+    <string name="title_activity_friend_list">FriendListActivity</string>
+    <string name="title_activity_entering_information_of_friend">
+        EnteringInformationOfFriendActivity
+    </string>
 </resources>

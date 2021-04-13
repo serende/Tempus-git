@@ -1,5 +1,6 @@
 package com.example.tempus.ui.addSchedule;
 
+import androidx.annotation.IdRes;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -8,10 +9,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.applandeo.Tempus.R;
+import com.example.tempus.ui.boards.WriteActivity;
 
 //import com.example.tempus.R;
 
@@ -79,9 +83,24 @@ public class SetScheduleActivity extends AppCompatActivity {
         Switch allDaySwitch = (Switch) findViewById(R.id.allDaySwitch);
         allDaySwitch.setOnCheckedChangeListener(new allDaySwitchListener());
 
-        Switch sharingSwitch = (Switch) findViewById(R.id.sharingSwitch);
-        sharingSwitch.setOnCheckedChangeListener(new sharingSwitchListener());
+        RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
+        radioGroup.setOnCheckedChangeListener(radioGroupButtonChangeListener);
     }
+
+    RadioGroup.OnCheckedChangeListener radioGroupButtonChangeListener = new RadioGroup.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
+            if(i == R.id.allShareRadioButton){
+                Toast.makeText(SetScheduleActivity.this, "지인 모두와 공유", Toast.LENGTH_SHORT).show();
+            }
+            else if(i == R.id.partShareRadioButton){
+                Toast.makeText(SetScheduleActivity.this, "특정 그룹과 공유", Toast.LENGTH_SHORT).show();
+            }
+            else if(i == R.id.nonShareRadioButton){
+                Toast.makeText(SetScheduleActivity.this, "공유하지 않음", Toast.LENGTH_SHORT).show();
+            }
+        }
+    };
 }
 
 class allDaySwitchListener implements CompoundButton.OnCheckedChangeListener{
@@ -92,18 +111,6 @@ class allDaySwitchListener implements CompoundButton.OnCheckedChangeListener{
             ;
         else
             // just in time
-            ;
-    }
-}
-
-class sharingSwitchListener implements CompoundButton.OnCheckedChangeListener{
-    @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        if(isChecked)
-            // share with the members who belong to group
-            ;
-        else
-            // not share
             ;
     }
 }
