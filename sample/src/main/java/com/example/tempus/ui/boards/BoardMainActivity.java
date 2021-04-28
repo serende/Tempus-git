@@ -17,8 +17,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-//import com.example.tempus.R;
-
 public class BoardMainActivity extends AppCompatActivity {
 
     @Override

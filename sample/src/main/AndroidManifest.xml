@@ -1,44 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.applandeo.Tempus">
-    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true">
-        <activity android:name=".TestActivity">
-
-        </activity>
-        <activity android:name=".MainActivity">
+        android:theme="@style/AppTheme">
+        <activity android:name="com.applandeo.Tempus.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
-            android:name=".CalendarActivity"
+            android:name="com.applandeo.Tempus.CalendarActivity"
             android:label="Standard calendar" />
+
         <activity
-            android:name=".CalendarWithCustomRowActivity"
+            android:name="com.applandeo.Tempus.CalendarWithCustomRowActivity"
             android:label="Standard calendar with custom row" />
+
         <activity
-            android:name=".OneDayPickerActivity"
+            android:name="com.applandeo.Tempus.OneDayPickerActivity"
             android:label="One day picker" />
+
         <activity
-            android:name=".ManyDaysPickerActivity"
+            android:name="com.applandeo.Tempus.ManyDaysPickerActivity"
             android:label="Many days picker" />
+
         <activity
-            android:name=".RangePickerActivity"
+            android:name="com.applandeo.Tempus.RangePickerActivity"
             android:label="Range picker" />
+
         <activity
             android:name="com.example.tempus.ui.boards.ExpenditureBreakdownActivityForWrite"
             android:label="@string/title_activity_expenditure_breakdown_for_write"
-            android:theme="@style/Theme.Tempus.NoActionBar" />
+            android:theme="@style/Theme.Tempus.NoActionBar"></activity>
         <activity
             android:name="com.example.tempus.ui.boards.WriteActivity"
             android:label="@string/title_activity_write"
@@ -72,9 +74,15 @@
         </activity>
         <activity android:name=".SignupActivity" />
         <activity
-            android:name=".LoginActivity"
+            android:name="com.applandeo.Tempus.LoginActivity"
             android:label="@string/title_activity_login" />
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
