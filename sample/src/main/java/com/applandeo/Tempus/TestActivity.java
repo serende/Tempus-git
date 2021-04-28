@@ -44,7 +44,7 @@ public class TestActivity extends AppCompatActivity {
             try {
 
                 //String site_url_json = "http://273fb4d10f83.ngrok.io/post";
-                String site_url_json = "http://b03c4f12158b.ngrok.io/post";
+                String site_url_json = "http://54ebeb1b9923.ngrok.io/post";
                 //ngrok http 8000 -host-header="localhost:8000"
                 //웹서버 주소에 따른 기능 변환
                 URL url = new URL(site_url_json);
