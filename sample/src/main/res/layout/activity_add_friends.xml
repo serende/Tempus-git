@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:textSize="20dp"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="30dp"
             android:text="원하는 등록 방법을 선택하세요."/>
 
         <Button
@@ -54,6 +54,23 @@
             android:layout_marginLeft="20dp"
             android:layout_marginTop="30dp"
             android:text="카카오톡으로 등록"/>
+
+        <EditText
+            android:id="@+id/nameTestEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="30dp"
+            android:text="test"/>
+
+        <EditText
+            android:id="@+id/numTestEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="30dp"
+            android:text="test"/>
+
     </LinearLayout>
 
 </LinearLayout>
