@@ -55,7 +55,7 @@ public class ServerRequestActivity extends AppCompatActivity {
             try {
 
                 //String site_url_json = "http://273fb4d10f83.ngrok.io/post";
-                String site_url_json = "http://82df587cda36.ngrok.io/post";
+                String site_url_json = "http://f9a3e76823da.ngrok.io/post";
                 //ngrok http 8000 -host-header="localhost:8000"
                 //로컬 주소를 0.0.0.0으로 세팅하는 방법을 통해 해결이 가능할 것으로도 예상하나 모든 호스트에 대해서 접근을 허용하기 때문에 보안상 문제가 발생함(5/4)
                 //웹서버 주소에 따른 기능 변환
@@ -63,6 +63,7 @@ public class ServerRequestActivity extends AppCompatActivity {
 
                 urlConnection = (HttpURLConnection) url.openConnection();//HttpURLConnection 객체를 생성하여 openConnection 메소드로 url 연결
                 urlConnection.setRequestMethod("GET");//웹서버에 대한 요청 옵션
+                //urlConnection.setRequestProperty("accept", "application/json");
                 /*
                 * HEAD: 문서의 헤더정보 요청
                 * GET: 웹서버로부터 리소스를 가져옴
@@ -98,9 +99,9 @@ public class ServerRequestActivity extends AppCompatActivity {
 
             try {
                 JSONArray jsonarray = new JSONArray(strJson);
-                JSONObject jsonobj = jsonarray.getJSONObject(0);
+                JSONObject jsonobj = jsonarray.getJSONObject(1);//json데이터 id주소 -1
 
-                String result_json_text =  jsonobj.getString("text");
+                String result_json_text =  jsonobj.getString("text");// json 데이터 name
                 Log.d("FOR_LOG", result_json_text);
 
                 TextView textView = (TextView)findViewById(R.id.showtext);
