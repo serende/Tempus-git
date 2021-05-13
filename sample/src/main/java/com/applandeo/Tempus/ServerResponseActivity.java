@@ -9,21 +9,17 @@ import android.widget.TextView;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedWriter;
-import java.io.DataOutputStream;
-import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 
-public class ServerRespendActivity extends AppCompatActivity {
+public class ServerResponseActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_respend);
+        setContentView(R.layout.activity_response);
 
 
         ParseTask test = new ParseTask();//네트워크는 스레드를 사용하여 백 그라운드에서 작업해야함, 안그럼 NetworkOnMainThreadException 발생
@@ -38,23 +34,24 @@ public class ServerRespendActivity extends AppCompatActivity {
                 JSONArray jsonarr = new JSONArray();
                 jsonarr = new JSONArray();
 
-                for (int i = 1; i < 3; i++) {
+                //for (int i = 1; i < 3; i++) {
                     JSONObject data = new JSONObject();
 
-                    data.put("이름", "인간_" + i);
-                    data.put("나이", 10 + i);
-                    data.put("주소", "서울 중앙로" + i + "길");
+                    data.put("Author", "홍길동");
+                    data.put("Title", "클라이언트에서 왔습니다.");
+                    data.put("Text", "test");
                     //jsonarr.add(data); put으로 대체됨
                     jsonarr.put(data);
-                }
+                //}
 
-                jsonob.put("사람들", jsonarr);
+                //jsonob.put("사람들", jsonarr);
                 TextView textView = (TextView) findViewById(R.id.respend);
-                textView.setText(jsonob.toString());
-                String json = jsonob.toString();
+                textView.setText(jsonarr.toString());
+                String json = jsonarr.toString();
 
                 try {
-                    String host_url = "https://webhook.site/3e806cef-cad6-4542-982d-6064843cfcf2";
+                    //String host_url = "https://webhook.site/3e806cef-cad6-4542-982d-6064843cfcf2";
+                    String host_url = "http://192.168.0.3:5000/addboard";
                     URL url = new URL(host_url);
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     conn.setConnectTimeout(15*1000);//Timeout setting

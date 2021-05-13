@@ -6,18 +6,15 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
-import com.applandeo.Tempus.MainActivity;
 import com.applandeo.Tempus.R;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
@@ -31,12 +28,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -46,18 +48,31 @@ public class WriteActivity extends AppCompatActivity {
     private static final int REQUEST_TAKE_ALBUM = 3333;
     private static final int REQUEST_IMAGE_CROP = 4444;
 
+    Button changeDisplay;
+    ImageButton addPhoto;
+    Button finButton;
+
+    EditText dateEdit;
+    EditText contentEdit;
+
+
     String mCurrentPhotoPath;
     Uri imageUri;
     Uri photoURI, albumURI;
 
     ImageView userImage;
 
+
+    RadioGroup radioGroup;
+
+    String WR_date, WR_body;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_write);
 
-        Button changeDisplay = (Button) findViewById(R.id.changeDisplay);
+        changeDisplay = (Button) findViewById(R.id.changeDisplay);
         changeDisplay.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
@@ -66,7 +81,10 @@ public class WriteActivity extends AppCompatActivity {
             }
         });
 
-        ImageButton addPhoto = (ImageButton) findViewById(R.id.addPhoto);
+        userImage = (ImageView) findViewById(R.id.userImage);
+
+
+        addPhoto = (ImageButton) findViewById(R.id.addPhoto);
         addPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,30 +93,68 @@ public class WriteActivity extends AppCompatActivity {
             }
         });
 
-        Button finButton = (Button) findViewById(R.id.finButton);
+
+
+        dateEdit = (EditText) findViewById(R.id.dateEdit);
+        contentEdit = (EditText) findViewById(R.id.contentEdit);
+
+        finButton = (Button) findViewById(R.id.finButton);
         finButton.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View view){
-                // save contents
+            public void onClick(View view) {
+                JSONObject jsonObject = new JSONObject();
+
+                JSONObject head = new JSONObject();     //JSON 오브젝트의 head 부분
+                JSONObject body = new JSONObject();     //JSON 오브젝트의 body 부분
+
+                String headjson = null;
+                String bodyjson = null;
+
+                WR_date = dateEdit.getText().toString();
+                WR_body = contentEdit.getText().toString();
+
+                try {
+                    head.put("WR_ID", "1");     //head 부분 생성 시작
+                    head.put("WR_TYPE", "A");    //head 부분 생성 완료
+                    // A: 자유 형식, B: 지출 목록 형식
+
+                    jsonObject.put("head", head);   //head 오브젝트 추가
+                    headjson = jsonObject.toString();
+                    // 작성일자
+                    body.put("WR_DATE", WR_date);   //body부분 생성 시작
+                    // 글 내용
+                    body.put("WR_BODY", WR_body);   //body부분 생성 완료
+
+
+                    jsonObject.put("body", body);   //body 오브젝트 추가
+                    bodyjson = jsonObject.toString();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                // 작성 일자 혹은 내용이 빈 칸인 경우 완료버튼 onClick함수 종료
+                if (dateEdit.getText().length() == 0 || contentEdit.getText().length() == 0) {
+                    Toast.makeText(WriteActivity.this, "작성 일자 혹은 내용에 작성된 글이 없습니다.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Log.e("json", "생성한 json : " + jsonObject.toString());
+                String[] params = {headjson,bodyjson};
+                PostTask Write = new PostTask();
+                Write.execute(params);
+
+                Intent baIntent = new Intent(WriteActivity.this, boardActivity.class);
+                baIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);  // 상위 스택 액티비티 모두 제거
+                WriteActivity.this.finish();
+                startActivity(baIntent);
             }
         });
 
-        EditText dateEdit = (EditText) findViewById(R.id.dateEdit);
-        EditText contentEdit = (EditText) findViewById(R.id.contentEdit);
-
-        userImage = (ImageView) findViewById(R.id.userImage);
-        userImage.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                // TODO
-            }
-        });
-
-        RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
+        radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
         radioGroup.setOnCheckedChangeListener(radioGroupButtonChangeListener);
 
         checkPermission();
     }
+
 
     private void captureCamera(){
         String state = Environment.getExternalStorageState();
@@ -282,6 +338,8 @@ public class WriteActivity extends AppCompatActivity {
         }
     }
 
+
+
     RadioGroup.OnCheckedChangeListener radioGroupButtonChangeListener = new RadioGroup.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
@@ -296,4 +354,43 @@ public class WriteActivity extends AppCompatActivity {
             }
         }
     };
+
+    private class PostTask extends AsyncTask<String, Void, String> {
+        protected String doInBackground(String... params) {
+            //String hjson = params[0];
+            String bjson = params[1];
+            try {
+                String host_url = "http://192.168.43.226:5000/addboard";
+                URL url = new URL(host_url);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setConnectTimeout(15*1000);//Timeout setting
+                conn.setRequestProperty("Content-Type", "application/json");//Request body 전달시 json 형태로 전달
+                conn.setRequestMethod("POST");//보내는 데이터 형태는 post로 응답
+                conn.setDoOutput(true);//서버로 응답을 보냄
+                conn.setDoInput(true);//서버로부터 응답을 받음
+                conn.connect();
+                OutputStreamWriter streamWriter = new OutputStreamWriter(conn.getOutputStream());
+                streamWriter.write(bjson);//Request body에 json data 세팅
+                streamWriter.flush();//json data 입력후 저장
+                streamWriter.close();
+                int responsecode = conn.getResponseCode();//http 응답코드 송신
+//                    OutputStreamWriter streamWriter2 = new OutputStreamWriter(conn.getOutputStream());
+//                    streamWriter2.write(bjson);
+//                    streamWriter2.flush();
+//                    streamWriter2.close();
+//                    responsecode = conn.getResponseCode();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String strJson) {
+            super.onPostExecute(strJson);
+        }
+
+    }
 }
