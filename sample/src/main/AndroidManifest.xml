@@ -2,19 +2,18 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.applandeo.Tempus">
 
+    <uses-sdk
+        android:minSdkVersion="15"
+        android:targetSdkVersion="8" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <uses-feature android:name="android.hardware.camera2" />
-
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
-    <uses-sdk
-        android:minSdkVersion="15"
-        android:targetSdkVersion="8" />
 
     <application
         android:allowBackup="true"
@@ -23,10 +22,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true"><!-- 서버 연결을 위해 필요 -->
-        <activity android:name=".ServerRespendActivity"></activity>
-
-        <activity android:name=".ServerRequestActivity"></activity>
+        android:usesCleartextTraffic="true">
+        <activity android:name="com.example.tempus.ui.boards.boardActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <!-- 서버 연결을 위해 필요 -->
+        <activity android:name=".ServerResponseActivity" />
+        <activity android:name=".ServerRequestActivity" />
+        <activity android:name=".ServerRespendActivity"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -84,10 +86,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="com.example.tempus.ui.addSchedule.SetScheduleActivity">
+
+        </activity>
         <activity android:name=".SignupActivity" />
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login" />
+        <activity android:name="com.example.tempus.ui.friends.FriendListActivity"/>
+        <activity android:name="com.example.tempus.ui.friends.AddFriendsActivity"/>
+        <activity android:name="com.example.tempus.ui.friends.EnteringInformationOfFriendActivity"/>
     </application>
 
 </manifest>

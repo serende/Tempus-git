@@ -68,7 +68,6 @@
             android:gravity="center"
             android:background="@drawable/layoutborder4"/>
 
-        // EditText or CalendarView?
         <EditText
             android:id="@+id/dateEdit"
             android:layout_width="match_parent"

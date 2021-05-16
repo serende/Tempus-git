@@ -37,10 +37,6 @@ public class AddFriendsActivity extends AppCompatActivity {
             public void onClick(View v){
                 Intent intent = new Intent(v.getContext(), EnteringInformationOfFriendActivity.class);
                 startActivity(intent);
-
-
-
-                // 친구 정보 추가 페이지로 이동
             }
         });
 

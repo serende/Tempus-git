@@ -32,7 +32,7 @@ public class FriendListActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        final LinearLayout lm = (LinearLayout) findViewById(R.id.ll);
+        // final LinearLayout lm = (LinearLayout) findViewById(R.id.ll);
 
         /* 동적 레이아웃
         // linearLayout params 정의

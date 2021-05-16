@@ -18,15 +18,9 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:popupTheme="@style/Theme.Tempus.PopupOverlay">
-
-        </androidx.appcompat.widget.Toolbar>
-
-
+            app:popupTheme="@style/Theme.Tempus.PopupOverlay"/>
 
     </com.google.android.material.appbar.AppBarLayout>
-
-    <include layout="@layout/content_board" />
 
     <GridLayout
         android:layout_width="match_parent"
@@ -81,7 +75,7 @@
 
     </GridLayout>
 
-    // 우측 스크롤바
+    // 우측 스크롤바 추가 필요
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"

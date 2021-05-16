@@ -1,7 +1,9 @@
 package com.example.tempus.ui.friends;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -9,6 +11,8 @@ import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import android.view.View;
 import android.widget.Button;
@@ -31,6 +35,20 @@ public class EnteringInformationOfFriendActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_entering_information_of_friend);
 
+        /*
+        // 파일 읽기 권한 요청
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.READ_EXTERNAL_STORAGE)) {
+
+            } else {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                        1);
+            }
+        }
+
+         */
+
         // 완료 버튼을 누르면 기입된 지인의 정보를 저장하여 FriendList 액티비티에 전달하여 기입된 정보를 정렬시켜야 함
         finButton = (Button) findViewById(R.id.finButton);
         // finButton.setOnClickListener((View.OnClickListener) this);
@@ -42,6 +60,7 @@ public class EnteringInformationOfFriendActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
 
 
         // 전화번호 기입
@@ -61,7 +80,7 @@ public class EnteringInformationOfFriendActivity extends AppCompatActivity {
     }
 
 
-    /*
+/*
     public void onClick(@NotNull View v){
         switch(v.getId()){
             case R.id.finButton:
@@ -90,6 +109,8 @@ public class EnteringInformationOfFriendActivity extends AppCompatActivity {
         }
     }
 
-     */
+ */
+
+
 
 }
