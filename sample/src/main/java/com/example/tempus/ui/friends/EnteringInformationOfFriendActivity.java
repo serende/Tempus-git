@@ -4,11 +4,13 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
@@ -35,6 +37,8 @@ public class EnteringInformationOfFriendActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_entering_information_of_friend);
 
+        checkPermission();
+
         /*
         // 파일 읽기 권한 요청
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED) {
@@ -46,13 +50,38 @@ public class EnteringInformationOfFriendActivity extends AppCompatActivity {
                         1);
             }
         }
-
          */
 
         // 완료 버튼을 누르면 기입된 지인의 정보를 저장하여 FriendList 액티비티에 전달하여 기입된 정보를 정렬시켜야 함
         finButton = (Button) findViewById(R.id.finButton);
-        // finButton.setOnClickListener((View.OnClickListener) this);
+        finButton.setOnClickListener(v -> {
+            try{
+                // 입력받은 지인 정보를 String형으로 저장
+                String phoneTxt = phoneNumberEditText.getText().toString();
+                String nameTxt = nameEditText.getText().toString();
+                String emailTxt = emailEditText.getText().toString();
+                String groupTxt = groupEditText.getText().toString();
+                String memoTxt = memoEditText.getText().toString();
 
+                // 지인 정보를 하나의 변수에 저장
+                String friendInfoTxt = phoneTxt + "-" + nameTxt + "-" + emailTxt + "-" + groupTxt + "-" + memoTxt;
+
+                // 지인 정보를 입력할 파일 열기
+                FileOutputStream outstream = openFileOutput("friendList.txt", Activity.MODE_WORLD_WRITEABLE);
+
+                // 파일에 지인 정보 입력
+                outstream.write(friendInfoTxt.getBytes());
+
+                outstream.close();
+
+                Intent intent = new Intent(v.getContext(), FriendListActivity.class);
+                startActivity(intent);
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+
+        /*
         finButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 // 완료 버튼을 누르면 지인 목록 페이지로 이동
@@ -61,7 +90,7 @@ public class EnteringInformationOfFriendActivity extends AppCompatActivity {
             }
         });
 
-
+         */
 
         // 전화번호 기입
         phoneNumberEditText = (EditText) findViewById(R.id.phoneNumberEditText);
@@ -79,8 +108,8 @@ public class EnteringInformationOfFriendActivity extends AppCompatActivity {
         memoEditText = (EditText) findViewById(R.id.memoEditText);
     }
 
-
-/*
+    /*
+    @Override
     public void onClick(@NotNull View v){
         switch(v.getId()){
             case R.id.finButton:
@@ -92,11 +121,16 @@ public class EnteringInformationOfFriendActivity extends AppCompatActivity {
                     String groupTxt = groupEditText.getText().toString();
                     String memoTxt = memoEditText.getText().toString();
 
+                    // 지인 정보를 하나의 변수에 저장
                     String friendInfoTxt = phoneTxt + "-" + nameTxt + "-" + emailTxt + "-" + groupTxt + "-" + memoTxt;
 
+                    // 지인 정보를 입력할 파일 열기
                     FileOutputStream outstream = openFileOutput("friendList.txt", Activity.MODE_WORLD_WRITEABLE);
 
+                    // 파일에 지인 정보 입력
                     outstream.write(friendInfoTxt.getBytes());
+
+                    outstream.close();
 
                     Toast.makeText(this, "지인 정보를 저장하는데 성공했습니다.", Toast.LENGTH_SHORT).show();
 
@@ -109,8 +143,14 @@ public class EnteringInformationOfFriendActivity extends AppCompatActivity {
         }
     }
 
- */
+     */
 
-
+    public void checkPermission(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if(checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+            }
+        }
+    }
 
 }

@@ -33,28 +33,22 @@ public class AddFriendsActivity extends AppCompatActivity {
         number = "";
 
         Button registerWithPhoneNumberButton = (Button) findViewById(R.id.registerWithPhoneNumberButton);
-        registerWithPhoneNumberButton.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                Intent intent = new Intent(v.getContext(), EnteringInformationOfFriendActivity.class);
-                startActivity(intent);
-            }
+        registerWithPhoneNumberButton.setOnClickListener(v -> {
+            Intent intent = new Intent(v.getContext(), EnteringInformationOfFriendActivity.class);
+            startActivity(intent);
         });
 
         Button registerWithAddressBookButton = (Button) findViewById(R.id.registerWithAddressBookButton);
-        registerWithAddressBookButton.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                // 연락처 선택 화면
-                Intent intent = new Intent(Intent.ACTION_PICK);
-                intent.setData(ContactsContract.CommonDataKinds.Phone.CONTENT_URI);
-                startActivityForResult(intent, 0);
-            }
+        registerWithAddressBookButton.setOnClickListener(v -> {
+            // 연락처 선택 화면
+            Intent intent = new Intent(Intent.ACTION_PICK);
+            intent.setData(ContactsContract.CommonDataKinds.Phone.CONTENT_URI);
+            startActivityForResult(intent, 0);
         });
 
-        Button registerWithKakaoButton = (Button) findViewById(R.id.registerWithKakaoButton);
-        registerWithKakaoButton.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                // 카카오톡과 연동
-            }
+        Button registerWithKkButton = (Button) findViewById(R.id.registerWithKkButton);
+        registerWithKkButton.setOnClickListener(v -> {
+            // 카카오톡과 연동
         });
 
         EditText nameTestEdit = (EditText) findViewById(R.id.nameTestEdit);

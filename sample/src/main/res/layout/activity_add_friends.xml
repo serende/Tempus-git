@@ -48,7 +48,7 @@
             android:text="연락처로 등록"/>
 
         <Button
-            android:id="@+id/registerWithKakaoButton"
+            android:id="@+id/registerWithKkButton"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
