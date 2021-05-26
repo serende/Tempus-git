@@ -4,18 +4,130 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.example.tempus.ui.friends.EnteringInformationOfFriendActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:background="@drawable/layoutborder">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="지인 정보 입력"
+            android:layout_marginLeft="20dp"
+            android:layout_gravity="center"/>
+
+        <Button
+            android:id="@+id/finButton"
+            android:layout_width="60dp"
+            android:layout_height="38dp"
+            android:layout_marginLeft="230dp"
+            android:text="완료"
+            android:background="#00ff0000"
+            android:textColor="#ff50bcdf"
+            android:layout_gravity="center"
+            tools:layout_editor_absoluteX="318dp"
+            tools:layout_editor_absoluteY="16dp"
+            android:onClick="onClick"
+            />
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <TextView
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="지인 정보 입력"/>
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@drawable/layoutborder4">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:text="등록할 전화번호"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="20dp"
+                android:text="등록할 이름"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="20dp"
+                android:text="이메일"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginBottom="30dp"
+                android:text="그룹"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@drawable/layoutborder4">
+
+            <EditText
+                android:id="@+id/phoneNumberEditText"
+                android:layout_width="240dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="9dp"
+                android:gravity="center"/>
+            <EditText
+                android:id="@+id/nameEditText"
+                android:layout_width="240dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="9dp"
+                android:gravity="center"/>
+            <EditText
+                android:id="@+id/emailEditText"
+                android:layout_width="240dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="9dp"
+                android:gravity="center"/>
+            <EditText
+                android:id="@+id/groupEditText"
+                android:layout_width="240dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="9dp"
+                android:gravity="center"/>
+        </LinearLayout>
 
     </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginTop="7dp"
+        android:background="@drawable/layoutborder4"
+        android:text="메모"/>
+
+    <EditText
+        android:id="@+id/memoEditText"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@drawable/layoutborder4"
+        android:gravity="left|top"/>
+
 </LinearLayout>
