@@ -31,7 +31,6 @@
             android:layout_gravity="center"
             tools:layout_editor_absoluteX="318dp"
             tools:layout_editor_absoluteY="16dp"
-            android:onClick="onClick"
             />
 
     </LinearLayout>
