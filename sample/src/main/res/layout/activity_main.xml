@@ -33,7 +33,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="One day picker (dialog)"
+        android:text="server_test"
         android:visibility="gone" />
 
     <Button
@@ -41,8 +41,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Many days picker"
-        android:visibility="gone" />
+        android:text="server_test"
+        android:visibility="visible" />
 
     <Button
         android:id="@+id/openManyDaysPickerDialogButton"

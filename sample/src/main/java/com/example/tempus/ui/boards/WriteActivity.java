@@ -124,7 +124,7 @@ public class WriteActivity extends AppCompatActivity {
                 WR_date = dateEdit.getText().toString();
                 WR_body = contentEdit.getText().toString();
 
-                String urIString = "서버에 전송할 API URL을 넣는다.";
+                String urIString = "http://192.168.0.3:5000/addboard";
                 DoFileUpload(urIString, getAbsolutePath(photoURI));
 
                 // 블루투스를 이용해 전송하는 코드라서 제외

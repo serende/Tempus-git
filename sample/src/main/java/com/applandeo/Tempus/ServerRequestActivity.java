@@ -105,7 +105,7 @@ public class ServerRequestActivity extends AppCompatActivity {
             try {
                 JSONArray jsonarray = new JSONArray(strJson);//resultJson을 Json 형태로 받음
 
-                JSONObject jsonobj = jsonarray.getJSONObject(1);//json데이터배열의 index번호
+                JSONObject jsonobj = jsonarray.getJSONObject(0);//json데이터배열의 index번호
 
                 /*
                 * Json 파일 구성(예시): Author, Title, Text로 구성
