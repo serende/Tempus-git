@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import android.os.Environment;
+import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.util.Log;
@@ -34,8 +36,11 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -55,22 +60,30 @@ public class WriteActivity extends AppCompatActivity {
     EditText dateEdit;
     EditText contentEdit;
 
-
     String mCurrentPhotoPath;
     Uri imageUri;
     Uri photoURI, albumURI;
 
     ImageView userImage;
 
-
     RadioGroup radioGroup;
 
     String WR_date, WR_body;
+
+    String lineEnd = "\r\n";
+    String twoHyphens = "--";
+    String boundary = "*****";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_write);
+
+        // Disable StrictMode
+        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+                .permitDiskReads()
+                .permitDiskWrites()
+                .permitNetwork().build());
 
         changeDisplay = (Button) findViewById(R.id.changeDisplay);
         changeDisplay.setOnClickListener(new View.OnClickListener(){
@@ -93,8 +106,6 @@ public class WriteActivity extends AppCompatActivity {
             }
         });
 
-
-
         dateEdit = (EditText) findViewById(R.id.dateEdit);
         contentEdit = (EditText) findViewById(R.id.contentEdit);
 
@@ -112,6 +123,32 @@ public class WriteActivity extends AppCompatActivity {
 
                 WR_date = dateEdit.getText().toString();
                 WR_body = contentEdit.getText().toString();
+
+                String urIString = "서버에 전송할 API URL을 넣는다.";
+                DoFileUpload(urIString, getAbsolutePath(photoURI));
+
+                // 블루투스를 이용해 전송하는 코드라서 제외
+                /*
+                String imagePath = getRealPathFromURI(photoURI);
+                File file = new File(imagePath);
+
+                try {
+                    FileInputStream fis = new FileInputStream(imagePath);
+
+                    byte[] buffer = new byte[4096];
+
+                    int totalSize = fis.available();
+                    int readSize = 0;
+                    while ( (readSize = fis.read(buffer)) > 0) {
+                        mConnectedTask.mOutputStream.write(buffer, 0, readSize);
+                    }
+                    fis.close();
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+                 */
 
                 try {
                     head.put("WR_ID", "1");     //head 부분 생성 시작
@@ -155,6 +192,19 @@ public class WriteActivity extends AppCompatActivity {
         checkPermission();
     }
 
+    public void DoFileUpload(String apiUrI, String absolutePath){
+        HttpFileUpload(apiUrI, "", absolutePath);
+    }
+
+    // 이미지의 절대경로를 전달, 블루투스 방법으로 쓸때는 함수명이 getRealPathFromURI였음
+    private String getAbsolutePath(Uri contentUri){
+        String[] proj = {MediaStore.Images.Media.DATA};
+        Cursor cursor = getContentResolver().query(contentUri, proj, null, null,null);
+        cursor.moveToFirst();
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+
+        return cursor.getString(column_index);
+    }
 
     private void captureCamera(){
         String state = Environment.getExternalStorageState();
@@ -203,7 +253,6 @@ public class WriteActivity extends AppCompatActivity {
         return imageFile;
     }
 
-
     private void getAlbum(){
         Log.i("getAlbum", "Call");
         Intent intent = new Intent(Intent.ACTION_PICK);
@@ -223,7 +272,7 @@ public class WriteActivity extends AppCompatActivity {
         Toast.makeText(this, "사진이 앨범에 저장되었습니다.", Toast.LENGTH_SHORT).show();
     }
 
-    // 카메라 전용 크랍
+    // 이미지 crop
     public void cropImage(){
         Log.i("cropImage", "Call");
         Log.i("cropImage", "photoURI : " + photoURI + " / albumURI : " + albumURI);
@@ -264,7 +313,6 @@ public class WriteActivity extends AppCompatActivity {
 
             case REQUEST_TAKE_ALBUM:
                 if (resultCode == Activity.RESULT_OK) {
-
                     if (data.getData() != null) {
                         try {
                             File albumFile = null;
@@ -281,8 +329,8 @@ public class WriteActivity extends AppCompatActivity {
 
             case REQUEST_IMAGE_CROP:
                 if (resultCode == Activity.RESULT_OK) {
-
                     galleryAddPic();
+                    // 이미지 뷰어에 이미지 전송
                     userImage.setImageURI(albumURI);
                 }
                 break;
@@ -338,8 +386,6 @@ public class WriteActivity extends AppCompatActivity {
         }
     }
 
-
-
     RadioGroup.OnCheckedChangeListener radioGroupButtonChangeListener = new RadioGroup.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
@@ -354,6 +400,71 @@ public class WriteActivity extends AppCompatActivity {
             }
         }
     };
+
+    // 서버에 이미지 업로드
+    public void HttpFileUpload(String urlString, String params, String fileName) {
+        try {
+            FileInputStream mFileInputStream = new FileInputStream(fileName);
+            URL connectUrl = new URL(urlString);
+            Log.d("Test", "mFileInputStream  is " + mFileInputStream);
+
+            // open connection
+            HttpURLConnection conn = (HttpURLConnection)connectUrl.openConnection();
+            conn.setDoInput(true);
+            conn.setDoOutput(true);
+            conn.setUseCaches(false);
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Connection", "Keep-Alive");
+            conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
+
+            // write data
+            DataOutputStream dos = new DataOutputStream(conn.getOutputStream());
+            dos.writeBytes(twoHyphens + boundary + lineEnd);
+            dos.writeBytes("Content-Disposition: form-data; name=\"uploadedfile\";filename=\"" + fileName+"\"" + lineEnd);
+            dos.writeBytes(lineEnd);
+
+            int bytesAvailable = mFileInputStream.available();
+            int maxBufferSize = 1024;
+            int bufferSize = Math.min(bytesAvailable, maxBufferSize);
+
+            byte[] buffer = new byte[bufferSize];
+            int bytesRead = mFileInputStream.read(buffer, 0, bufferSize);
+
+            Log.d("Test", "image byte is " + bytesRead);
+
+            // read image
+            while (bytesRead > 0) {
+                dos.write(buffer, 0, bufferSize);
+                bytesAvailable = mFileInputStream.available();
+                bufferSize = Math.min(bytesAvailable, maxBufferSize);
+                bytesRead = mFileInputStream.read(buffer, 0, bufferSize);
+            }
+
+            dos.writeBytes(lineEnd);
+            dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
+
+            // close streams
+            Log.e("Test" , "File is written");
+            mFileInputStream.close();
+            dos.flush(); // finish upload...
+
+            // get response
+            int ch;
+            InputStream is = conn.getInputStream();
+            StringBuffer b =new StringBuffer();
+            while( ( ch = is.read() ) != -1 ){
+                b.append( (char)ch );
+            }
+            String s=b.toString();
+            Log.e("Test", "result = " + s);
+            // 원본에서 EditText/TextView에 텍스트 설정하는 것으로 추정하여 주석처리
+            // mEdityEntry.setText(s);
+            dos.close();
+
+        } catch (Exception e) {
+            Log.d("Test", "exception " + e.getMessage());
+        }
+    }
 
     private class PostTask extends AsyncTask<String, Void, String> {
         protected String doInBackground(String... params) {
@@ -391,6 +502,5 @@ public class WriteActivity extends AppCompatActivity {
         protected void onPostExecute(String strJson) {
             super.onPostExecute(strJson);
         }
-
     }
 }

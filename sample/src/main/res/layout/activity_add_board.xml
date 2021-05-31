@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.boards.AddBoardActivity"
+    tools:context="com.example.tempus.ui.boards.AddBoardActivity"
     android:orientation="vertical">
 
     <LinearLayout

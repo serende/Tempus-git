@@ -25,6 +25,15 @@
         android:usesCleartextTraffic="true">
         <activity android:name="com.example.tempus.ui.boards.boardActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.shuvic.alumni.cameraalbum"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
         <!-- 서버 연결을 위해 필요 -->
         <activity android:name=".ServerResponseActivity" />
         <activity android:name=".ServerRequestActivity" />
