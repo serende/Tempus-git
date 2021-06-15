@@ -73,7 +73,7 @@
                     android:hint="주소"
                     android:singleLine="true"
                     android:imeOptions="actionNext"
-                    android:nextFocusDown="@+id/signup_position"/>
+                    android:nextFocusDown="@+id/signup_email"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -83,13 +83,13 @@
                 android:gravity="center">
 
                 <EditText
-                    android:id="@+id/signup_position"
+                    android:id="@+id/signup_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="이메일"
                     android:singleLine="true"
                     android:imeOptions="actionNext"
-                    android:nextFocusDown="@+id/signup_email"/>
+                    android:nextFocusDown="@+id/signup_password"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -97,13 +97,13 @@
                 android:layout_width="337dp"
                 android:layout_height="wrap_content">
                 <EditText
-                    android:id="@+id/signup_email"
+                    android:id="@+id/signup_password"
                     android:hint="비밀번호"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
                     android:imeOptions="actionNext"
-                    android:nextFocusDown="@+id/signup_password"
+                    android:nextFocusDown="@+id/signup_password2"
                     android:inputType="textEmailAddress"
                     />
 
@@ -113,7 +113,7 @@
                 android:layout_width="337dp"
                 android:layout_height="wrap_content">
                 <EditText
-                    android:id="@+id/signup_password"
+                    android:id="@+id/signup_password2"
                     android:hint="비밀번호확인"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
