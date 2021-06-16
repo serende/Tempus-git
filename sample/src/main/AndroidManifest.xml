@@ -3,8 +3,7 @@
     package="com.applandeo.Tempus">
 
     <uses-sdk
-        android:minSdkVersion="15"
-        android:targetSdkVersion="8" />
+        android:minSdkVersion="23"/>
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
