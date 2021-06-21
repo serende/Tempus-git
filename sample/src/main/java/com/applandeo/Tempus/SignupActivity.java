@@ -11,6 +11,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -23,7 +26,8 @@ public class SignupActivity extends AppCompatActivity {
     private EditText mPasswordView;
     private EditText mPassword2View;
     String name,pnum,address,email,password,password2;
-    String userjson;
+    String userjson,result;
+    BufferedReader reader = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,19 +91,30 @@ public class SignupActivity extends AppCompatActivity {
                 streamWriter.write(userdata);//Request body에 json data 세팅
                 streamWriter.flush();//json data 입력후 저장
                 streamWriter.close();
-                int responsecode = conn.getResponseCode();//http 응답코드 송신
+                InputStream inputStream = conn.getInputStream();
+                StringBuffer buffer = new StringBuffer();
+                reader = new BufferedReader(new InputStreamReader(inputStream));
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    buffer.append(line);
+                }
+                result = buffer.toString();
+                //int responsecode = conn.getResponseCode();//http 응답코드 송신
 
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
-            return null;
+            return result;
         }
 
         @Override
-        protected void onPostExecute(String strJson) {
-            super.onPostExecute(strJson);
+        protected void onPostExecute(String str) {
+            super.onPostExecute(str);
+                Toast.makeText(SignupActivity.this, str, Toast.LENGTH_SHORT).show();
+
+
         }
     }
 }
