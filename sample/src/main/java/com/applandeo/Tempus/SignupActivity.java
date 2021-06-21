@@ -1,5 +1,6 @@
 package com.applandeo.Tempus;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.Button;
@@ -112,8 +113,14 @@ public class SignupActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String str) {
             super.onPostExecute(str);
-                Toast.makeText(SignupActivity.this, str, Toast.LENGTH_SHORT).show();
-
+                if(str.equals("error")==true) {
+                    Toast.makeText(SignupActivity.this, "이미 존재하는 이메일입니다.", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Toast.makeText(SignupActivity.this, "회원가입이 되었습니다.", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                }
 
         }
     }
