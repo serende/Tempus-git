@@ -85,108 +85,76 @@ public class WriteActivity extends AppCompatActivity {
                 .permitDiskWrites()
                 .permitNetwork().build());
 
-        changeDisplay = (Button) findViewById(R.id.changeDisplay);
-        changeDisplay.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                Intent intent = new Intent(getApplicationContext(), ExpenditureBreakdownActivityForWrite.class);
-                startActivity(intent);
-            }
+        changeDisplay = findViewById(R.id.changeDisplay);
+        changeDisplay.setOnClickListener(view -> {
+            Intent intent = new Intent(getApplicationContext(), ExpenditureBreakdownActivityForWrite.class);
+            startActivity(intent);
         });
 
-        userImage = (ImageView) findViewById(R.id.userImage);
+        userImage = findViewById(R.id.userImage);
 
 
-        addPhoto = (ImageButton) findViewById(R.id.addPhoto);
-        addPhoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // file search
-                getAlbum();
-            }
+        addPhoto = findViewById(R.id.addPhoto);
+        addPhoto.setOnClickListener(v -> {
+            // file search
+            getAlbum();
         });
 
-        dateEdit = (EditText) findViewById(R.id.dateEdit);
-        contentEdit = (EditText) findViewById(R.id.contentEdit);
+        dateEdit = findViewById(R.id.dateEdit);
+        contentEdit = findViewById(R.id.contentEdit);
 
-        finButton = (Button) findViewById(R.id.finButton);
-        finButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                JSONObject jsonObject = new JSONObject();
+        finButton = findViewById(R.id.finButton);
+        finButton.setOnClickListener(view -> {
+            JSONObject jsonObject = new JSONObject();
 
-                JSONObject head = new JSONObject();     //JSON 오브젝트의 head 부분
-                JSONObject body = new JSONObject();     //JSON 오브젝트의 body 부분
+            JSONObject head = new JSONObject();     //JSON 오브젝트의 head 부분
+            JSONObject body = new JSONObject();     //JSON 오브젝트의 body 부분
 
-                String headjson = null;
-                String bodyjson = null;
+            String headjson = null;
+            String bodyjson = null;
 
-                WR_date = dateEdit.getText().toString();
-                WR_body = contentEdit.getText().toString();
+            WR_date = dateEdit.getText().toString();
+            WR_body = contentEdit.getText().toString();
 
-                String urIString = "http://192.168.0.3:5000/addboard";
-                DoFileUpload(urIString, getAbsolutePath(photoURI));
+            String urIString = "http://192.168.0.3:5000/addboard";
+            DoFileUpload(urIString, getAbsolutePath(photoURI));
 
-                // 블루투스를 이용해 전송하는 코드라서 제외
-                /*
-                String imagePath = getRealPathFromURI(photoURI);
-                File file = new File(imagePath);
+            try {
+                head.put("WR_ID", "1");     //head 부분 생성 시작
+                head.put("WR_TYPE", "A");    //head 부분 생성 완료
+                // A: 자유 형식, B: 지출 목록 형식
 
-                try {
-                    FileInputStream fis = new FileInputStream(imagePath);
-
-                    byte[] buffer = new byte[4096];
-
-                    int totalSize = fis.available();
-                    int readSize = 0;
-                    while ( (readSize = fis.read(buffer)) > 0) {
-                        mConnectedTask.mOutputStream.write(buffer, 0, readSize);
-                    }
-                    fis.close();
-                }
-                catch (Exception e)
-                {
-                    e.printStackTrace();
-                }
-                 */
-
-                try {
-                    head.put("WR_ID", "1");     //head 부분 생성 시작
-                    head.put("WR_TYPE", "A");    //head 부분 생성 완료
-                    // A: 자유 형식, B: 지출 목록 형식
-
-                    jsonObject.put("head", head);   //head 오브젝트 추가
-                    headjson = jsonObject.toString();
-                    // 작성일자
-                    body.put("WR_DATE", WR_date);   //body부분 생성 시작
-                    // 글 내용
-                    body.put("WR_BODY", WR_body);   //body부분 생성 완료
+                jsonObject.put("head", head);   //head 오브젝트 추가
+                headjson = jsonObject.toString();
+                // 작성일자
+                body.put("WR_DATE", WR_date);   //body부분 생성 시작
+                // 글 내용
+                body.put("WR_BODY", WR_body);   //body부분 생성 완료
 
 
-                    jsonObject.put("body", body);   //body 오브젝트 추가
-                    bodyjson = jsonObject.toString();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                // 작성 일자 혹은 내용이 빈 칸인 경우 완료버튼 onClick함수 종료
-                if (dateEdit.getText().length() == 0 || contentEdit.getText().length() == 0) {
-                    Toast.makeText(WriteActivity.this, "작성 일자 혹은 내용에 작성된 글이 없습니다.", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                Log.e("json", "생성한 json : " + jsonObject.toString());
-                String[] params = {headjson,bodyjson};
-                PostTask Write = new PostTask();
-                Write.execute(params);
-
-                Intent baIntent = new Intent(WriteActivity.this, boardActivity.class);
-                baIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);  // 상위 스택 액티비티 모두 제거
-                WriteActivity.this.finish();
-                startActivity(baIntent);
+                jsonObject.put("body", body);   //body 오브젝트 추가
+                bodyjson = jsonObject.toString();
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
+
+            // 작성 일자 혹은 내용이 빈 칸인 경우 완료버튼 onClick함수 종료
+            if (dateEdit.getText().length() == 0 || contentEdit.getText().length() == 0) {
+                Toast.makeText(WriteActivity.this, "작성 일자 혹은 내용에 작성된 글이 없습니다.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            Log.e("json", "생성한 json : " + jsonObject.toString());
+            String[] params = {headjson,bodyjson};
+            PostTask Write = new PostTask();
+            Write.execute(params);
+
+            Intent baIntent = new Intent(WriteActivity.this, boardActivity.class);
+            baIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);  // 상위 스택 액티비티 모두 제거
+            WriteActivity.this.finish();
+            startActivity(baIntent);
         });
 
-        radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
+        radioGroup = findViewById(R.id.radioGroup);
         radioGroup.setOnCheckedChangeListener(radioGroupButtonChangeListener);
 
         checkPermission();
@@ -196,7 +164,7 @@ public class WriteActivity extends AppCompatActivity {
         HttpFileUpload(apiUrI, "", absolutePath);
     }
 
-    // 이미지의 절대경로를 전달, 블루투스 방법으로 쓸때는 함수명이 getRealPathFromURI였음
+    // 이미지의 절대경로를 전달
     private String getAbsolutePath(Uri contentUri){
         String[] proj = {MediaStore.Images.Media.DATA};
         Cursor cursor = getContentResolver().query(contentUri, proj, null, null,null);
