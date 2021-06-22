@@ -44,16 +44,12 @@ public class EnteringInformationOfFriendActivity extends AppCompatActivity {
 
         // 전화번호 기입
         phoneNumberEditText = (EditText) findViewById(R.id.phoneNumberEditText);
-
         // 지인의 이름 기입
         nameEditText = (EditText) findViewById(R.id.nameEditText);
-
         // 지인의 이메일 기입
         emailEditText = (EditText) findViewById(R.id.emailEditText);
-
         // 지인의 그룹 기입
         groupEditText = (EditText) findViewById(R.id.groupEditText);
-
         // 기타사항을 메모로 기입
         memoEditText = (EditText) findViewById(R.id.memoEditText);
 
@@ -70,7 +66,7 @@ public class EnteringInformationOfFriendActivity extends AppCompatActivity {
         }
 
         // 완료 버튼을 누르면 기입된 지인의 정보를 파일로 저장함
-        // 각 정보는 공백으로 구분하고, 지인의 정보는 \n으로 구분함
+        // 각 정보는 '-'으로 구분하고, 지인의 정보는 \n으로 구분함
         finButton = (Button) findViewById(R.id.finButton);
         finButton.setOnClickListener(v -> {
             try{
@@ -82,10 +78,9 @@ public class EnteringInformationOfFriendActivity extends AppCompatActivity {
                 String memoTxt = memoEditText.getText().toString();
 
                 // 지인 정보를 하나의 변수에 저장
-                String friendInfoTxt = phoneTxt + " " + nameTxt + " " + emailTxt + " " + groupTxt + " " + memoTxt + "\n";
+                String friendInfoTxt = phoneTxt + "-" + nameTxt + "-" + emailTxt + "-" + groupTxt + "-" + memoTxt + "\n" + "-";
 
                 // 지인 정보를 입력할 파일 열기
-                // 저장되는 위치는 /data/data/com.applandeo.materialcalendarsampleapp/files
                 FileOutputStream outstream = openFileOutput("friendList.txt", Context.MODE_APPEND);
 
                 // 파일에 지인 정보 입력
@@ -105,56 +100,7 @@ public class EnteringInformationOfFriendActivity extends AppCompatActivity {
                 Toast.makeText(this.getApplicationContext(), "저장에 실패했습니다.", Toast.LENGTH_SHORT).show();
             }
         });
-
-        /*
-        finButton.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                // 완료 버튼을 누르면 지인 목록 페이지로 이동
-                Intent intent = new Intent(v.getContext(), FriendListActivity.class);
-                startActivity(intent);
-            }
-        });
-
-         */
-
     }
-
-    /*
-    @Override
-    public void onClick(@NotNull View v){
-        switch(v.getId()){
-            case R.id.finButton:
-                try{
-                    // 입력받은 지인 정보를 String형으로 저장
-                    String phoneTxt = phoneNumberEditText.getText().toString();
-                    String nameTxt = nameEditText.getText().toString();
-                    String emailTxt = emailEditText.getText().toString();
-                    String groupTxt = groupEditText.getText().toString();
-                    String memoTxt = memoEditText.getText().toString();
-
-                    // 지인 정보를 하나의 변수에 저장
-                    String friendInfoTxt = phoneTxt + "-" + nameTxt + "-" + emailTxt + "-" + groupTxt + "-" + memoTxt;
-
-                    // 지인 정보를 입력할 파일 열기
-                    FileOutputStream outstream = openFileOutput("friendList.txt", Activity.MODE_WORLD_WRITEABLE);
-
-                    // 파일에 지인 정보 입력
-                    outstream.write(friendInfoTxt.getBytes());
-
-                    outstream.close();
-
-                    Toast.makeText(this, "지인 정보를 저장하는데 성공했습니다.", Toast.LENGTH_SHORT).show();
-
-                    Intent intent = new Intent(v.getContext(), FriendListActivity.class);
-                    startActivity(intent);
-                } catch (Exception e){
-                    e.printStackTrace();
-                    Toast.makeText(this, "지인 정보를 저장하는데 실패했습니다.", Toast.LENGTH_SHORT).show();
-                }
-        }
-    }
-
-     */
 
     public void checkPermission(){
         if(checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
