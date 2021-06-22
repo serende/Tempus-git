@@ -9,11 +9,17 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.tempus.ui.boards.BoardMainActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -25,7 +31,8 @@ public class LoginActivity extends Activity {
     private EditText mEmailView;
     private EditText mPasswordView;
     String email,password;
-    String userjson;
+    String userjson,result;
+    BufferedReader reader = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,6 +120,14 @@ public class LoginActivity extends Activity {
                 streamWriter.write(userdata);//Request body에 json data 세팅
                 streamWriter.flush();//json data 입력후 저장
                 streamWriter.close();
+                InputStream inputStream = conn.getInputStream();
+                StringBuffer buffer = new StringBuffer();
+                reader = new BufferedReader(new InputStreamReader(inputStream));
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    buffer.append(line);
+                }
+                result = buffer.toString();
                 int responsecode = conn.getResponseCode();//http 응답코드 송신
 
 
@@ -120,12 +135,20 @@ public class LoginActivity extends Activity {
                 e.printStackTrace();
             }
 
-            return null;
+            return result;
         }
 
         @Override
-        protected void onPostExecute(String strJson) {
-            super.onPostExecute(strJson);
+        protected void onPostExecute(String str) {
+            super.onPostExecute(str);
+            if(str.equals("error")==true) {
+                Toast.makeText(LoginActivity.this, "이메일 또는 비밀번호 오류", Toast.LENGTH_SHORT).show();
+            }
+            else{
+                Toast.makeText(LoginActivity.this, "로그인 성공", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(LoginActivity.this, BoardMainActivity.class);
+                startActivity(intent);
+            }
         }
     }
 

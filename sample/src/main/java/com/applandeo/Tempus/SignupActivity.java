@@ -100,7 +100,7 @@ public class SignupActivity extends AppCompatActivity {
                     buffer.append(line);
                 }
                 result = buffer.toString();
-                //int responsecode = conn.getResponseCode();//http 응답코드 송신
+                int responsecode = conn.getResponseCode();//http 응답코드 송신
 
 
             } catch (Exception e) {
