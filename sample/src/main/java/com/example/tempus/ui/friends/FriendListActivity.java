@@ -154,8 +154,8 @@ public class FriendListActivity extends AppCompatActivity {
                     sl.addView(btn);
 
                     // lm에 정의된 레이아웃 추가
-                    ll.addView(sl);
-                    lm.addView(ll);
+                    // ll.addView(sl);
+                    lm.addView(sl);
                 }
             }
             catch(Exception e){
