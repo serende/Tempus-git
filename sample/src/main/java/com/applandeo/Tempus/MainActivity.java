@@ -63,8 +63,8 @@ public class MainActivity extends AppCompatActivity implements OnSelectDateListe
         Button openOneDayPickerDialog = (Button) findViewById(R.id.openOneDayPickerDialogButton);
         openOneDayPickerDialog.setOnClickListener(v -> openOneDayPicker());
 
-        Button openManyDaysPickerDialog = (Button) findViewById(R.id.openManyDaysPickerDialogButton);
-        openManyDaysPickerDialog.setOnClickListener(v -> openManyDaysPicker());
+        Button openManyDaysPickerDialog = (Button) findViewById(R.id.SA);
+        openManyDaysPickerDialog.setOnClickListener(v -> startActivity(new Intent(this, sentimentAnalysisActivity.class)));
 
         Button openRangePickerDialog = (Button) findViewById(R.id.openRangePickerDialogButton);
         openRangePickerDialog.setOnClickListener(v -> openRangePicker());

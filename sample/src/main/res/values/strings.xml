@@ -30,4 +30,5 @@
         EnteringInformationOfFriendActivity
     </string>
     <string name="title_activity_confirm_friend_info">ConfirmFriendInfoActivity</string>
+    <string name="title_activity_sentiment_analysis">sentimentAnalysisActivity</string>
 </resources>

@@ -45,12 +45,12 @@
         android:visibility="visible" />
 
     <Button
-        android:id="@+id/openManyDaysPickerDialogButton"
+        android:id="@+id/SA"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Many days picker (dialog)"
-        android:visibility="gone" />
+        android:text="sentimentAnalysis"
+        android:visibility="visible" />
 
     <Button
         android:id="@+id/openRangePickerButton"
