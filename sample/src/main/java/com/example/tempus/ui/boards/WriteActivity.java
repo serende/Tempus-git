@@ -53,6 +53,10 @@ public class WriteActivity extends AppCompatActivity {
     private static final int REQUEST_TAKE_ALBUM = 3333;
     private static final int REQUEST_IMAGE_CROP = 4444;
 
+    /*
+    이전꺼 깃에서 다운받고 'write'만 붙여넣기 하고 폰에서 보이는지 확인하기기
+    */
+
     Button changeDisplay;
     ImageButton addPhoto;
     Button finButton;
@@ -85,14 +89,16 @@ public class WriteActivity extends AppCompatActivity {
                 .permitDiskWrites()
                 .permitNetwork().build());
 
+        // 추후에 UI 수정 필요
+        /*
         changeDisplay = findViewById(R.id.changeDisplay);
         changeDisplay.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext(), ExpenditureBreakdownActivityForWrite.class);
             startActivity(intent);
         });
+         */
 
         userImage = findViewById(R.id.userImage);
-
 
         addPhoto = findViewById(R.id.addPhoto);
         addPhoto.setOnClickListener(v -> {

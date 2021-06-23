@@ -23,10 +23,10 @@ public class AddBoardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_board);
 
-        Button finButton = (Button) findViewById(R.id.finButton);
-        EditText productNameEdit = (EditText) findViewById(R.id.productNameEdit);
-        ImageButton imageButton = (ImageButton) findViewById(R.id.imageButton);
-        ImageButton addFriends = (ImageButton) findViewById(R.id.addFriends);
-        EditText memoEdit = (EditText) findViewById(R.id.memoEdit);
+        Button finButton = findViewById(R.id.finButton);
+        EditText productNameEdit = findViewById(R.id.productNameEdit);
+        ImageButton imageButton = findViewById(R.id.imageButton);
+        ImageButton addFriends = findViewById(R.id.addFriends);
+        EditText memoEdit = findViewById(R.id.memoEdit);
     }
 }

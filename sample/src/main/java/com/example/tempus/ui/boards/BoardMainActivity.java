@@ -49,30 +49,21 @@ public class BoardMainActivity extends AppCompatActivity {
 
         // 플로팅버튼은 게시판추가 액티비티로 이동
         FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), AddBoardActivity.class);
-                startActivity(intent);
-            }
+        fab.setOnClickListener(view -> {
+            Intent intent = new Intent(getApplicationContext(), AddBoardActivity.class);
+            startActivity(intent);
         });
 
-        ImageButton imageButton1 = (ImageButton) findViewById(R.id.imageButton1);
-        imageButton1.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                Intent baIntent = new Intent(getApplicationContext(), boardActivity.class);
-                startActivity(baIntent);
-            }
+        ImageButton imageButton1 = findViewById(R.id.imageButton1);
+        imageButton1.setOnClickListener(view -> {
+            Intent baIntent = new Intent(getApplicationContext(), boardActivity.class);
+            startActivity(baIntent);
         });
 
-        ImageButton imageButton2 = (ImageButton) findViewById(R.id.imageButton2);
-        imageButton2.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                Intent baIntent2 = new Intent(getApplicationContext(), boardActivity.class);
-                startActivity(baIntent2);
-            }
+        ImageButton imageButton2 = findViewById(R.id.imageButton2);
+        imageButton2.setOnClickListener(view -> {
+            Intent baIntent2 = new Intent(getApplicationContext(), boardActivity.class);
+            startActivity(baIntent2);
         });
     }
 
@@ -90,24 +81,19 @@ public class BoardMainActivity extends AppCompatActivity {
 
         switch(id){
             case R.id.action_search:
-                Toast.makeText(getApplicationContext(), "검색",
-                        Toast.LENGTH_SHORT).show();
+                break;
             case R.id.changeDisplayCalendar:
-                Toast.makeText(getApplicationContext(), "캘린더형으로 변경",
-                        Toast.LENGTH_SHORT).show();
+                break;
             case R.id.changeDisplaySlide:
-                Toast.makeText(getApplicationContext(), "슬라이드형으로 변경",
-                        Toast.LENGTH_SHORT).show();
-            case R.id.registerFriends:
-                Toast.makeText(getApplicationContext(), "지인 등록",
-                        Toast.LENGTH_SHORT).show();
-                Intent AFintent = new Intent(getApplicationContext(), AddFriendsActivity.class);
-                startActivity(AFintent);
+                break;
             case R.id.friendsList:
-                Toast.makeText(getApplicationContext(), "지인 목록 보기",
-                        Toast.LENGTH_SHORT).show();
                 Intent FLintent = new Intent(getApplicationContext(), FriendListActivity.class);
                 startActivity(FLintent);
+                break;
+            case R.id.registerFriends:
+                Intent AFintent = new Intent(getApplicationContext(), AddFriendsActivity.class);
+                startActivity(AFintent);
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

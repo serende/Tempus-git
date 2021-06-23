@@ -12,27 +12,23 @@
         android:layout_height="50dp"
         android:orientation="horizontal"
         android:background="@drawable/layoutborder">
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="지인 정보 확인"
             android:layout_marginLeft="20dp"
             android:layout_gravity="center"/>
-
         <Button
             android:id="@+id/finButton"
             android:layout_width="60dp"
             android:layout_height="38dp"
             android:layout_marginLeft="230dp"
-            android:text="수정"
+            android:text=""
             android:background="#00ff0000"
             android:textColor="#ff50bcdf"
             android:layout_gravity="center"
             tools:layout_editor_absoluteX="318dp"
-            tools:layout_editor_absoluteY="16dp"
-            />
-
+            tools:layout_editor_absoluteY="16dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -45,7 +41,6 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:background="@drawable/layoutborder4">
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -72,7 +67,6 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginBottom="30dp"
                 android:text="그룹"/>
-
         </LinearLayout>
 
         <LinearLayout
@@ -80,7 +74,6 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:background="@drawable/layoutborder4">
-
             <TextView
                 android:id="@+id/phoneNumberTextView"
                 android:layout_width="240dp"
@@ -121,7 +114,6 @@
         android:layout_marginTop="4dp"
         android:background="@drawable/layoutborder4"
         android:text="메모"/>
-
     <TextView
         android:id="@+id/memoTextView"
         android:layout_width="match_parent"

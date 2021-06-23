@@ -53,6 +53,15 @@ public class EnteringInformationOfFriendActivity extends AppCompatActivity {
         // 기타사항을 메모로 기입
         memoEditText = (EditText) findViewById(R.id.memoEditText);
 
+        // 현재 name은 정상적으로 setText되지만 number가 Textview로 전달되지 않음
+        // Log도 찍히지 않음
+        // phoneNumber로 따로 빼는게 아니라 바로 setText에 넣는 방식도 해봐야 함
+        Intent autoIntent = getIntent();
+        phoneNumberEditText.setText(autoIntent.getStringExtra("전화번호"));
+        nameEditText.setText(autoIntent.getStringExtra("지인명"));
+
+        Log.i("textInfo", "지인명: " + autoIntent.getStringExtra("지인명") +", 전화번호: " + autoIntent.getStringExtra("전화번호"));
+
         try{
             checkPermission();
         }

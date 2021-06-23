@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context="com.example.tempus.ui.boards.AddBoardActivity">
 
-    // need to make
     // 상단 앱바 구성
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -26,7 +25,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:columnCount="2"
-        android:rowCount="4">
+        android:rowCount="4"
+        android:background="@color/white">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -47,6 +47,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
+                android:textColor="@color/black"
                 android:text="2팀 게시판"/>
         </LinearLayout>
 
@@ -70,6 +71,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
+                android:textColor="@color/black"
                 android:text="우리 가족방"/>
         </LinearLayout>
 

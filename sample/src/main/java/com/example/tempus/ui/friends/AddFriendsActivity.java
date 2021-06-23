@@ -12,6 +12,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.os.Handler;
 import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -32,30 +33,19 @@ public class AddFriendsActivity extends AppCompatActivity {
         name = "";
         number = "";
 
-        Button registerWithPhoneNumberButton = (Button) findViewById(R.id.registerWithPhoneNumberButton);
+        Button registerWithPhoneNumberButton = findViewById(R.id.registerWithPhoneNumberButton);
         registerWithPhoneNumberButton.setOnClickListener(v -> {
             Intent intent = new Intent(v.getContext(), EnteringInformationOfFriendActivity.class);
             startActivity(intent);
         });
 
-        Button registerWithAddressBookButton = (Button) findViewById(R.id.registerWithAddressBookButton);
+        Button registerWithAddressBookButton = findViewById(R.id.registerWithAddressBookButton);
         registerWithAddressBookButton.setOnClickListener(v -> {
             // 연락처 선택 화면
             Intent intent = new Intent(Intent.ACTION_PICK);
             intent.setData(ContactsContract.CommonDataKinds.Phone.CONTENT_URI);
             startActivityForResult(intent, 0);
         });
-
-        Button registerWithKkButton = (Button) findViewById(R.id.registerWithKkButton);
-        registerWithKkButton.setOnClickListener(v -> {
-            // 카카오톡과 연동
-        });
-
-        EditText nameTestEdit = (EditText) findViewById(R.id.nameTestEdit);
-        nameTestEdit.setText(name);
-
-        EditText numTestEdit = (EditText) findViewById(R.id.numTestEdit);
-        numTestEdit.setText(number);
     }
 
     public void setName(String name){
@@ -83,12 +73,20 @@ public class AddFriendsActivity extends AppCompatActivity {
                     do {
                         name = cursor.getString(0);     // 0 -> 이름
                         number = cursor.getString(1);   // 1 -> 번호
+
+                        Log.i("afaconfirm", "name = " +name + ", number = " + number);
                     } while (cursor.moveToNext());
                 }
                 Toast nameToast = Toast.makeText(this.getApplicationContext(), name + "을(를) 불러오는데 성공했습니다.", Toast.LENGTH_SHORT);
                 nameToast.show();
 
                 cursor.close();
+
+                Intent afIntent = new Intent(AddFriendsActivity.this, EnteringInformationOfFriendActivity.class);
+                afIntent.putExtra("지인명", name);
+                afIntent.putExtra("전화번호", number);
+
+                startActivity(afIntent);
             }
         }
 

@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.tempus.ui.boards.AddBoardActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,6 +19,7 @@
             android:layout_height="29dp"
             android:text="게시판 생성"
             android:layout_marginLeft="52dp"
+            android:textColor="@color/black"
             android:gravity="center" />
 
         <Button
@@ -44,6 +46,7 @@
                 android:layout_height="50dp"
                 android:gravity="center"
                 android:text="게시판명"
+                android:textColor="@color/black"
                 android:background="@drawable/layoutborder4"
                 />
 
@@ -51,6 +54,8 @@
                 android:id="@+id/productNameEdit"
                 android:layout_width="100dp"
                 android:layout_height="match_parent"
+                android:textColor="@color/black"
+                android:backgroundTint="#ff50bcdf"
                 />
         </TableRow>
 
@@ -61,6 +66,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:text="커버 이미지 설정"
+                android:textColor="@color/black"
                 android:background="@drawable/layoutborder4"/>
 
             <LinearLayout
@@ -85,6 +91,7 @@
                 android:layout_height="50dp"
                 android:gravity="center"
                 android:text="멤버 초대"
+                android:textColor="@color/black"
                 android:background="@drawable/layoutborder4"/>
 
             <ImageButton
@@ -92,7 +99,7 @@
                 android:layout_height="match_parent"
                 android:id="@+id/addFriends"
                 android:background="#00ff0000"
-                android:src="@drawable/ic_add_icons"/>
+                app:srcCompat="@drawable/ic_add_icons"/>
         </TableRow>
 
     </TableLayout>
@@ -107,6 +114,7 @@
             android:gravity="center"
             android:layout_gravity="center"
             android:text="초대 메시지"
+            android:textColor="@color/black"
             android:background="@drawable/layoutborder4"
             />
         <EditText
@@ -115,6 +123,7 @@
             android:layout_height="200dp"
             android:layout_marginLeft="17dp"
             android:background="@drawable/layoutborder4"
+            android:textColor="@color/black"
             />
     </LinearLayout>
 

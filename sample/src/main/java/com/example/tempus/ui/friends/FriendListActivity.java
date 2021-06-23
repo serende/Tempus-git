@@ -78,7 +78,7 @@ public class FriendListActivity extends AppCompatActivity {
             Log.e("FilereadFL", exceptionAsStrting);
 
             e.printStackTrace();
-            Toast.makeText(this.getApplicationContext(), "파일을 읽는데 실패했습니다.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this.getApplicationContext(), "저장된 지인 정보가 없습니다.", Toast.LENGTH_SHORT).show();
             return "";
         }
         return strBuffer.toString();

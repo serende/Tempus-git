@@ -36,7 +36,7 @@
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="40dp"
             android:text="전화번호로 등록"/>
 
         <Button
@@ -44,32 +44,8 @@
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="40dp"
             android:text="연락처로 등록"/>
-
-        <Button
-            android:id="@+id/registerWithKkButton"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="30dp"
-            android:text="카카오톡으로 등록"/>
-
-        <EditText
-            android:id="@+id/nameTestEdit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="30dp"
-            android:text="test"/>
-
-        <EditText
-            android:id="@+id/numTestEdit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="30dp"
-            android:text="test"/>
 
     </LinearLayout>
 
