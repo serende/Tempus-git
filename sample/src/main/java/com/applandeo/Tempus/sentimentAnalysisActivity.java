@@ -56,7 +56,7 @@ public class sentimentAnalysisActivity extends AppCompatActivity {
         protected String doInBackground(String... params) {
             String input = params[0];
             try {
-                String host_url = "http://192.168.0.3:5000/sentimentAnalysis";
+                String host_url = "http://192.168.43.226:5000/sentimentAnalysis";
                 URL url = new URL(host_url);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setConnectTimeout(15*1000);//Timeout setting

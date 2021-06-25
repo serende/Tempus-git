@@ -166,6 +166,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 
+import com.example.tempus.ui.boards.WriteActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -256,6 +257,8 @@ public class EnteringInformationOfFriendActivity extends AppCompatActivity {
                 outstream.close();
 
                 Intent intent = new Intent(v.getContext(), FriendListActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);  // 상위 스택 액티비티 모두 제거
+                EnteringInformationOfFriendActivity.this.finish();
                 startActivity(intent);
             } catch (Exception e){
                 StringWriter sw = new StringWriter();

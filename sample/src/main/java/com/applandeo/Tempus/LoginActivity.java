@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.tempus.ui.boards.BoardMainActivity;
+import com.example.tempus.ui.friends.EnteringInformationOfFriendActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -107,7 +108,7 @@ public class LoginActivity extends Activity {
             //String hjson = params[0];
             String userdata = params[0];
             try {
-                String host_url = "http://192.168.0.3:5000/login";
+                String host_url = "http://192.168.43.226:5000/login";
                 URL url = new URL(host_url);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setConnectTimeout(15*1000);//Timeout setting
@@ -147,6 +148,8 @@ public class LoginActivity extends Activity {
             else{
                 Toast.makeText(LoginActivity.this, "로그인 성공", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(LoginActivity.this, BoardMainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);  // 상위 스택 액티비티 모두 제거
+                LoginActivity.this.finish();
                 startActivity(intent);
             }
         }
