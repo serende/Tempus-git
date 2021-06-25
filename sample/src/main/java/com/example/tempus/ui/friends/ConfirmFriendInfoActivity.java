@@ -42,6 +42,8 @@ public class ConfirmFriendInfoActivity extends AppCompatActivity {
         memoTextView = findViewById(R.id.memoTextView);
 
         SetText();
+
+        
     }
     // 파일에서 텍스트를 읽어 옴
     public String ReadFile (String path){

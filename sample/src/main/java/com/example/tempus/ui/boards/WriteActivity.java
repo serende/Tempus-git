@@ -468,7 +468,6 @@ public class WriteActivity extends AppCompatActivity {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
             return null;
         }
 

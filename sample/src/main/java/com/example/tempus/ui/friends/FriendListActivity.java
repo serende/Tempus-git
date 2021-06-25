@@ -102,10 +102,6 @@ public class FriendListActivity extends AppCompatActivity {
             }
 
             try{
-                // 레이아웃 추가
-                LinearLayout ll = new LinearLayout(this);
-                ll.setOrientation(LinearLayout.VERTICAL);
-
                 // n은 지인 번호
                 for(int n=0;n<readArr.length/5;n++){
                     LinearLayout sl = new LinearLayout(this);
@@ -154,7 +150,6 @@ public class FriendListActivity extends AppCompatActivity {
                     sl.addView(btn);
 
                     // lm에 정의된 레이아웃 추가
-                    // ll.addView(sl);
                     lm.addView(sl);
                 }
             }

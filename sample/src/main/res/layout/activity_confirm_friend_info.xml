@@ -23,7 +23,7 @@
             android:layout_width="60dp"
             android:layout_height="38dp"
             android:layout_marginLeft="230dp"
-            android:text=""
+            android:text="수정"
             android:background="#00ff0000"
             android:textColor="#ff50bcdf"
             android:layout_gravity="center"
