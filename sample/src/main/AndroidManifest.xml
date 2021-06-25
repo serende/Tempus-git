@@ -22,7 +22,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".sentimentAnalysisActivity"></activity>
+        <activity android:name=".uploadActivity"></activity>
+        <activity android:name=".sentimentAnalysisActivity" />
         <activity
             android:name="com.example.tempus.ui.friends.ConfirmFriendInfoActivity"
             android:label="@string/title_activity_confirm_friend_info"
