@@ -30,6 +30,8 @@ public class ConfirmFriendInfoActivity extends AppCompatActivity {
     TextView groupTextView;
     TextView memoTextView;
 
+    Button finButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +45,45 @@ public class ConfirmFriendInfoActivity extends AppCompatActivity {
 
         SetText();
 
-        
+        finButton = findViewById(R.id.finButton);
+        finButton.setOnClickListener(v -> {
+            /*
+            1. 현재 페이지에서는 수정 페이지로 이동하는 것만 구현(intent할 때 n으로 지인 번호도 다시 전달해야 함)
+                - 수정 페이지 따로 구현 필요
+            2. 수정 페이지에서는 ReadFile을 통해 텍스트를 전부 가져온 뒤
+            3. 아래 코드를 이용해서 textView가 아닌 EditText에 setText를 해준 뒤
+            4. editText에 입력된 값을 지인정보 입력 페이지에서 했던 것처럼 다시 저장
+            if (readArr != null)
+        {
+            int nCnt = readArr.length;
+
+            // readArr[0+5n]: 전화번호, readArr[1+5n]: 등록명, readArr[2+5n]: 이메일, readArr[3+5n]: 그룹명, readArr[4+5n]: 메모
+            for (int i=0; i<nCnt; ++i)
+            {
+                Log.i("ARRTAG", "arr[" + i + "] = " + readArr[i]);
+            }
+
+            // intent하면서 전달받은 값을 가져와서 지인 번호로 사용
+            Intent friendIntent = getIntent();
+            Integer n = friendIntent.getIntExtra("지인 번호", -1);
+            Log.v("friendNum", "전달된 지인 번호 : " + n);
+
+            // TextView에 setText
+            phoneNumberTextView.setText(readArr[0+5*n]);
+            nameTextView.setText(readArr[1+5*n]);
+            emailTextView.setText(readArr[2+5*n]);
+            groupTextView.setText(readArr[3+5*n]);
+            memoTextView.setText(readArr[4+5*n]);
+
+            Intent friendIntent = getIntent();
+            Integer n = friendIntent.getIntExtra("지인 번호", -1);
+            Log.v("friendNum", "전달된 지인 번호 : " + n);
+        }
+        else{
+            Toast.makeText(this.getApplicationContext(), "추가된 지인이 없습니다.", Toast.LENGTH_SHORT).show();
+        }
+             */
+        });
     }
     // 파일에서 텍스트를 읽어 옴
     public String ReadFile (String path){
@@ -77,7 +117,7 @@ public class ConfirmFriendInfoActivity extends AppCompatActivity {
         String read = ReadFile(FilePath);
 
         // '-'를 기준으로 지인 정보 분류
-        String[] readArr = read.split("\\-");
+        String[] readArr = read.split("\\|");
 
         if (readArr != null)
         {
@@ -89,6 +129,7 @@ public class ConfirmFriendInfoActivity extends AppCompatActivity {
                 Log.i("ARRTAG", "arr[" + i + "] = " + readArr[i]);
             }
 
+            // intent하면서 전달받은 값을 가져와서 지인 번호로 사용
             Intent friendIntent = getIntent();
             Integer n = friendIntent.getIntExtra("지인 번호", -1);
             Log.v("friendNum", "전달된 지인 번호 : " + n);

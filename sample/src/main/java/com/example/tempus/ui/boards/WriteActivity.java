@@ -63,10 +63,6 @@ public class WriteActivity extends AppCompatActivity {
     private static final int REQUEST_TAKE_ALBUM = 3333;
     private static final int REQUEST_IMAGE_CROP = 4444;
 
-    /*
-    이전꺼 깃에서 다운받고 'write'만 붙여넣기 하고 폰에서 보이는지 확인하기기
-    */
-
     Button changeDisplay;
     ImageButton addPhoto;
     Button finButton;
@@ -191,7 +187,7 @@ public class WriteActivity extends AppCompatActivity {
 
         checkPermission();
     }
-//    private void uploadImage(){
+    //    private void uploadImage(){
 //        StringRequest stringRequest=new StringRequest(Request.Method.POST, UploadUrl,//http://192.168.0.3:5000
 //                new Response.Listener<String>() {
 //                    @Override
@@ -868,14 +864,13 @@ public class WriteActivity extends AppCompatActivity {
 
     private class PostTask extends AsyncTask<String, Void, String> {
         protected String doInBackground(String... params) {
-<<<<<<< HEAD
             //String hjson = params[0];
-            String bjson = params[1];
+            String bjson = params[0];
             try {
-                String host_url = "http://192.168.43.226:5000/addboard";
+                String host_url = "192.168.43.226:5000/addboard";
                 URL url = new URL(host_url);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setConnectTimeout(15*1000);//Timeout setting
+                conn.setConnectTimeout(15 * 1000);//Timeout setting
                 conn.setRequestProperty("Content-Type", "application/json");//Request body 전달시 json 형태로 전달
                 conn.setRequestMethod("POST");//보내는 데이터 형태는 post로 응답
                 conn.setDoOutput(true);//서버로 응답을 보냄
@@ -886,48 +881,18 @@ public class WriteActivity extends AppCompatActivity {
                 streamWriter.flush();//json data 입력후 저장
                 streamWriter.close();
                 int responsecode = conn.getResponseCode();//http 응답코드 송신
-//                    OutputStreamWriter streamWriter2 = new OutputStreamWriter(conn.getOutputStream());
-//                    streamWriter2.write(bjson);
-//                    streamWriter2.flush();
-//                    streamWriter2.close();
-//                    responsecode = conn.getResponseCode();
+
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
             return null;
         }
-=======
-                //String hjson = params[0];
-                String bjson = params[0];
-                try {
-                    String host_url = "192.168.43.226:5000/addboard";
-                    URL url = new URL(host_url);
-                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                    conn.setConnectTimeout(15 * 1000);//Timeout setting
-                    conn.setRequestProperty("Content-Type", "application/json");//Request body 전달시 json 형태로 전달
-                    conn.setRequestMethod("POST");//보내는 데이터 형태는 post로 응답
-                    conn.setDoOutput(true);//서버로 응답을 보냄
-                    conn.setDoInput(true);//서버로부터 응답을 받음
-                    conn.connect();
-                    OutputStreamWriter streamWriter = new OutputStreamWriter(conn.getOutputStream());
-                    streamWriter.write(bjson);//Request body에 json data 세팅
-                    streamWriter.flush();//json data 입력후 저장
-                    streamWriter.close();
-                    int responsecode = conn.getResponseCode();//http 응답코드 송신
 
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                return null;
-            }
->>>>>>> 1c6bd03b4b947e60d4ea2733b68aa26422792b4b
-
-            @Override
-            protected void onPostExecute(String strJson) {
-                super.onPostExecute(strJson);
-            }
+        @Override
+        protected void onPostExecute(String strJson) {
+            super.onPostExecute(strJson);
         }
     }
+}

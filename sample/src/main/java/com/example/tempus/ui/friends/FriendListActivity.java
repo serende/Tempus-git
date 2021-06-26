@@ -89,7 +89,7 @@ public class FriendListActivity extends AppCompatActivity {
         String read = ReadFile(FilePath);
 
         // '-'를 기준으로 지인 정보 분류
-        String[] readArr = read.split("\\-");
+        String[] readArr = read.split("\\|");
 
         if (readArr != null)
         {
