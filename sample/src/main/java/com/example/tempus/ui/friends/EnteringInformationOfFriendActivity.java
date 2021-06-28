@@ -86,7 +86,7 @@ public class EnteringInformationOfFriendActivity extends AppCompatActivity {
                 String memoTxt = memoEditText.getText().toString();
 
                 // 지인 정보를 하나의 변수에 저장
-                String friendInfoTxt = phoneTxt + "|" + nameTxt + "|" + emailTxt + "|" + groupTxt + "|" + memoTxt + "\n" + "|";
+                String friendInfoTxt = phoneTxt + "|" + nameTxt + "|" + emailTxt + "|" + groupTxt + "|" + memoTxt + "|" + "\n";
 
                 // 지인 정보를 입력할 파일 열기
                 FileOutputStream outstream = openFileOutput("friendList.txt", Context.MODE_APPEND);
