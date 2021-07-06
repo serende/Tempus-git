@@ -105,6 +105,9 @@ public class ConfirmFriendInfoActivity extends AppCompatActivity {
             n = friendIntent.getIntExtra("지인 번호", -1);
             Log.v("friendNum", "전달된 지인 번호 : " + n);
 
+            // 전화번호 저장 과정에서 생긴 줄바꿈 제거
+            readArr[0+5*n]=readArr[0+5*n].replace("\n", "");
+
             // TextView에 setText
             phoneNumberTextView.setText(readArr[0+5*n]);
             nameTextView.setText(readArr[1+5*n]);

@@ -12,7 +12,9 @@ import android.widget.Toast;
 import com.applandeo.Tempus.R;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -81,7 +83,6 @@ public class EditFriendInfoActivity extends AppCompatActivity {
                         frBuffer.append(line+"\n");
                     }
                     countN++;
-                    Log.i("frBuffer",frBuffer.toString());
                 }
                 reader.close();
                 is.close();
@@ -98,6 +99,19 @@ public class EditFriendInfoActivity extends AppCompatActivity {
 
 
             // 아직 파일에 저장 안함
+            try{
+                BufferedWriter bw = new BufferedWriter(new FileWriter(FilePath, false));
+                bw.write(frBuffer.toString());
+
+                Log.i("frBuffer",frBuffer.toString());
+
+                bw.close();
+
+                Toast.makeText(this,"수정 완료", Toast.LENGTH_SHORT).show();
+            }catch (Exception e){
+                e.printStackTrace();
+                Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
 
             // 지인 정보 화면으로 다시 이동
             Intent CFIntent = new Intent(EditFriendInfoActivity.this, ConfirmFriendInfoActivity.class);
