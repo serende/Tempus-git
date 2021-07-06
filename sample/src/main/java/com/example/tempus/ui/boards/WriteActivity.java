@@ -39,8 +39,7 @@ import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import net.gotev.uploadservice.MultipartUploadRequest;
-import net.gotev.uploadservice.UploadNotificationConfig;
+
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -65,14 +64,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 
-import cz.msebera.android.httpclient.HttpEntity;
-import cz.msebera.android.httpclient.entity.ContentType;
-import cz.msebera.android.httpclient.entity.mime.HttpMultipartMode;
-import cz.msebera.android.httpclient.entity.mime.MultipartEntityBuilder;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.OkHttpClient;
-import okhttp3.RequestBody;
+
 
 public class WriteActivity extends AppCompatActivity {
     private static final int MY_PERMISSION_CAMERA = 1111;
