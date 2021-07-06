@@ -39,23 +39,40 @@ import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import net.gotev.uploadservice.MultipartUploadRequest;
+import net.gotev.uploadservice.UploadNotificationConfig;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
+import java.util.UUID;
+
+import cz.msebera.android.httpclient.HttpEntity;
+import cz.msebera.android.httpclient.entity.ContentType;
+import cz.msebera.android.httpclient.entity.mime.HttpMultipartMode;
+import cz.msebera.android.httpclient.entity.mime.MultipartEntityBuilder;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
 
 public class WriteActivity extends AppCompatActivity {
     private static final int MY_PERMISSION_CAMERA = 1111;
@@ -86,7 +103,8 @@ public class WriteActivity extends AppCompatActivity {
 
     String lineEnd = "\r\n";
     String twoHyphens = "--";
-    String boundary = "*****";
+    String boundary = "boundary=----WebKitFormBoundarylLEkUd8JSJOasqs0";
+    String user_id = "test";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,9 +150,35 @@ public class WriteActivity extends AppCompatActivity {
             WR_date = dateEdit.getText().toString();
             WR_body = contentEdit.getText().toString();
 
-            String urIString = "http://192.168.43.223:5000/imgupload";
-//            String urIString = "https://webhook.site/d4dc0f16-d848-41ba-a14f-bbea18b82018";
-//            DoFileUpload(urIString, getAbsolutePath(photoURI));
+            String urIString = "http://192.168.0.3:5000/imgupload";
+            //String urIString = "https://webhook.site/d4dc0f16-d848-41ba-a14f-bbea18b82018";
+            DoFileUpload(urIString, getAbsolutePath(photoURI));
+//            uploadMultipart(urIString, getAbsolutePath(photoURI));
+
+
+
+
+
+
+
+
+
+
+//            HttpPost post = new HttpPost("http://echo.200please.com");
+//            InputStream inputStream = new FileInputStream(zipFileName);
+//            File file = new File(imageFileName);
+//            String message = "This is a multipart post";
+//            MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+//            builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+//            builder.addBinaryBody
+//                    ("upfile", file, ContentType.DEFAULT_BINARY, imageFileName);
+//            builder.addBinaryBody
+//                    ("upstream", inputStream, ContentType.create("application/zip"), zipFileName);
+//            builder.addTextBody("text", message, ContentType.TEXT_PLAIN);
+////
+//            HttpEntity entity = builder.build();
+//            post.setEntity(entity);
+//            HttpResponse response = client.execute(post);
 //            try {
 //
 //                AndroidUploader uploader = new AndroidUploader("user", "userPwd");
@@ -191,44 +235,7 @@ public class WriteActivity extends AppCompatActivity {
 
         checkPermission();
     }
-//    private void uploadImage(){
-//        StringRequest stringRequest=new StringRequest(Request.Method.POST, UploadUrl,//http://192.168.0.3:5000
-//                new Response.Listener<String>() {
-//                    @Override
-//                    public void onResponse(String response) {
-//                        try {
-//                            JSONObject jsonObject=new JSONObject(response);
-//                            String Response =jsonObject.getString("response");
-//                            Toast.makeText(MainActivity.this, Response, Toast.LENGTH_LONG).show();
-//                            imgView.setImageResource(0);//올릴 이미지 뷰
-//                            imgView.setVisibility(View.GONE);
-//                            NAME.setText("");//이미지 이름
-//                            NAME.setVisibility(View.GONE);
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                            Toast.makeText(MainActivity.this,"ErroeEEEEEEE" , Toast.LENGTH_LONG).show();
-//                        }
-//                    }
-//                }
-//                , new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                Toast.makeText(MainActivity.this,"Error... ", Toast.LENGTH_LONG).show();
-//                error.printStackTrace();
-//            }
-//        }
-//        ){
-//            @Override
-//            protected Map<String, String> getParams() throws AuthFailureError {
-//                Map<String,String> params=new HashMap<String, String>();
-//                params.put("name",NAME.getText().toString().trim());
-//                params.put("image",imageToString(bitmap));
-//
-//                return params;
-//            }
-//        };
-//        MySingleton.getInstance(MainActivity.this).addTorequest(stringRequest);
-//    }
+
     public void DoFileUpload(String apiUrI, String absolutePath) {
         HttpFileUpload(apiUrI, "", absolutePath);
     }
@@ -239,7 +246,7 @@ public class WriteActivity extends AppCompatActivity {
         Cursor cursor = getContentResolver().query(contentUri, proj, null, null, null);
         cursor.moveToFirst();
         int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        Toast.makeText(WriteActivity.this, cursor.getString(column_index), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(WriteActivity.this, cursor.getString(column_index), Toast.LENGTH_SHORT).show();
         return cursor.getString(column_index);
     }
 
@@ -410,6 +417,7 @@ public class WriteActivity extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case MY_PERMISSION_CAMERA:
                 for (int i = 0; i < grantResults.length; i++) {
@@ -436,6 +444,37 @@ public class WriteActivity extends AppCompatActivity {
         }
     };
 
+
+
+
+
+//    public void uploadMultipart(String url, String path) {
+//        try {
+//            String uploadId = UUID.randomUUID().toString();
+//            //Creating a multi part request
+//            new MultipartUploadRequest(this, uploadId, url)
+//                    .addFileToUpload(path, "image") //Adding file
+//                    .addFileToUpload(path, "image2") //Adding file
+//                    .addParameter("content", "test") //Adding text parameter to the request
+//                    .addParameter("id", "test") //Adding text parameter to the request
+//                    .addParameter("time", "test") //Adding text parameter to the request
+//                    .setNotificationConfig(new UploadNotificationConfig().setTitle("[푸드다이어리] 사진 업로드 성공!").setCompletedMessage("사진 업로드를 성공적으로 완료했습니다."))
+//                    .setMaxRetries(2)
+//                    .startUpload();
+//        } catch (Exception exc) {
+//            Toast.makeText(this, exc.getMessage(), Toast.LENGTH_SHORT).show();
+//        }
+//    }
+
+
+
+
+
+
+
+
+
+
     // 서버에 이미지 업로드
     public void HttpFileUpload(String urlString, String params, String fileName) {
         try {
@@ -450,7 +489,13 @@ public class WriteActivity extends AppCompatActivity {
             conn.setUseCaches(false);
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Connection", "Keep-Alive");
+            conn.setRequestProperty("ENCTYPE", "multipart/form-data");
             conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
+            conn.setRequestProperty("file", fileName);
+            conn.setRequestProperty("user", user_id);
+            conn.setRequestProperty("name", "file");
+            conn.setRequestProperty("someParameter", "someValue");
+
 
             // write data
             DataOutputStream dos = new DataOutputStream(conn.getOutputStream());
@@ -495,408 +540,13 @@ public class WriteActivity extends AppCompatActivity {
             // 원본에서 EditText/TextView에 텍스트 설정하는 것으로 추정하여 주석처리
             // mEdityEntry.setText(s);
             dos.close();
-
+            Toast.makeText(WriteActivity.this, "전송 완료", Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             Log.d("Test", "exception " + e.getMessage());
+            Toast.makeText(WriteActivity.this, "오류 메세지" + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
-//    public static class AndroidUploader {
-//
-//        static String serviceDomain = "http://192.168.0.3:5000";
-//
-//        static String postUrl = serviceDomain + "/imgupload";
-//
-//        static String CRLF = "\r\n";
-//
-//        static String twoHyphens = "--";
-//
-//        static String boundary = "*****b*o*u*n*d*a*r*y*****";
-//
-//
-//        private String pictureFileName = null;
-//
-//        private String name = null;
-//
-//        private String password = null;
-//
-//        private DataOutputStream dataStream = null;
-//
-//
-//        enum ReturnCode {noPicture, unknown, http201, http400, http401, http403, http404, http500}
-//
-//        ;
-//
-//
-//        private String TAG = "멀티파트 테스트";
-//
-//
-//        public AndroidUploader(String name, String password) {
-//
-//            this.name = name;
-//
-//            this.password = password;
-//
-//        }
-//
-//
-//        public static void setServiceDomain(String domainName) {
-//
-//            serviceDomain = domainName;
-//
-//        }
-//
-//
-//        public static String getServiceDomain() {
-//
-//            return serviceDomain;
-//
-//        }
-//
-//
-//        public ReturnCode uploadPicture(String pictureFileName) {
-//
-//            this.pictureFileName = pictureFileName;
-//
-//            File uploadFile = new File(pictureFileName);
-//
-//
-//            if (uploadFile.exists())
-//
-//                try {
-//
-//                    FileInputStream fileInputStream = new FileInputStream(uploadFile);
-//
-//                    URL connectURL = new URL(postUrl);
-//
-//                    HttpURLConnection conn = (HttpURLConnection) connectURL.openConnection();
-//
-//
-//                    conn.setDoInput(true);
-//
-//                    conn.setDoOutput(true);
-//
-//                    conn.setUseCaches(false);
-//
-//                    conn.setRequestMethod("POST");
-//
-//
-//                    //conn.setRequestProperty("User-Agent", "myFileUploader");
-//
-//                    conn.setRequestProperty("Connection", "Keep-Alive");
-//
-//                    conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
-//
-//
-//                    conn.connect();
-//
-//
-//                    dataStream = new DataOutputStream(conn.getOutputStream());
-//
-//
-//                    writeFormField("login", name);
-//
-//                    writeFormField("password", password);
-//
-//                    writeFileField("photo1", pictureFileName, "image/jpg", fileInputStream);
-//
-//
-//                    // final closing boundary line
-//
-//                    dataStream.writeBytes(twoHyphens + boundary + twoHyphens + CRLF);
-//
-//
-//                    fileInputStream.close();
-//
-//                    dataStream.flush();
-//
-//                    dataStream.close();
-//
-//                    dataStream = null;
-//
-//
-//                    Log.d("업로드 테스트", "***********전송완료***********");
-//
-//
-//                    String response = getResponse(conn);
-//
-//                    int responseCode = conn.getResponseCode();
-//
-//
-//                    if (response.contains("uploaded successfully"))
-//
-//                        return ReturnCode.http201;
-//
-//                    else
-//
-//                        // for now assume bad name/password
-//
-//                        return ReturnCode.http401;
-//
-//                } catch (MalformedURLException mue) {
-//
-//                    Log.e(TAG, "error: " + mue.getMessage(), mue);
-//
-//                    return ReturnCode.http400;
-//
-//                } catch (IOException ioe) {
-//
-//                    Log.e(TAG, "error: " + ioe.getMessage(), ioe);
-//
-//                    return ReturnCode.http500;
-//
-//                } catch (Exception e) {
-//
-//                    Log.e(TAG, "error: " + e.getMessage(), e);
-//
-//                    return ReturnCode.unknown;
-//
-//                }
-//            else {
-//
-//                return ReturnCode.noPicture;
-//
-//            }
-//
-//        }
-//
-//
-//        private String getResponse(HttpURLConnection conn) {
-//
-//            try {
-//
-//                DataInputStream dis = new DataInputStream(conn.getInputStream());
-//
-//                byte[] data = new byte[1024];
-//
-//                int len = dis.read(data, 0, 1024);
-//
-//
-//                dis.close();
-//
-//                int responseCode = conn.getResponseCode();
-//
-//
-//                if (len > 0)
-//
-//                    return new String(data, 0, len);
-//
-//                else
-//
-//                    return "";
-//
-//            } catch (Exception e) {
-//
-//                //System.out.println("AndroidUploader: "+e);
-//
-//                Log.e(TAG, "AndroidUploader: " + e);
-//
-//                return "";
-//
-//            }
-//
-//        }
-//
-//
-//        /**
-//         * this mode of reading response no good either
-//         */
-//
-//        private String getResponseOrig(HttpURLConnection conn) {
-//
-//            InputStream is = null;
-//
-//            try {
-//
-//                is = conn.getInputStream();
-//
-//                // scoop up the reply from the server
-//
-//                int ch;
-//
-//                StringBuffer sb = new StringBuffer();
-//
-//                while ((ch = is.read()) != -1) {
-//
-//                    sb.append((char) ch);
-//
-//                }
-//
-//                return sb.toString();   // TODO Auto-generated method stub
-//
-//            } catch (Exception e) {
-//
-//                //System.out.println("GeoPictureUploader: biffed it getting HTTPResponse");
-//
-//                Log.e(TAG, "AndroidUploader: " + e);
-//
-//            } finally {
-//
-//                try {
-//
-//                    if (is != null)
-//
-//                        is.close();
-//
-//                } catch (Exception e) {
-//                }
-//
-//            }
-//
-//
-//            return "";
-//
-//        }
-//
-//
-//        /**
-//         * write one form field to dataSream
-//         *
-//         * @param fieldName
-//         * @param fieldValue
-//         */
-//
-//        private void writeFormField(String fieldName, String fieldValue) {
-//
-//            try {
-//
-//                dataStream.writeBytes(twoHyphens + boundary + CRLF);
-//
-//                dataStream.writeBytes("Content-Disposition: form-data; name=\"" + fieldName + "\"" + CRLF);
-//
-//                dataStream.writeBytes(CRLF);
-//
-//                dataStream.writeBytes(fieldValue);
-//
-//                dataStream.writeBytes(CRLF);
-//
-//            } catch (Exception e) {
-//
-//                //System.out.println("AndroidUploader.writeFormField: got: " + e.getMessage());
-//
-//                Log.e(TAG, "AndroidUploader.writeFormField: " + e.getMessage());
-//
-//            }
-//
-//        }
-//
-//
-//        /**
-//         * write one file field to dataSream
-//         *
-//         * @param fieldName  - name of file field
-//         * @param fieldValue - file name
-//         * @param type       - mime type
-//         *                   <p>
-//         *                   //         * @param fileInputStream - stream of bytes that get sent up
-//         */
-//
-//        private void writeFileField(
-//
-//                String fieldName,
-//
-//                String fieldValue,
-//
-//                String type,
-//
-//                FileInputStream fis) {
-//
-//            try {
-//
-//                // opening boundary line
-//
-//                dataStream.writeBytes(twoHyphens + boundary + CRLF);
-//
-//                dataStream.writeBytes("Content-Disposition: form-data; name=\""
-//
-//                        + fieldName
-//
-//                        + "\";filename=\""
-//
-//                        + fieldValue
-//
-//                        + "\""
-//
-//                        + CRLF);
-//
-//                dataStream.writeBytes("Content-Type: " + type + CRLF);
-//
-//                dataStream.writeBytes(CRLF);
-//
-//
-//                // create a buffer of maximum size
-//
-//                int bytesAvailable = fis.available();
-//
-//                int maxBufferSize = 1024;
-//
-//                int bufferSize = Math.min(bytesAvailable, maxBufferSize);
-//
-//                byte[] buffer = new byte[bufferSize];
-//
-//                // read file and write it into form...
-//
-//                int bytesRead = fis.read(buffer, 0, bufferSize);
-//
-//                while (bytesRead > 0) {
-//
-//                    dataStream.write(buffer, 0, bufferSize);
-//
-//                    bytesAvailable = fis.available();
-//
-//                    bufferSize = Math.min(bytesAvailable, maxBufferSize);
-//
-//                    bytesRead = fis.read(buffer, 0, bufferSize);
-//
-//                }
-//
-//
-//                // closing CRLF
-//
-//                dataStream.writeBytes(CRLF);
-//
-//            } catch (Exception e) {
-//
-//                //System.out.println("GeoPictureUploader.writeFormField: got: " + e.getMessage());
-//
-//                Log.e(TAG, "AndroidUploader.writeFormField: got: " + e.getMessage());
-//
-//            }
-//
-//        }
-//    }
 
-    private class PostTask extends AsyncTask<String, Void, String> {
-        protected String doInBackground(String... params) {
-                //String hjson = params[0];
-                String bjson = params[0];
-                try {
-                    String host_url = "192.168.43.226:5000/addboard";
-                    URL url = new URL(host_url);
-                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                    conn.setConnectTimeout(15 * 1000);//Timeout setting
-                    conn.setRequestProperty("Content-Type", "application/json");//Request body 전달시 json 형태로 전달
-                    conn.setRequestMethod("POST");//보내는 데이터 형태는 post로 응답
-                    conn.setDoOutput(true);//서버로 응답을 보냄
-                    conn.setDoInput(true);//서버로부터 응답을 받음
-                    conn.connect();
-                    OutputStreamWriter streamWriter = new OutputStreamWriter(conn.getOutputStream());
-                    streamWriter.write(bjson);//Request body에 json data 세팅
-                    streamWriter.flush();//json data 입력후 저장
-                    streamWriter.close();
-                    int responsecode = conn.getResponseCode();//http 응답코드 송신
+}
 
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(String strJson) {
-                super.onPostExecute(strJson);
-            }
-        }
-    }

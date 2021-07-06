@@ -28,11 +28,7 @@
             android:name="com.example.tempus.ui.friends.ConfirmFriendInfoActivity"
             android:label="@string/title_activity_confirm_friend_info"
             android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name="com.example.tempus.ui.boards.boardActivity"
@@ -49,7 +45,7 @@
         </provider> <!-- 서버 연결을 위해 필요 -->
         <activity android:name=".ServerResponseActivity" />
         <activity android:name=".ServerRequestActivity" />
-        <activity android:name=".ServerRespendActivity" />
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -80,11 +76,7 @@
             android:name="com.example.tempus.ui.boards.WriteActivity"
             android:label="@string/title_activity_write"
             android:theme="@style/Theme.Tempus.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name="com.example.tempus.ui.boards.AddBoardActivity"
@@ -94,18 +86,10 @@
             android:name="com.example.tempus.ui.boards.BoardMainActivity"
             android:label="@string/title_activity_board"
             android:theme="@style/Theme.Tempus.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name="com.example.tempus.ui.addSchedule.expenditureBreakdownActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name="com.example.tempus.ui.addSchedule.SetScheduleActivity" />
         <activity android:name=".SignupActivity" />
