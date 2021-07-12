@@ -72,10 +72,6 @@ public class WriteActivity extends AppCompatActivity {
     private static final int REQUEST_TAKE_ALBUM = 3333;
     private static final int REQUEST_IMAGE_CROP = 4444;
 
-    /*
-    이전꺼 깃에서 다운받고 'write'만 붙여넣기 하고 폰에서 보이는지 확인하기기
-    */
-
     Button changeDisplay;
     ImageButton addPhoto;
     Button finButton;
@@ -109,14 +105,11 @@ public class WriteActivity extends AppCompatActivity {
                 .permitDiskWrites()
                 .permitNetwork().build());
 
-        // 추후에 UI 수정 필요
-        /*
         changeDisplay = findViewById(R.id.changeDisplay);
         changeDisplay.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext(), ExpenditureBreakdownActivityForWrite.class);
             startActivity(intent);
         });
-         */
 
         userImage = findViewById(R.id.userImage);
 
@@ -297,6 +290,7 @@ public class WriteActivity extends AppCompatActivity {
         startActivityForResult(intent, REQUEST_TAKE_ALBUM);
     }
 
+    /* 갤러리에 크롭핑한 사진 저장
     private void galleryAddPic() {
         Log.i("galleryAddPic", "Call");
         Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
@@ -307,6 +301,7 @@ public class WriteActivity extends AppCompatActivity {
         sendBroadcast(mediaScanIntent);
         Toast.makeText(this, "사진이 앨범에 저장되었습니다.", Toast.LENGTH_SHORT).show();
     }
+     */
 
     // 이미지 crop
     public void cropImage() {
@@ -336,7 +331,7 @@ public class WriteActivity extends AppCompatActivity {
                 if (resultCode == Activity.RESULT_OK) {
                     try {
                         Log.i("REQUEST_TAKE_PHOTO", "OK");
-                        galleryAddPic();
+                        //galleryAddPic();
 
                         userImage.setImageURI(imageUri);
                     } catch (Exception e) {
@@ -365,7 +360,8 @@ public class WriteActivity extends AppCompatActivity {
 
             case REQUEST_IMAGE_CROP:
                 if (resultCode == Activity.RESULT_OK) {
-                    galleryAddPic();
+                    //galleryAddPic();
+                    
                     // 이미지 뷰어에 이미지 전송
                     userImage.setImageURI(albumURI);
                 }
