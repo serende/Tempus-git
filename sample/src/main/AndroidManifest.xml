@@ -22,14 +22,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name="com.example.tempus.ui.friends.EditFriendInfoActivity"/>
+        <activity android:name="com.example.tempus.ui.boards.ContentActivity"/>
+        <activity android:name="com.example.tempus.ui.friends.EditFriendInfoActivity" />
         <activity android:name=".uploadActivity" />
         <activity android:name=".sentimentAnalysisActivity" />
         <activity
             android:name="com.example.tempus.ui.friends.ConfirmFriendInfoActivity"
             android:label="@string/title_activity_confirm_friend_info"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name="com.example.tempus.ui.boards.boardActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -74,8 +74,7 @@
         <activity
             android:name="com.example.tempus.ui.boards.WriteActivity"
             android:label="@string/title_activity_write"
-            android:theme="@style/Theme.Tempus.NoActionBar">
-        </activity>
+            android:theme="@style/Theme.Tempus.NoActionBar"></activity>
         <activity
             android:name="com.example.tempus.ui.boards.AddBoardActivity"
             android:label="@string/title_activity_add_board"
@@ -83,10 +82,8 @@
         <activity
             android:name="com.example.tempus.ui.boards.BoardMainActivity"
             android:label="@string/title_activity_board"
-            android:theme="@style/Theme.Tempus.NoActionBar">
-        </activity>
-        <activity android:name="com.example.tempus.ui.addSchedule.expenditureBreakdownActivity">
-        </activity>
+            android:theme="@style/Theme.Tempus.NoActionBar"></activity>
+        <activity android:name="com.example.tempus.ui.addSchedule.expenditureBreakdownActivity"></activity>
         <activity android:name="com.example.tempus.ui.addSchedule.SetScheduleActivity" />
         <activity android:name=".SignupActivity" />
         <activity

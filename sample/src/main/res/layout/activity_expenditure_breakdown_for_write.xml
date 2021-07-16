@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.tempus.ui.boards.ExpenditureBreakdownActivityForWrite"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#00ff0000">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,13 +14,16 @@
         android:orientation="horizontal"
         android:background="@drawable/layoutborder">
 
-        <TextView
+        <Button
             android:id="@+id/dayView"
             android:layout_width="80dp"
-            android:layout_height="29dp"
+            android:layout_height="40dp"
             android:text="날짜"
             android:layout_marginLeft="20dp"
-            android:gravity="center" />
+            android:gravity="center"
+            android:background="#00ff0000"
+            android:textColor="#FF000000"
+            />
 
         <Button
             android:id="@+id/changeDisplay"
@@ -45,17 +49,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/layoutborder4"
-        android:layout_marginLeft="18dp"
         android:layout_marginTop="2dp">
 
         <TableRow
             android:background="@drawable/layoutborder4">
-            <TextView
+            <Button
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:text="제품명"
                 android:layout_marginLeft="15dp"
+                android:background="#00ff0000"
+                android:textColor="#FF000000"
                 />
 
             <EditText
@@ -64,17 +69,20 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="80dp"
                 android:layout_marginRight="30dp"
+                android:backgroundTint="#ff50bcdf"
                 />
         </TableRow>
 
         <TableRow
             android:background="@drawable/layoutborder4">
-            <TextView
+            <Button
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:text="가격"
-                android:layout_marginLeft="15dp"/>
+                android:layout_marginLeft="15dp"
+                android:background="#00ff0000"
+                android:textColor="@color/black"/>
 
             <EditText
                 android:id="@+id/priceEdit"
@@ -82,17 +90,20 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="80dp"
                 android:layout_marginRight="30dp"
+                android:backgroundTint="#ff50bcdf"
                 />
         </TableRow>
 
         <TableRow
             android:background="@drawable/layoutborder4">
-            <TextView
+            <Button
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:text="구매 일자"
-                android:layout_marginLeft="15dp"/>
+                android:layout_marginLeft="15dp"
+                android:background="#00ff0000"
+                android:textColor="@color/black"/>
 
             <EditText
                 android:id="@+id/purchaseDateEdit"
@@ -100,17 +111,20 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="80dp"
                 android:layout_marginRight="30dp"
+                android:backgroundTint="#ff50bcdf"
                 />
         </TableRow>
 
         <TableRow
             android:background="@drawable/layoutborder4">
-            <TextView
+            <Button
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:text="태그"
-                android:layout_marginLeft="15dp"/>
+                android:layout_marginLeft="15dp"
+                android:background="#00ff0000"
+                android:textColor="@color/black"/>
 
             <EditText
                 android:id="@+id/tagEdit"
@@ -118,6 +132,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="80dp"
                 android:layout_marginRight="30dp"
+                android:backgroundTint="#ff50bcdf"
                 />
         </TableRow>
     </TableLayout>
@@ -126,9 +141,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@drawable/layoutborder4"
-        android:layout_marginLeft="18dp"
-        android:layout_marginRight="13dp">
+        android:background="@drawable/layoutborder4">
 
         <TextView
             android:layout_width="match_parent"
@@ -171,13 +184,11 @@
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/layoutborder4"
-        android:layout_marginLeft="18dp"
-        android:layout_marginRight="13dp">
+        android:background="@drawable/layoutborder4">
 
         <TableRow>
             <TextView
-                android:layout_width="100dp"
+                android:layout_width="400dp"
                 android:layout_height="29dp"
                 android:gravity="center"
                 android:layout_gravity="center"
@@ -188,7 +199,7 @@
             android:background="@drawable/layoutborder4">
             <EditText
                 android:id="@+id/memoEdit"
-                android:layout_width="380dp"
+                android:layout_width="410dp"
                 android:layout_height="200dp"
                 android:background="@drawable/layoutborder4"
                 />

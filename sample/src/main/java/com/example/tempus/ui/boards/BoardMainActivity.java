@@ -57,12 +57,14 @@ public class BoardMainActivity extends AppCompatActivity {
         ImageButton imageButton1 = findViewById(R.id.imageButton1);
         imageButton1.setOnClickListener(view -> {
             Intent baIntent = new Intent(getApplicationContext(), boardActivity.class);
+            baIntent.putExtra("그룹명", "2팀 게시판");
             startActivity(baIntent);
         });
 
         ImageButton imageButton2 = findViewById(R.id.imageButton2);
         imageButton2.setOnClickListener(view -> {
             Intent baIntent2 = new Intent(getApplicationContext(), boardActivity.class);
+            baIntent2.putExtra("그룹명", "우리 가족방");
             startActivity(baIntent2);
         });
     }

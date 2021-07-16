@@ -17,16 +17,21 @@ import android.widget.ImageButton;
 //import com.example.tempus.R;
 
 public class AddBoardActivity extends AppCompatActivity {
+    Button finButton;
+    EditText productNameEdit;
+    ImageButton imageButton;
+    ImageButton addFriends;
+    EditText memoEdit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_board);
 
-        Button finButton = findViewById(R.id.finButton);
-        EditText productNameEdit = findViewById(R.id.productNameEdit);
-        ImageButton imageButton = findViewById(R.id.imageButton);
-        ImageButton addFriends = findViewById(R.id.addFriends);
-        EditText memoEdit = findViewById(R.id.memoEdit);
+        finButton = findViewById(R.id.finButton);
+        productNameEdit = findViewById(R.id.productNameEdit);
+        imageButton = findViewById(R.id.imageButton);
+        addFriends = findViewById(R.id.addFriends);
+        memoEdit = findViewById(R.id.memoEdit);
     }
 }

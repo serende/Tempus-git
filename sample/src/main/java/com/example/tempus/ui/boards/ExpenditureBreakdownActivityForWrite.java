@@ -18,52 +18,53 @@ import com.applandeo.Tempus.R;
 
 public class ExpenditureBreakdownActivityForWrite extends AppCompatActivity {
 
+    TextView dayView;
+
+    EditText productNameEdit;
+    EditText priceEdit;
+    EditText purchaseDateEdit;
+    EditText tagEdit;
+    EditText memoEdit;
+
+    RadioGroup radioGroup;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_expenditure_breakdown);
 
-        TextView dayView = (TextView) findViewById(R.id.dayView);
+        dayView = findViewById(R.id.dayView);
 
-        Button changeDisplay = (Button) findViewById(R.id.changeDisplay);
-        changeDisplay.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                Intent intent = new Intent(getApplicationContext(), WriteActivity.class);
-                startActivity(intent);
-            }
+        Button changeDisplay = findViewById(R.id.changeDisplay);
+        changeDisplay.setOnClickListener(view -> {
+            Intent intent = new Intent(getApplicationContext(), WriteActivity.class);
+            startActivity(intent);
         });
 
-        Button finButton = (Button) findViewById(R.id.finButton);
-        finButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                // TODO
-            }
+        Button finButton = findViewById(R.id.finButton);
+        finButton.setOnClickListener(view -> {
+            // TODO
         });
 
-        EditText productNameEdit = (EditText) findViewById(R.id.productNameEdit);
-        EditText priceEdit = (EditText) findViewById(R.id.priceEdit);
-        EditText purchaseDateEdit = (EditText) findViewById(R.id.purchaseDateEdit);
-        EditText tagEdit = (EditText) findViewById(R.id.tagEdit);
-        EditText memoEdit = (EditText) findViewById(R.id.memoEdit);
+        productNameEdit = findViewById(R.id.productNameEdit);
+        priceEdit = findViewById(R.id.priceEdit);
+        purchaseDateEdit = findViewById(R.id.purchaseDateEdit);
+        tagEdit = findViewById(R.id.tagEdit);
+        memoEdit = findViewById(R.id.memoEdit);
 
-        RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
+        radioGroup = findViewById(R.id.radioGroup);
         radioGroup.setOnCheckedChangeListener(radioGroupButtonChangeListener);
     }
 
-    RadioGroup.OnCheckedChangeListener radioGroupButtonChangeListener = new RadioGroup.OnCheckedChangeListener() {
-        @Override
-        public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
-            if(i == R.id.allShareRadioButton){
-                Toast.makeText(ExpenditureBreakdownActivityForWrite.this, "지인 모두와 공유", Toast.LENGTH_SHORT).show();
-            }
-            else if(i == R.id.partShareRadioButton){
-                Toast.makeText(ExpenditureBreakdownActivityForWrite.this, "특정 그룹과 공유", Toast.LENGTH_SHORT).show();
-            }
-            else if(i == R.id.nonShareRadioButton){
-                Toast.makeText(ExpenditureBreakdownActivityForWrite.this, "공유하지 않음", Toast.LENGTH_SHORT).show();
-            }
+    RadioGroup.OnCheckedChangeListener radioGroupButtonChangeListener = (radioGroup, i) -> {
+        if(i == R.id.allShareRadioButton){
+            Toast.makeText(ExpenditureBreakdownActivityForWrite.this, "지인 모두와 공유", Toast.LENGTH_SHORT).show();
+        }
+        else if(i == R.id.partShareRadioButton){
+            Toast.makeText(ExpenditureBreakdownActivityForWrite.this, "특정 그룹과 공유", Toast.LENGTH_SHORT).show();
+        }
+        else if(i == R.id.nonShareRadioButton){
+            Toast.makeText(ExpenditureBreakdownActivityForWrite.this, "공유하지 않음", Toast.LENGTH_SHORT).show();
         }
     };
 }

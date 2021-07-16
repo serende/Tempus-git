@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -30,32 +31,48 @@ import java.net.URL;
 public class boardActivity extends AppCompatActivity {
 
     TextView dateView;
-    TextView contentView;
+    Button contentView;
+    TextView groupTextView;
+
+    String WR_ID;   //id data
+    String WR_TYPE; //TYPE
+    String WR_DATE; //DATE
+    String WR_BODY; //content
+
+    Intent BAIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board);
 
-        dateView = (TextView) findViewById(R.id.dateView);
-        contentView = (TextView) findViewById(R.id.contentView);
+        BAIntent = getIntent();
+
+        dateView = findViewById(R.id.dateView);
+        contentView = findViewById(R.id.contentView);
+
+        groupTextView = findViewById(R.id.groupTextView);
+        groupTextView.setText("그룹: " + BAIntent.getStringExtra("그룹명"));
 
         boardTask task = new boardTask();
         task.execute();//스레드 실행 함수, 서버 호출에 사용됨, 위치 변경시 오류 발생할 수 있음
 
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
         FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        fab.setOnClickListener(view -> {
+            Intent intent = new Intent(boardActivity.this, WriteActivity.class);
+            startActivity(intent);
+        });
 
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(boardActivity.this, WriteActivity.class);
-                startActivity(intent);
-            }
-
+        // 글을 누르면 댓글을 쓸 수 있는 ContentActivity로 이동
+        // 변수도 intent를 통해 전달하도록 변경 필요
+        contentView.setOnClickListener(v -> {
+            Intent CAIntent = new Intent(boardActivity.this, ContentActivity.class);
+            CAIntent.putExtra("ID", WR_ID);
+            CAIntent.putExtra("TYPE", WR_TYPE);
+            CAIntent.putExtra("DATE", WR_DATE);
+            CAIntent.putExtra("CONTENT", WR_BODY);
+            CAIntent.putExtra("GROUP", BAIntent.getStringExtra("그룹명"));
+            startActivity(CAIntent);
         });
     }
 
@@ -114,7 +131,6 @@ public class boardActivity extends AppCompatActivity {
             return resultJson;
         }
 
-
         protected void onPostExecute(String strJson) {
             super.onPostExecute(strJson);
 
@@ -133,12 +149,12 @@ public class boardActivity extends AppCompatActivity {
                     JSONObject body_json = (JSONObject) jsonobj.get("body");// body data만 따로 때어냄
 
                     //JsonParser ps = new JsonParser();
-                    String WR_ID = head_json.getString("WR_ID");//id data
-                    String WR_TYPE = head_json.getString("WR_TYPE");//TYPE
-                    String WR_DATE = body_json.getString("WR_DATE");//DATE
-                    String WR_BODY = body_json.getString("WR_BODY");//
-                    String result_json_text = "WR_ID: " + WR_ID + "\n" + "WR_TYPE: " + WR_TYPE + "\n" + "WR_DATE: " + WR_DATE + "\n" + "WR_BODY:" + WR_BODY;
+                    WR_ID = head_json.getString("WR_ID");//id data
+                    WR_TYPE = head_json.getString("WR_TYPE");//TYPE
+                    WR_DATE = body_json.getString("WR_DATE");//DATE
+                    WR_BODY = body_json.getString("WR_BODY");//Content
                     //데이터들 보기좋게 합쳐둔거
+                    String result_json_text = "WR_ID: " + WR_ID + "\n" + "WR_TYPE: " + WR_TYPE + "\n" + "WR_DATE: " + WR_DATE + "\n" + "WR_BODY:" + WR_BODY;
                     // json 데이터 name, 즉 json은 key값과 data값으로 구성된 배열인데 key값을 입력하면 그에 따른 데이터 값을 받아옴
                     Log.d("FOR_LOG", result_json_text);
 
@@ -150,7 +166,4 @@ public class boardActivity extends AppCompatActivity {
             }
         }
     }
-
-
-
 }
