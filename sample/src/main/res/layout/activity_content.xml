@@ -44,9 +44,10 @@
             android:id="@+id/contentView"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:background="@drawable/layoutborder4"
             android:gravity="left|start"
-            android:text="contents" />
+            android:background="@drawable/layoutborder4"
+            android:text="contents"
+            android:textColor="@color/black"/>
 
         <TextView
             android:id="@+id/dateView"
@@ -55,36 +56,57 @@
             android:layout_gravity="left|center"
             android:gravity="left|center"
             android:text="date"
-            android:textColor="@color/black"
-            android:background="@drawable/layoutborder4"/>
+            android:background="@drawable/layoutborder4"
+            android:textColor="@color/black"/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_marginTop="5dp"
-            android:text="댓글"
-            android:textSize="15dp"
-            android:textColor="@color/black"
-            android:gravity="left|center"
-            android:background="@drawable/layoutborder4"/>
-
-        <!-- 댓글이 추가될 동적 레이아웃 -->
         <LinearLayout
-            android:id="@+id/ll"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="horizontal"
+            android:background="@drawable/layoutborder4">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginLeft="15dp"
+                android:text="댓글"
+                android:textSize="15dp"
+                android:textColor="@color/black"
+                android:gravity="left|center"
+                />
+            <Button
+                android:id="@+id/writeCommentBtn"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:text="댓글 작성"
+                android:gravity="center"
+                android:backgroundTint="#00ff0000"
+                android:textColor="#ff50bcdf"
+                android:layout_marginLeft="280dp"
+                />
         </LinearLayout>
 
-        <Button
-            android:id="@+id/writeCommentBtn"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/layoutborder4"
-            android:text="댓글 작성"
-            android:gravity="center|start"
-            />
+            android:orientation="vertical"
+            android:background="@drawable/layoutborder4">
 
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:backgroundTint="#00ff0000"
+                android:background="@drawable/layoutborder4"
+                android:hint="댓글 내용"
+                android:gravity="start"
+                android:textSize="12dp"
+                android:maxLength="80"/>
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/listview1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     </LinearLayout>
 
 </LinearLayout>

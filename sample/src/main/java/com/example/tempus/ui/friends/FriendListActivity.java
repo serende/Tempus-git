@@ -1,6 +1,7 @@
 package com.example.tempus.ui.friends;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.icu.text.IDNA;
 import android.os.Bundle;
@@ -102,6 +103,10 @@ public class FriendListActivity extends AppCompatActivity {
             }
 
             try{
+                LinearLayout.LayoutParams Riparams = new LinearLayout.LayoutParams(ConvertDPtoPX(this,100), ConvertDPtoPX(this, 50));
+                Riparams.weight = 1.0f;
+                Riparams.gravity = Gravity.RIGHT;
+
                 // n은 지인 번호
                 for(int n=0;n<readArr.length/5;n++){
                     LinearLayout sl = new LinearLayout(this);
@@ -123,17 +128,20 @@ public class FriendListActivity extends AppCompatActivity {
 
                     Log.v("setText", " " + readArr[5*n+1] + " " + readArr[5*n+3]);
 
+                    LinearLayout btnL = new LinearLayout(this);
+                    btnL.setLayoutParams(Riparams);
+
                     // 버튼 생성
                     final Button btn = new Button(this);
 
                     // setId 버튼에 대한 키값
                     btn.setId(n + 1);
                     btn.setText("정보 확인");
-                    btn.setPadding(200,40,0,0);
-                    btn.setGravity(Gravity.TOP | Gravity.CENTER);
+                    btn.setPadding(200,10,100,0);
+                    //btn.setGravity(Gravity.TOP | Gravity.CENTER);
                     btn.setBackgroundColor(0);
-                    btn.getForegroundGravity();
-                    btn.setLayoutParams(params);
+                    //btn.getForegroundGravity();
+                    //btn.setLayoutParams(Rparams);
 
                     final int friendNum = n;
 
@@ -147,7 +155,9 @@ public class FriendListActivity extends AppCompatActivity {
                     });
 
                     //버튼 add
-                    sl.addView(btn);
+                    //sl.addView(btn);
+                    btnL.addView(btn);
+                    sl.addView(btnL);
 
                     // lm에 정의된 레이아웃 추가
                     lm.addView(sl);
@@ -165,5 +175,11 @@ public class FriendListActivity extends AppCompatActivity {
         else{
             Toast.makeText(this.getApplicationContext(), "추가된 지인이 없습니다.", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    // 동적 레이아웃에서 사이즈를 DP로 쓰기 위한 함수
+    public static int ConvertDPtoPX(Context context, int dp) {
+        float density = context.getResources().getDisplayMetrics().density;
+        return Math.round((float) dp * density);
     }
 }
