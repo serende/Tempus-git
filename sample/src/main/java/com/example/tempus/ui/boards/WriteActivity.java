@@ -107,7 +107,8 @@ public class WriteActivity extends AppCompatActivity {
 
         changeDisplay = findViewById(R.id.changeDisplay);
         changeDisplay.setOnClickListener(view -> {
-            Intent intent = new Intent(getApplicationContext(), ExpenditureBreakdownActivityForWrite.class);
+            // 임시로 지출내역작성 서브 페이지로 변경
+            Intent intent = new Intent(getApplicationContext(), CreateExpenditureHistoryActivityForWrite.class);
             startActivity(intent);
         });
 

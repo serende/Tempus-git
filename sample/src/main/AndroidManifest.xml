@@ -22,6 +22,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name="com.example.tempus.ui.boards.CreateExpenditureHistoryActivityForWrite"
+            android:theme="@style/Theme.Tempus.NoActionBar" />
         <activity android:name="com.example.tempus.ui.boards.ContentActivity" />
         <activity android:name="com.example.tempus.ui.friends.EditFriendInfoActivity" />
         <activity android:name=".uploadActivity" />
@@ -67,10 +69,6 @@
         <activity
             android:name=".RangePickerActivity"
             android:label="Range picker" />
-        <activity
-            android:name="com.example.tempus.ui.boards.ExpenditureBreakdownActivityForWrite"
-            android:label="@string/title_activity_expenditure_breakdown_for_write"
-            android:theme="@style/Theme.Tempus.NoActionBar" />
         <activity
             android:name="com.example.tempus.ui.boards.WriteActivity"
             android:label="@string/title_activity_write"

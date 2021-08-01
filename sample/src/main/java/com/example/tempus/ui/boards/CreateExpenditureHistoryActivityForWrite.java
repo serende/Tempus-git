@@ -14,9 +14,7 @@ import android.widget.Toast;
 
 import com.applandeo.Tempus.R;
 
-//import com.example.tempus.R;
-
-public class ExpenditureBreakdownActivityForWrite extends AppCompatActivity {
+public class CreateExpenditureHistoryActivityForWrite extends AppCompatActivity {
 
     TextView dayView;
 
@@ -31,7 +29,7 @@ public class ExpenditureBreakdownActivityForWrite extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_expenditure_breakdown);
+        setContentView(R.layout.activity_create_expenditure_history_for_write);
 
         dayView = findViewById(R.id.dayView);
 
@@ -58,13 +56,13 @@ public class ExpenditureBreakdownActivityForWrite extends AppCompatActivity {
 
     RadioGroup.OnCheckedChangeListener radioGroupButtonChangeListener = (radioGroup, i) -> {
         if(i == R.id.allShareRadioButton){
-            Toast.makeText(ExpenditureBreakdownActivityForWrite.this, "지인 모두와 공유", Toast.LENGTH_SHORT).show();
+            Toast.makeText(CreateExpenditureHistoryActivityForWrite.this, "지인 모두와 공유", Toast.LENGTH_SHORT).show();
         }
         else if(i == R.id.partShareRadioButton){
-            Toast.makeText(ExpenditureBreakdownActivityForWrite.this, "특정 그룹과 공유", Toast.LENGTH_SHORT).show();
+            Toast.makeText(CreateExpenditureHistoryActivityForWrite.this, "특정 그룹과 공유", Toast.LENGTH_SHORT).show();
         }
         else if(i == R.id.nonShareRadioButton){
-            Toast.makeText(ExpenditureBreakdownActivityForWrite.this, "공유하지 않음", Toast.LENGTH_SHORT).show();
+            Toast.makeText(CreateExpenditureHistoryActivityForWrite.this, "공유하지 않음", Toast.LENGTH_SHORT).show();
         }
     };
 }
