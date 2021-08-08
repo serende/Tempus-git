@@ -64,8 +64,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 
-
-
 public class WriteActivity extends AppCompatActivity {
     private static final int MY_PERMISSION_CAMERA = 1111;
     private static final int REQUEST_TAKE_PHOTO = 2222;
@@ -212,8 +210,6 @@ public class WriteActivity extends AppCompatActivity {
 //            baIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);  // 상위 스택 액티비티 모두 제거
 //            WriteActivity.this.finish();
 //            startActivity(baIntent);
-
-
         });
 
         radioGroup = findViewById(R.id.radioGroup);
@@ -236,6 +232,7 @@ public class WriteActivity extends AppCompatActivity {
         return cursor.getString(column_index);
     }
 
+    /*
     private void captureCamera() {
         String state = Environment.getExternalStorageState();
         // 외장 메모리 검사
@@ -264,6 +261,7 @@ public class WriteActivity extends AppCompatActivity {
             return;
         }
     }
+     */
 
     public File createImageFile() throws IOException {
         // Create an image file name
@@ -433,10 +431,6 @@ public class WriteActivity extends AppCompatActivity {
         }
     };
 
-
-
-
-
 //    public void uploadMultipart(String url, String path) {
 //        try {
 //            String uploadId = UUID.randomUUID().toString();
@@ -454,15 +448,6 @@ public class WriteActivity extends AppCompatActivity {
 //            Toast.makeText(this, exc.getMessage(), Toast.LENGTH_SHORT).show();
 //        }
 //    }
-
-
-
-
-
-
-
-
-
 
     // 서버에 이미지 업로드
     public void HttpFileUpload(String urlString, String params, String fileName) {
@@ -535,7 +520,5 @@ public class WriteActivity extends AppCompatActivity {
             Toast.makeText(WriteActivity.this, "오류 메세지" + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
-
-
 }
 

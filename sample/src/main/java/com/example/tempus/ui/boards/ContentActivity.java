@@ -5,10 +5,12 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -17,6 +19,10 @@ import com.applandeo.Tempus.R;
 
 import org.w3c.dom.Text;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.zip.Inflater;
 
 import static java.sql.Types.NULL;
@@ -35,6 +41,10 @@ public class ContentActivity extends AppCompatActivity {
     ArrayAdapter adapter;
     ListView listview;
 
+    EditText commentEdit;
+
+    Integer n=1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +54,7 @@ public class ContentActivity extends AppCompatActivity {
 
         // 작성자명
         nameTextView = findViewById(R.id.nameTextView);
+        nameTextView.setText(CAIntent.getStringExtra("WRITER"));
 
         // 그룹명
         groupTextView = findViewById(R.id.groupTextView);
@@ -55,7 +66,7 @@ public class ContentActivity extends AppCompatActivity {
 
         // 작성 일자
         dateView = findViewById(R.id.dateView);
-        contentView.setText(CAIntent.getStringExtra("DATE"));
+        dateView.setText(CAIntent.getStringExtra("DATE"));
 
         // ListView를 통한 댓글 구현
         // 댓글 하나당 list 3칸을 차지하도록 구현(댓글 작성자, 댓글 내용, 댓글 작성 일자)
@@ -64,9 +75,48 @@ public class ContentActivity extends AppCompatActivity {
         listview = findViewById(R.id.listview1);
         listview.setAdapter(adapter);
 
+        commentEdit = findViewById(R.id.commentEdit);
 
-        // 댓글 작성 액티비티로 이동 or 팝업이나 누르면 새로운 창이 나오면서 작성할 수 있도록
+        // 댓글 작성
+        // 누르면 댓글 창에 작성된 내용을 리스트배열로 전달하고 댓글 창을 비움
+        // 나중에 서버로 전달하는 것도 추가해야 함
+        // LIST_MENU n-1 n n+1 -> n-1:작성자 n:내용 n+1:작성 시간
         writeCommentBtn = findViewById(R.id.writeCommentBtn);
-    }
+        writeCommentBtn.setOnClickListener(v -> {
+            try{
+                // 댓글 작성자 가져오는 내용
+                // 임시로 작성자 1 2 3으로 나오도록 설정
+                LIST_MENU[n-1]="작성자 " + n;
 
+                // 댓글 내용을
+                LIST_MENU[n]=commentEdit.getText().toString();
+
+                // 댓글 작성 시간
+                LIST_MENU[n+1]=GetTime();
+
+                // 댓글 수+1(3개 단위)
+                n=n+3;
+
+                // 댓글창 초기화
+                commentEdit.setText(null);
+            }
+            catch (Exception e){
+                StringWriter sw = new StringWriter();
+                e.printStackTrace(new PrintWriter(sw));
+                String exceptionAsStrting = sw.toString();
+                Log.e("CALIST", exceptionAsStrting);
+
+                e.printStackTrace();
+            }
+
+        });
+    }
+    public String GetTime(){
+        long now = System.currentTimeMillis();
+        Date date = new Date(now);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM월 dd일 hh시 mm분");
+        String getTime = dateFormat.format(date);
+
+        return getTime;
+    }
 }

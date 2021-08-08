@@ -93,6 +93,7 @@
             android:background="@drawable/layoutborder4">
 
             <EditText
+                android:id="@+id/commentEdit"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:backgroundTint="#00ff0000"

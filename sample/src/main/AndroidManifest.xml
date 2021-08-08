@@ -22,7 +22,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name="com.example.tempus.ui.boards.CreateExpenditureHistoryActivityForWrite"
+        <activity
+            android:name="com.example.tempus.ui.addSchedule.ConfirmScheduleActivity" />
+        <activity
+            android:name="com.example.tempus.ui.boards.CreateExpenditureHistoryActivityForWrite"
             android:theme="@style/Theme.Tempus.NoActionBar" />
         <activity android:name="com.example.tempus.ui.boards.ContentActivity" />
         <activity android:name="com.example.tempus.ui.friends.EditFriendInfoActivity" />
@@ -56,7 +59,8 @@
         </activity>
         <activity
             android:name=".CalendarActivity"
-            android:label="Standard calendar" />
+            android:label="Standard calendar"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".CalendarWithCustomRowActivity"
             android:label="Standard calendar with custom row" />
