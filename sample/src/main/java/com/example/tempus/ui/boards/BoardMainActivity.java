@@ -47,11 +47,18 @@ public class BoardMainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("게시판");
 
-        // 플로팅버튼은 게시판추가 액티비티로 이동
+        // 게시판 추가 액티비티로 이동
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext(), AddBoardActivity.class);
             startActivity(intent);
+        });
+
+        // 지인 목록 액티비티로 이동
+        FloatingActionButton friendFAB = findViewById(R.id.friendFAB);
+        friendFAB.setOnClickListener(v -> {
+            Intent BMAIntent = new Intent(getApplicationContext(), FriendListActivity.class);
+            startActivity(BMAIntent);
         });
 
         ImageButton imageButton1 = findViewById(R.id.imageButton1);
@@ -69,6 +76,7 @@ public class BoardMainActivity extends AppCompatActivity {
         });
     }
 
+    /*
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.boardmenu, menu);
@@ -99,4 +107,5 @@ public class BoardMainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+     */
 }

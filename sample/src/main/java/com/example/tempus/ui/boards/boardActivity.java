@@ -38,6 +38,7 @@ public class boardActivity extends AppCompatActivity {
     String WR_TYPE; //TYPE
     String WR_DATE; //DATE
     String WR_BODY; //content
+    String WR_CONNUM; // content number
 
     Intent BAIntent;
 
