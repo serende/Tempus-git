@@ -61,6 +61,11 @@ public class BoardMainActivity extends AppCompatActivity {
             startActivity(BMAIntent);
         });
 
+        FloatingActionButton shoppingFAB = findViewById(R.id.shoppingFAB);
+        shoppingFAB.setOnClickListener(v -> {
+            // TODO
+        });
+
         ImageButton imageButton1 = findViewById(R.id.imageButton1);
         imageButton1.setOnClickListener(view -> {
             Intent baIntent = new Intent(getApplicationContext(), boardActivity.class);

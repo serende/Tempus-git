@@ -27,7 +27,7 @@ import java.util.Random;
 public class CalendarActivity extends AppCompatActivity {
 
     // 캘린더 시작 및 종료 날짜
-    String startDate = "20100101";
+    String startDate = "20110101";
     String endDate = "20301231";
 
     @Override
