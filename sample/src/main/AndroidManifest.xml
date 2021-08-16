@@ -22,6 +22,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <meta-data
+            android:name="com.google.android.actions"
+            android:resource="@xml/fab_close" />
+
         <activity android:name="com.example.tempus.ui.addSchedule.ConfirmScheduleActivity" />
         <activity
             android:name="com.example.tempus.ui.boards.CreateExpenditureHistoryActivityForWrite"

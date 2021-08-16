@@ -82,14 +82,24 @@
         android:layout_height="match_parent"
         android:orientation="vertical"/>
 
-
+    <!-- 이 버튼을 누르면 나머지 3개 버튼이 활성화 -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
+        android:id="@+id/openFAB"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_marginBottom="10dp"
         android:layout_marginRight="10dp"
+        app:srcCompat="@drawable/ic_add_icons" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/addBoardFAB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="80dp"
+        android:layout_marginRight="10dp"
+        android:visibility="invisible"
         app:srcCompat="@android:drawable/ic_menu_add" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -97,8 +107,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_marginBottom="80dp"
+        android:layout_marginBottom="150dp"
         android:layout_marginRight="10dp"
+        android:visibility="invisible"
         app:srcCompat="@drawable/ic_friend_icon" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -106,8 +117,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_marginBottom="150dp"
+        android:layout_marginBottom="220dp"
         android:layout_marginRight="10dp"
-        app:srcCompat="@mipmap/ic_shopping" />
+        android:visibility="invisible"
+        app:srcCompat="@mipmap/ic_shopping"
+         />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
