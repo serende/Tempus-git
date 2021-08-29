@@ -30,7 +30,7 @@ public class ConfirmScheduleActivity extends AppCompatActivity {
 
     Intent CSAIntent;
 
-    // 일정/구매내역 내용
+    // 일정 내용
     String content;
 
     // 작성자
@@ -70,8 +70,6 @@ public class ConfirmScheduleActivity extends AppCompatActivity {
             sl.setOrientation(LinearLayout.VERTICAL);
             sl.setBackground(ContextCompat.getDrawable(this, R.drawable.layoutborder4));
 
-            // 지인 정보를 보여줄 TextView 추가
-            // 보여주는 정보는 등록된 지인명과 그룹명
             Button writerBtn = new Button(this);
             Button contentBtn = new Button(this);
             Button groupBtn = new Button(this);
@@ -90,7 +88,6 @@ public class ConfirmScheduleActivity extends AppCompatActivity {
             contentBtn.setBackgroundColor(0);
             contentBtn.setGravity(Gravity.LEFT);
             contentBtn.setPadding(ConvertDPtoPX(this,14),0,0,0);
-            //InfoView2.setPadding(250,40,0,0);
 
             groupBtn.setId(n+3);
             groupBtn.setText(groupName);
@@ -129,16 +126,6 @@ public class ConfirmScheduleActivity extends AppCompatActivity {
             sl.addView(writerBtn);
             sl.addView(contentBtn);
             sl.addView(groupBtn);
-
-            /*
-            btn.setOnClickListener(v -> {
-                Log.d("log", "position :" + friendNum);
-
-                Intent baIntent = new Intent(ConfirmScheduleActivity.this, ConfirmFriendInfoActivity.class);
-                baIntent.putExtra("지인 번호", friendNum);
-                startActivity(baIntent);
-            });
-             */
 
             // ll에 정의된 레이아웃 추가
             ll.addView(sl);

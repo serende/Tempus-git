@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -37,13 +38,14 @@ public class ContentActivity extends AppCompatActivity {
 
     Intent CAIntent;
 
-    static final String[] LIST_MENU = {"댓글 작성자", "댓글 내용", "작성 일자"} ;
+    static final String[] LIST_MENU = new String[99] ;
     ArrayAdapter adapter;
     ListView listview;
 
     EditText commentEdit;
 
     Integer n=1;
+    String comNum; // comment number
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +57,7 @@ public class ContentActivity extends AppCompatActivity {
         // 작성자명
         nameTextView = findViewById(R.id.nameTextView);
         nameTextView.setText(CAIntent.getStringExtra("WRITER"));
+        if(CAIntent.getStringExtra("WRITER") == "") nameTextView.setText("작성자");
 
         // 그룹명
         groupTextView = findViewById(R.id.groupTextView);
@@ -63,6 +66,7 @@ public class ContentActivity extends AppCompatActivity {
         // 글의 내용
         contentView = findViewById(R.id.contentView);
         contentView.setText(CAIntent.getStringExtra("CONTENT"));
+        if(CAIntent.getStringExtra("CONTENT") == "") contentView.setText("작성된 내용이 없습니다.");
 
         // 작성 일자
         dateView = findViewById(R.id.dateView);
@@ -99,6 +103,11 @@ public class ContentActivity extends AppCompatActivity {
 
                 // 댓글창 초기화
                 commentEdit.setText(null);
+
+                /*
+                // 댓글 정보를 서버로 전송하는 부분 필요
+                comNum = n/3
+                 */
             }
             catch (Exception e){
                 StringWriter sw = new StringWriter();
@@ -111,6 +120,7 @@ public class ContentActivity extends AppCompatActivity {
 
         });
     }
+    // 현재 시간 얻는 함수
     public String GetTime(){
         long now = System.currentTimeMillis();
         Date date = new Date(now);

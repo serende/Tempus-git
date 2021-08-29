@@ -84,6 +84,7 @@
             </LinearLayout>
         </TableRow>
 
+        <!-- 초대를 board 쪽으로 변경
         <TableRow
             android:background="@drawable/layoutborder4">
             <TextView
@@ -101,7 +102,7 @@
                 android:background="#00ff0000"
                 app:srcCompat="@drawable/ic_add_icons"/>
         </TableRow>
-
+        -->
     </TableLayout>
 
     <LinearLayout

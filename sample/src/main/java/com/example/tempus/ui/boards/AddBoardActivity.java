@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -30,6 +32,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -51,7 +54,6 @@ public class AddBoardActivity extends AppCompatActivity {
     Button finButton;
     EditText BoardNameEdit;
     ImageButton addPhoto;
-    ImageButton addFriends;
     EditText memoEdit;
     ImageView userImage;
 
@@ -76,7 +78,6 @@ public class AddBoardActivity extends AppCompatActivity {
         try{
             BoardNameEdit = findViewById(R.id.BoardNameEdit);
             addPhoto = findViewById(R.id.addPhoto);
-            addFriends = findViewById(R.id.addFriends);
             memoEdit = findViewById(R.id.memoEdit);
             finButton = findViewById(R.id.finButton);
         } catch(Exception e){
@@ -101,10 +102,22 @@ public class AddBoardActivity extends AppCompatActivity {
         finButton.setOnClickListener(v -> {
             // TODO
 
-            Intent ABAIntent = new Intent(getApplicationContext(), BoardMainActivity.class);
-            ABAIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            // 이미지 전달 전 사이즈 조정
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            Bitmap bitmap = ((BitmapDrawable)userImage.getDrawable()).getBitmap();
+            float scale = (float) (1024/(float)bitmap.getWidth());
+            int image_w = (int) (bitmap.getWidth() * scale);
+            int image_h = (int) (bitmap.getHeight() * scale);
+            Bitmap resize = Bitmap.createScaledBitmap(bitmap, image_w, image_h, true);
+            resize.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+            byte[] byteArray = stream.toByteArray();
+
+            Intent intent = new Intent(getApplicationContext(), BoardMainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra("image", byteArray);
+            intent.putExtra("boardName", BoardNameEdit.getText().toString());
             AddBoardActivity.this.finish();
-            startActivity(ABAIntent);
+            startActivity(intent);
         });
 
         checkPermission();
