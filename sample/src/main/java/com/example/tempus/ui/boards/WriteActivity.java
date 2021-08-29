@@ -105,7 +105,7 @@ public class WriteActivity extends AppCompatActivity {
 
         changeDisplay = findViewById(R.id.changeDisplay);
         changeDisplay.setOnClickListener(view -> {
-            // 임시로 지출내역작성 서브 페이지로 변경
+            // 지출 내역 형식으로 변경
             Intent intent = new Intent(getApplicationContext(), CreateExpenditureHistoryActivityForWrite.class);
             startActivity(intent);
         });
@@ -360,9 +360,13 @@ public class WriteActivity extends AppCompatActivity {
             case REQUEST_IMAGE_CROP:
                 if (resultCode == Activity.RESULT_OK) {
                     //galleryAddPic();
-                    
-                    // 이미지 뷰어에 이미지 전송
-                    userImage.setImageURI(albumURI);
+
+                    try{
+                        // 이미지 뷰어에 이미지 전송
+                        userImage.setImageURI(albumURI);
+                    } catch (Exception e){
+                        Log.e("setImageURIERROR", e.toString());
+                    }
                 }
                 break;
         }

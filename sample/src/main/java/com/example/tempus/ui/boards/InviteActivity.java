@@ -1,27 +1,25 @@
-package com.example.tempus.ui.friends;
-
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.Intent;
-import android.icu.text.IDNA;
-import android.os.Bundle;
+package com.example.tempus.ui.boards;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
-import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.applandeo.Tempus.R;
-import com.example.tempus.ui.boards.WriteActivity;
-import com.example.tempus.ui.boards.boardActivity;
+import com.example.tempus.ui.friends.AddFriendsActivity;
+import com.example.tempus.ui.friends.ConfirmFriendInfoActivity;
+import com.example.tempus.ui.friends.FriendListActivity;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -30,29 +28,68 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-@SuppressLint("SdCardPath")
-public class FriendListActivity extends AppCompatActivity {
+import static com.google.android.gms.common.internal.safeparcel.SafeParcelable.NULL;
+
+public class InviteActivity extends AppCompatActivity {
 
     final static String FilePath= "/data/data/com.applandeo.materialcalendarsampleapp/files/friendList.txt";
 
     LinearLayout lm;
     LinearLayout.LayoutParams params;
+    
+    Button addButton, finButton;
 
-    Button addButton;
+    // 지인을 선택하면 지인명을 저장할 배열
+    String[] names = new String[30];
+    Integer nameNum = 0;
+
+    String read;
+    String[] readArr;
+
+    Intent IAIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_friend_list);
+        setContentView(R.layout.activity_invite);
+
+        /*
+        여기서 지인목록으로부터 지인을 선택하고, board로 넘겨준 뒤
+        거기서 서버와 WR_USER로 공유해서 게시판에 등록된 유저인지 판단
+         */
+
+        IAIntent = getIntent();
 
         addButton = findViewById(R.id.addButton);
+        finButton = findViewById(R.id.finButton);
+        lm = findViewById(R.id.ll);
+
+        // 파일에서 지인 정보 가져옴
+        read = ReadFile(FilePath);
+
+        // '|'를 기준으로 지인 정보 분류
+        readArr = read.split("\\|");
+        
         addButton.setOnClickListener(v -> {
             Intent intent = new Intent(this, AddFriendsActivity.class);
             startActivity(intent);
         });
+        finButton.setOnClickListener(v -> {
+            // Board로 이동하면서 선택한 지인 정보 전달하도록 변경 필요
+            Intent intent = new Intent(this, boardActivity.class);
+            intent.putExtra("names", names);
+            intent.putExtra("nameNum", nameNum);
+            intent.putExtra("GROUP", IAIntent.getStringExtra("GROUP"));
+
+            for(int i = 0; i<nameNum; i++){
+                Log.i("testNames", names[i] + " " + nameNum + " ");
+            }
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            InviteActivity.this.finish();
+            startActivity(intent);
+        });
 
         // 레이아웃 생성
-        lm = findViewById(R.id.ll);
         params = new LinearLayout.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT
                 , Toolbar.LayoutParams.WRAP_CONTENT);
 
@@ -87,12 +124,8 @@ public class FriendListActivity extends AppCompatActivity {
         return strBuffer.toString();
     }
 
+    // 체크하는 버튼 추가해야 함
     public void MakeLinearLayout (LinearLayout lm){
-        // 파일에서 지인 정보 가져옴
-        String read = ReadFile(FilePath);
-
-        // '|'를 기준으로 지인 정보 분류
-        String[] readArr = read.split("\\|");
 
         if (readArr != null)
         {
@@ -119,11 +152,15 @@ public class FriendListActivity extends AppCompatActivity {
                     TextView InfoView1 = new TextView(this);
                     TextView InfoView2 = new TextView(this);
 
+                    // 지인명
                     InfoView1.setText(" " + readArr[5*n+1]);
+                    InfoView1.setTextColor(Color.BLACK);
                     InfoView1.setGravity(Gravity.CENTER);
                     InfoView1.setPadding(102, 40, 0, 0);
 
+                    // 그룹명
                     InfoView2.setText(" " + readArr[5*n+3]);
+                    InfoView2.setTextColor(Color.BLACK);
                     InfoView2.setPadding(250,40,0,0);
                     sl.addView(InfoView1);
                     sl.addView(InfoView2);
@@ -133,13 +170,14 @@ public class FriendListActivity extends AppCompatActivity {
                     LinearLayout btnL = new LinearLayout(this);
                     btnL.setLayoutParams(Riparams);
 
-                    // 버튼 생성
+                    // 정보 확인 버튼 생성
                     final Button btn = new Button(this);
 
                     // setId 버튼에 대한 키값
                     btn.setId(n + 1);
                     btn.setText("정보 확인");
-                    btn.setPadding(200,10,100,0);
+                    btn.setTextColor(Color.BLACK);
+                    btn.setPadding(200,0,100,0);
                     btn.setBackgroundColor(0);
 
                     final int friendNum = n;
@@ -148,14 +186,40 @@ public class FriendListActivity extends AppCompatActivity {
                     btn.setOnClickListener(v -> {
                         Log.d("log", "position :" + friendNum);
 
-                        Intent baIntent = new Intent(FriendListActivity.this, ConfirmFriendInfoActivity.class);
+                        Intent baIntent = new Intent(InviteActivity.this, ConfirmFriendInfoActivity.class);
                         baIntent.putExtra("지인 번호", friendNum);
                         startActivity(baIntent);
                     });
 
-                    //버튼 add
+                    // 멤버로 추가할 지인을 선택하는 체크박스
+                    final CheckBox cb = new CheckBox(this);
+                    cb.setBackgroundColor(Color.GRAY);
+                    cb.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                        if (isChecked) {
+                            // TODO
+                            // names 배열에 nameNum번째에 해당 이름을 집어넣고 nameNum++
+                            names[nameNum] = readArr[5*nameNum+1];
+                            Log.i("checkTest", nameNum+1 + "번째 "+ readArr[5*nameNum+1] + "추가");
+                            Toast.makeText(getApplicationContext(),nameNum+1 + "번째 "+ readArr[5*nameNum+1] + " 추가",Toast.LENGTH_SHORT).show();
+                            nameNum++;
+                        } else {
+                            try{
+                                // names 배열에 nameNum번쨰에 있는 이름을 제거하고 nameNum--
+                                names[nameNum-1] = NULL;
+                                Log.i("checkTest", nameNum + "번째 "+ readArr[5*(nameNum-1)+1] + "삭제");
+                                Toast.makeText(getApplicationContext(),nameNum + "번째 "+ readArr[5*(nameNum-1)+1] + " 삭제",Toast.LENGTH_SHORT).show();
+                                nameNum--;
+                            }catch(Exception e){
+                                Log.e("checkTest", e.toString());
+                            }
+
+                        }
+                    });
+
+                    //버튼 및 체크박스 add
                     btnL.addView(btn);
                     sl.addView(btnL);
+                    sl.addView(cb);
 
                     // lm에 정의된 레이아웃 추가
                     lm.addView(sl);
@@ -165,7 +229,7 @@ public class FriendListActivity extends AppCompatActivity {
                 StringWriter sw = new StringWriter();
                 e.printStackTrace(new PrintWriter(sw));
                 String exceptionAsStrting = sw.toString();
-                Log.e("makell", exceptionAsStrting);
+                Log.e("makellIA", exceptionAsStrting);
 
                 e.printStackTrace();
             }

@@ -14,6 +14,8 @@ import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import com.applandeo.Tempus.R;
@@ -32,7 +34,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.GridLayout;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 import android.widget.Button;
 import android.widget.EditText;
@@ -45,6 +49,10 @@ public class BoardMainActivity extends AppCompatActivity {
 
     private FloatingActionButton openFAB, addBoardFAB, friendFAB, shoppingFAB;
     private ImageButton imageButton1, imageButton2;
+
+    GridLayout grid;
+
+    Intent BMAIntent = getIntent();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +68,10 @@ public class BoardMainActivity extends AppCompatActivity {
             anim();
         });
 
+        // 게시판 버튼을 생성할 그리드레이아웃
+        grid = findViewById(R.id.grid);
+
+        // 플로팅 버튼 열고닫는 애니메이션
         fab_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
         fab_close = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close);
 
@@ -92,19 +104,26 @@ public class BoardMainActivity extends AppCompatActivity {
 
         imageButton1 = findViewById(R.id.imageButton1);
         imageButton1.setOnClickListener(view -> {
-            Intent baIntent = new Intent(getApplicationContext(), boardActivity.class);
-            baIntent.putExtra("그룹명", "2팀 게시판");
-            startActivity(baIntent);
+            Intent intent = new Intent(getApplicationContext(), boardActivity.class);
+            intent.putExtra("GROUP", "2팀 게시판");
+            startActivity(intent);
         });
 
         imageButton2 = findViewById(R.id.imageButton2);
         imageButton2.setOnClickListener(view -> {
-            Intent baIntent2 = new Intent(getApplicationContext(), boardActivity.class);
-            baIntent2.putExtra("그룹명", "우리 가족방");
-            startActivity(baIntent2);
+            Intent intent = new Intent(getApplicationContext(), boardActivity.class);
+            intent.putExtra("GROUP", "우리 가족방");
+            startActivity(intent);
         });
+
+        try{
+            makeLinearLayout(grid);
+        } catch(Exception e){
+
+        }
     }
 
+    // 플로팅 버튼 애니메이션 설정 함수
     public void anim() {
         if(isFabOpen) {
             try{
@@ -138,36 +157,29 @@ public class BoardMainActivity extends AppCompatActivity {
         }
     }
 
-    /*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.boardmenu, menu);
-        return true;
-    }
+    // 그리드 레이아웃 내에 리니어레이아웃을 생성할 함수
+    public void makeLinearLayout(GridLayout gl){
+        LinearLayout sl = new LinearLayout(this);
+        sl.setOrientation(LinearLayout.VERTICAL);
 
-    // 메뉴에서 다른 액티비티로 이동
-    @SuppressLint("NonConstantResourceId")
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        int id = item.getItemId();
+        // addBoard에서 전달 받은 이미지 또는 서버에서 전달받은 이미지를 보여주며, board액티비티로 이동시키는 버튼
+        ImageButton IB = new ImageButton(this);
+        byte[] byteArray = BMAIntent.getByteArrayExtra("image");
+        IB.setImageBitmap(BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length));
 
-        switch(id){
-            case R.id.action_search:
-                break;
-            case R.id.changeDisplayCalendar:
-                break;
-            case R.id.changeDisplaySlide:
-                break;
-            case R.id.friendsList:
-                Intent FLintent = new Intent(getApplicationContext(), FriendListActivity.class);
-                startActivity(FLintent);
-                break;
-            case R.id.registerFriends:
-                Intent AFintent = new Intent(getApplicationContext(), AddFriendsActivity.class);
-                startActivity(AFintent);
-                break;
-        }
-        return super.onOptionsItemSelected(item);
+        // addBoard에서 전달 받은 게시판명을 텍스트뷰로 세팅
+        TextView BoardText = new TextView(this);
+        BoardText.setText(BMAIntent.getStringExtra("boardName"));
+
+        IB.setOnClickListener(v -> {
+            Intent intent = new Intent(getApplicationContext(), boardActivity.class);
+            intent.putExtra("GROUP", BMAIntent.getStringExtra("boardName"));
+            startActivity(intent);
+        });
+
+        sl.addView(IB);
+        sl.addView(BoardText);
+
+        gl.addView(sl);
     }
-     */
 }

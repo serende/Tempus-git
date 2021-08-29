@@ -22,6 +22,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity
+            android:name="com.example.tempus.ui.boards.InviteActivity"
+            android:theme="@style/Theme.Tempus.NoActionBar" >
+        </activity>
+
         <meta-data
             android:name="com.google.android.actions"
             android:resource="@xml/fab_close" />

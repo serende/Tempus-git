@@ -26,8 +26,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-
-
 public class boardActivity extends AppCompatActivity {
 
     TextView dateView;
@@ -41,6 +39,10 @@ public class boardActivity extends AppCompatActivity {
     String WR_CONNUM; // content number
 
     Intent BAIntent;
+    FloatingActionButton addFAB, friendFAB;
+
+    String[] names = new String[30];
+    Integer nameNum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,32 +50,43 @@ public class boardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_board);
 
         BAIntent = getIntent();
+        names = getIntent().getStringArrayExtra("names");
+        nameNum = getIntent().getIntExtra("nameNum", 0);
 
         dateView = findViewById(R.id.dateView);
         contentView = findViewById(R.id.contentView);
 
         groupTextView = findViewById(R.id.groupTextView);
-        groupTextView.setText("그룹: " + BAIntent.getStringExtra("그룹명"));
+        groupTextView.setText("그룹: " + BAIntent.getStringExtra("GROUP"));
 
         boardTask task = new boardTask();
         task.execute();//스레드 실행 함수, 서버 호출에 사용됨, 위치 변경시 오류 발생할 수 있음
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(view -> {
+        addFAB = findViewById(R.id.addFAB);
+        addFAB.setOnClickListener(v -> {
             Intent intent = new Intent(boardActivity.this, WriteActivity.class);
+            startActivity(intent);
+        });
+
+        // 멤버 등록 페이지로 이동
+        friendFAB = findViewById(R.id.friendFAB);
+        friendFAB.setOnClickListener(v -> {
+            // TODO
+            Intent intent = new Intent(boardActivity.this, InviteActivity.class);
+            intent.putExtra("GROUP", BAIntent.getStringExtra("GROUP"));
             startActivity(intent);
         });
 
         // 글을 누르면 댓글을 쓸 수 있는 ContentActivity로 이동
         // 변수도 intent를 통해 전달하도록 변경 필요
         contentView.setOnClickListener(v -> {
-            Intent CAIntent = new Intent(boardActivity.this, ContentActivity.class);
-            CAIntent.putExtra("ID", WR_ID);
-            CAIntent.putExtra("TYPE", WR_TYPE);
-            CAIntent.putExtra("DATE", WR_DATE);
-            CAIntent.putExtra("CONTENT", WR_BODY);
-            CAIntent.putExtra("GROUP", BAIntent.getStringExtra("그룹명"));
-            startActivity(CAIntent);
+            Intent intent = new Intent(boardActivity.this, ContentActivity.class);
+            intent.putExtra("ID", WR_ID);
+            intent.putExtra("TYPE", WR_TYPE);
+            intent.putExtra("DATE", WR_DATE);
+            intent.putExtra("CONTENT", WR_BODY);
+            intent.putExtra("GROUP", BAIntent.getStringExtra("GROUP"));
+            startActivity(intent);
         });
     }
 
