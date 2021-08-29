@@ -1,6 +1,8 @@
 package com.example.tempus.ui.boards;
 
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -18,12 +20,8 @@ import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-<<<<<<< HEAD
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-=======
 import android.os.AsyncTask;
->>>>>>> 24ae92394417a59e7691659fd3d5a41801decdac
 import android.os.Bundle;
 
 import com.applandeo.Tempus.R;
@@ -57,16 +55,17 @@ public class BoardMainActivity extends AppCompatActivity {
 
     private FloatingActionButton openFAB, addBoardFAB, friendFAB, shoppingFAB;
     private ImageButton imageButton1, imageButton2;
-<<<<<<< HEAD
-
-    GridLayout grid;
-
-    Intent BMAIntent = getIntent();
-
-=======
     private String id = "kim";
     private String userjson,result;
->>>>>>> 24ae92394417a59e7691659fd3d5a41801decdac
+
+    String lineEnd = "\r\n";
+    String twoHyphens = "--";
+    String boundary = "boundary=----WebKitFormBoundarylLEkUd8JSJOasqs0";
+    String user_id = "test";
+
+    GridLayout grid;
+    Intent BMAIntent = getIntent();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,10 +89,6 @@ public class BoardMainActivity extends AppCompatActivity {
             anim();
         });
 
-        // 게시판 버튼을 생성할 그리드레이아웃
-        grid = findViewById(R.id.grid);
-
-        // 플로팅 버튼 열고닫는 애니메이션
         fab_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
         fab_close = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close);
 
@@ -126,16 +121,16 @@ public class BoardMainActivity extends AppCompatActivity {
 
         imageButton1 = findViewById(R.id.imageButton1);
         imageButton1.setOnClickListener(view -> {
-            Intent intent = new Intent(getApplicationContext(), boardActivity.class);
-            intent.putExtra("GROUP", "2팀 게시판");
-            startActivity(intent);
+            Intent baIntent = new Intent(getApplicationContext(), boardActivity.class);
+            baIntent.putExtra("그룹명", "2팀 게시판");
+            startActivity(baIntent);
         });
 
         imageButton2 = findViewById(R.id.imageButton2);
         imageButton2.setOnClickListener(view -> {
-            Intent intent = new Intent(getApplicationContext(), boardActivity.class);
-            intent.putExtra("GROUP", "우리 가족방");
-            startActivity(intent);
+            Intent baIntent2 = new Intent(getApplicationContext(), boardActivity.class);
+            baIntent2.putExtra("그룹명", "우리 가족방");
+            startActivity(baIntent2);
         });
 
         try{
@@ -145,7 +140,6 @@ public class BoardMainActivity extends AppCompatActivity {
         }
     }
 
-    // 플로팅 버튼 애니메이션 설정 함수
     public void anim() {
         if(isFabOpen) {
             try{
@@ -229,16 +223,10 @@ public class BoardMainActivity extends AppCompatActivity {
 
                 JSONObject jsonobj = jsonarray.getJSONObject(0);
 
-<<<<<<< HEAD
-    // 그리드 레이아웃 내에 리니어레이아웃을 생성할 함수
-    public void makeLinearLayout(GridLayout gl){
-        LinearLayout sl = new LinearLayout(this);
-        sl.setOrientation(LinearLayout.VERTICAL);
-=======
 
 
-                String main_json_text =  jsonobj.getString("text");//ex3
-                String result_json_text = main_json_text;//ex4
+                String result_json_text =  jsonobj.getString("text");//ex3
+
 
                 Log.d("FOR_LOG", result_json_text);
 
@@ -251,13 +239,11 @@ public class BoardMainActivity extends AppCompatActivity {
             }
         }
     }
-    /*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.boardmenu, menu);
-        return true;
-    }
->>>>>>> 24ae92394417a59e7691659fd3d5a41801decdac
+
+    // 그리드 레이아웃 내에 리니어레이아웃을 생성할 함수
+    public void makeLinearLayout(GridLayout gl){
+        LinearLayout sl = new LinearLayout(this);
+        sl.setOrientation(LinearLayout.VERTICAL);
 
         // addBoard에서 전달 받은 이미지 또는 서버에서 전달받은 이미지를 보여주며, board액티비티로 이동시키는 버튼
         ImageButton IB = new ImageButton(this);
@@ -278,5 +264,76 @@ public class BoardMainActivity extends AppCompatActivity {
         sl.addView(BoardText);
 
         gl.addView(sl);
+    }
+
+    public void HttpFileDownload(String urlString,String fileName) {
+        try {
+            FileInputStream mFileInputStream = new FileInputStream(fileName);
+            URL connectUrl = new URL(urlString);
+            Log.d("Test", "mFileInputStream  is " + mFileInputStream);
+
+            // open connection
+            HttpURLConnection conn = (HttpURLConnection) connectUrl.openConnection();
+            conn.setDoInput(true);
+            conn.setDoOutput(true);
+            conn.setUseCaches(false);
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Connection", "Keep-Alive");
+            conn.setRequestProperty("ENCTYPE", "multipart/form-data");
+            conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
+            conn.setRequestProperty("file", fileName);
+            conn.setRequestProperty("user", user_id);
+            conn.setRequestProperty("name", "file");
+            conn.setRequestProperty("someParameter", "someValue");
+
+
+            // write data
+            DataOutputStream dos = new DataOutputStream(conn.getOutputStream());
+            dos.writeBytes(twoHyphens + boundary + lineEnd);
+            dos.writeBytes("Content-Disposition: form-data; name=\"uploadedfile\";filename=\"" + fileName + "\"" + lineEnd);
+            dos.writeBytes(lineEnd);
+
+            int bytesAvailable = mFileInputStream.available();
+            int maxBufferSize = 1024;
+            int bufferSize = Math.min(bytesAvailable, maxBufferSize);
+
+            byte[] buffer = new byte[bufferSize];
+            int bytesRead = mFileInputStream.read(buffer, 0, bufferSize);
+
+            Log.d("Test", "image byte is " + bytesRead);
+
+            // read image
+            while (bytesRead > 0) {
+                dos.write(buffer, 0, bufferSize);
+                bytesAvailable = mFileInputStream.available();
+                bufferSize = Math.min(bytesAvailable, maxBufferSize);
+                bytesRead = mFileInputStream.read(buffer, 0, bufferSize);
+            }
+
+            dos.writeBytes(lineEnd);
+            dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
+
+            // close streams
+            Log.e("Test", "File is written");
+            mFileInputStream.close();
+            dos.flush(); // finish upload...
+
+            // get response
+            int ch;
+            InputStream is = conn.getInputStream();
+            StringBuffer b = new StringBuffer();
+            while ((ch = is.read()) != -1) {
+                b.append((char) ch);
+            }
+            String s = b.toString();
+            Log.e("Test", "result = " + s);
+            // 원본에서 EditText/TextView에 텍스트 설정하는 것으로 추정하여 주석처리
+            // mEdityEntry.setText(s);
+            dos.close();
+            Toast.makeText(BoardMainActivity.this, "전송 완료", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Log.d("Test", "exception " + e.getMessage());
+            Toast.makeText(BoardMainActivity.this, "오류 메세지" + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
 }
