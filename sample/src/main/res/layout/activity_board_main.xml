@@ -71,6 +71,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
+                android:id="@+id/testtext"
                 android:textColor="@color/black"
                 android:text="우리 가족방"/>
         </LinearLayout>

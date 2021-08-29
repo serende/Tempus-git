@@ -1,7 +1,11 @@
 package com.example.tempus.ui.boards;
 
 import java.io.BufferedReader;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -14,8 +18,12 @@ import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+<<<<<<< HEAD
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+=======
+import android.os.AsyncTask;
+>>>>>>> 24ae92394417a59e7691659fd3d5a41801decdac
 import android.os.Bundle;
 
 import com.applandeo.Tempus.R;
@@ -49,16 +57,30 @@ public class BoardMainActivity extends AppCompatActivity {
 
     private FloatingActionButton openFAB, addBoardFAB, friendFAB, shoppingFAB;
     private ImageButton imageButton1, imageButton2;
+<<<<<<< HEAD
 
     GridLayout grid;
 
     Intent BMAIntent = getIntent();
 
+=======
+    private String id = "kim";
+    private String userjson,result;
+>>>>>>> 24ae92394417a59e7691659fd3d5a41801decdac
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board_main);
-
+        JSONObject useremail = new JSONObject();
+        try{
+            useremail.put("email",id);
+            userjson = useremail.toString();
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+        String[] params = {userjson};
+        boardTask task = new boardTask();
+        task.execute(params);//스레드 실행 함수
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("게시판");
@@ -156,11 +178,86 @@ public class BoardMainActivity extends AppCompatActivity {
             }
         }
     }
+    private class boardTask extends AsyncTask<String, Void, String> {
 
+        HttpURLConnection urlConnection = null;
+        BufferedReader reader = null;
+        String resultJson = "";
+
+        @Override
+        protected String doInBackground(String... params) {
+            String userid = params[0];
+            try {
+
+
+                String site_url_json = "http://192.168.0.3:5000/board";
+//                String site_url_json = "https://webhook.site/088d425c-1da8-4bb0-922d-f632cf432ec4";
+                URL url = new URL(site_url_json);
+
+                urlConnection = (HttpURLConnection) url.openConnection();//HttpURLConnection 객체를 생성하여 openConnection 메소드로 url 연결
+//                urlConnection.setRequestMethod("GET");//웹서버에 대한 요청 옵션
+                urlConnection.setRequestProperty("Content-Type", "application/json");
+                urlConnection.setRequestMethod("POST");
+                urlConnection.setDoOutput(true);
+                urlConnection.setDoInput(true);
+                urlConnection.connect();
+                OutputStreamWriter streamWriter = new OutputStreamWriter(urlConnection.getOutputStream());
+                streamWriter.write(userid);
+                streamWriter.flush();
+                streamWriter.close();
+                InputStream inputStream = urlConnection.getInputStream();
+                StringBuffer buffer = new StringBuffer();
+                reader = new BufferedReader(new InputStreamReader(inputStream));
+                String line;//버퍼에 넣게 도와줄 문자열 변수
+                while ((line = reader.readLine()) != null) {
+                    buffer.append(line);
+                }
+                resultJson = buffer.toString();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return resultJson;
+        }
+
+
+        protected void onPostExecute(String strJson) {
+            super.onPostExecute(strJson);
+
+            try {
+                JSONArray jsonarray = new JSONArray(strJson);
+
+                JSONObject jsonobj = jsonarray.getJSONObject(0);
+
+<<<<<<< HEAD
     // 그리드 레이아웃 내에 리니어레이아웃을 생성할 함수
     public void makeLinearLayout(GridLayout gl){
         LinearLayout sl = new LinearLayout(this);
         sl.setOrientation(LinearLayout.VERTICAL);
+=======
+
+
+                String main_json_text =  jsonobj.getString("text");//ex3
+                String result_json_text = main_json_text;//ex4
+
+                Log.d("FOR_LOG", result_json_text);
+
+                TextView textView = (TextView)findViewById(R.id.testtext);
+                textView.setText(result_json_text);
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    /*
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.boardmenu, menu);
+        return true;
+    }
+>>>>>>> 24ae92394417a59e7691659fd3d5a41801decdac
 
         // addBoard에서 전달 받은 이미지 또는 서버에서 전달받은 이미지를 보여주며, board액티비티로 이동시키는 버튼
         ImageButton IB = new ImageButton(this);
