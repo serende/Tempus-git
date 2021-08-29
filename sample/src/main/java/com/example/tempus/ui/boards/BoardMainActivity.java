@@ -1,6 +1,8 @@
 package com.example.tempus.ui.boards;
 
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -52,6 +54,12 @@ public class BoardMainActivity extends AppCompatActivity {
     private ImageButton imageButton1, imageButton2;
     private String id = "kim";
     private String userjson,result;
+
+    String lineEnd = "\r\n";
+    String twoHyphens = "--";
+    String boundary = "boundary=----WebKitFormBoundarylLEkUd8JSJOasqs0";
+    String user_id = "test";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -205,8 +213,8 @@ public class BoardMainActivity extends AppCompatActivity {
 
 
 
-                String main_json_text =  jsonobj.getString("text");//ex3
-                String result_json_text = main_json_text;//ex4
+                String result_json_text =  jsonobj.getString("text");//ex3
+
 
                 Log.d("FOR_LOG", result_json_text);
 
@@ -251,4 +259,74 @@ public class BoardMainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
      */
+    public void HttpFileDownload(String urlString,String fileName) {
+        try {
+            FileInputStream mFileInputStream = new FileInputStream(fileName);
+            URL connectUrl = new URL(urlString);
+            Log.d("Test", "mFileInputStream  is " + mFileInputStream);
+
+            // open connection
+            HttpURLConnection conn = (HttpURLConnection) connectUrl.openConnection();
+            conn.setDoInput(true);
+            conn.setDoOutput(true);
+            conn.setUseCaches(false);
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Connection", "Keep-Alive");
+            conn.setRequestProperty("ENCTYPE", "multipart/form-data");
+            conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
+            conn.setRequestProperty("file", fileName);
+            conn.setRequestProperty("user", user_id);
+            conn.setRequestProperty("name", "file");
+            conn.setRequestProperty("someParameter", "someValue");
+
+
+            // write data
+            DataOutputStream dos = new DataOutputStream(conn.getOutputStream());
+            dos.writeBytes(twoHyphens + boundary + lineEnd);
+            dos.writeBytes("Content-Disposition: form-data; name=\"uploadedfile\";filename=\"" + fileName + "\"" + lineEnd);
+            dos.writeBytes(lineEnd);
+
+            int bytesAvailable = mFileInputStream.available();
+            int maxBufferSize = 1024;
+            int bufferSize = Math.min(bytesAvailable, maxBufferSize);
+
+            byte[] buffer = new byte[bufferSize];
+            int bytesRead = mFileInputStream.read(buffer, 0, bufferSize);
+
+            Log.d("Test", "image byte is " + bytesRead);
+
+            // read image
+            while (bytesRead > 0) {
+                dos.write(buffer, 0, bufferSize);
+                bytesAvailable = mFileInputStream.available();
+                bufferSize = Math.min(bytesAvailable, maxBufferSize);
+                bytesRead = mFileInputStream.read(buffer, 0, bufferSize);
+            }
+
+            dos.writeBytes(lineEnd);
+            dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
+
+            // close streams
+            Log.e("Test", "File is written");
+            mFileInputStream.close();
+            dos.flush(); // finish upload...
+
+            // get response
+            int ch;
+            InputStream is = conn.getInputStream();
+            StringBuffer b = new StringBuffer();
+            while ((ch = is.read()) != -1) {
+                b.append((char) ch);
+            }
+            String s = b.toString();
+            Log.e("Test", "result = " + s);
+            // 원본에서 EditText/TextView에 텍스트 설정하는 것으로 추정하여 주석처리
+            // mEdityEntry.setText(s);
+            dos.close();
+            Toast.makeText(BoardMainActivity.this, "전송 완료", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Log.d("Test", "exception " + e.getMessage());
+            Toast.makeText(BoardMainActivity.this, "오류 메세지" + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
 }
