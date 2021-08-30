@@ -300,12 +300,41 @@ public class BoardMainActivity extends AppCompatActivity {
         gl.addView(sl);
     }
 
+<<<<<<< HEAD
+=======
+    // 메뉴에서 다른 액티비티로 이동
+    @SuppressLint("NonConstantResourceId")
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        int id = item.getItemId();
+
+        switch(id){
+            case R.id.action_search:
+                break;
+            case R.id.changeDisplayCalendar:
+                break;
+            case R.id.changeDisplaySlide:
+                break;
+            case R.id.friendsList:
+                Intent FLintent = new Intent(getApplicationContext(), FriendListActivity.class);
+                startActivity(FLintent);
+                break;
+            case R.id.registerFriends:
+                Intent AFintent = new Intent(getApplicationContext(), AddFriendsActivity.class);
+                startActivity(AFintent);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+>>>>>>> 7d4a8d5a1850e65075663052568c22a9c18296fe
     public class ImageLoadTask extends AsyncTask<Void, Void, Bitmap> {
 
         private String urlStr;
         private ImageView imageView;
         //HashMap 객체를 만들고 이미지의 주소를 메모리에 만들어진 비트맵 객체와 매핑
         private HashMap<String, Bitmap> bitmapHashMap = new HashMap<String, Bitmap>();
+<<<<<<< HEAD
 
         public ImageLoadTask(String urlStr ,ImageView imageView) {
             this.urlStr = urlStr;
@@ -332,6 +361,37 @@ public class BoardMainActivity extends AppCompatActivity {
                 }
                 URL url = new URL(urlStr);
                 bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+=======
+
+        public ImageLoadTask(String urlStr ,ImageView imageView){
+            this.urlStr = urlStr;
+            this.imageView = imageView;
+
+
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        //웹서버의 이미지 데이터를 받아 비트맵 객체로 만들어줌
+        @Override
+        protected Bitmap doInBackground(Void... voids) {
+            Bitmap bitmap = null;
+            try{
+                //새로운 비트맵 객체를 만들기 전에 해시테이블 안에 동일한 주소를 요청하는 경우에 이전에 만들어졌던 비트맵 객체를 메모리에서 해제
+                if(bitmapHashMap.containsKey(urlStr)){
+                    Bitmap oldBitmap = bitmapHashMap.remove(urlStr);
+                    if(oldBitmap != null){
+                        oldBitmap.recycle();
+                        oldBitmap = null;
+                    }
+                }
+                URL url = new URL(urlStr);
+                bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+
+>>>>>>> 7d4a8d5a1850e65075663052568c22a9c18296fe
                 bitmapHashMap.put(urlStr, bitmap);
             }catch (Exception e){
                 e.printStackTrace();
