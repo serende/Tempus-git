@@ -22,10 +22,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <service
+            android:name="com.example.tempus.ui.MyService"
+            android:enabled="true"
+            android:exported="true"></service>
+
         <activity
             android:name="com.example.tempus.ui.boards.InviteActivity"
-            android:theme="@style/Theme.Tempus.NoActionBar" >
-        </activity>
+            android:theme="@style/Theme.Tempus.NoActionBar"></activity>
 
         <meta-data
             android:name="com.google.android.actions"

@@ -25,6 +25,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 
 import com.applandeo.Tempus.R;
+import com.example.tempus.ui.MyService;
 import com.example.tempus.ui.addSchedule.expenditureBreakdownActivity;
 import com.example.tempus.ui.friends.AddFriendsActivity;
 import com.example.tempus.ui.friends.FriendListActivity;
@@ -53,7 +54,7 @@ public class BoardMainActivity extends AppCompatActivity {
     private Animation fab_open, fab_close;
     private Boolean isFabOpen = false;
 
-    private FloatingActionButton openFAB, addBoardFAB, friendFAB, shoppingFAB;
+    private FloatingActionButton openFAB, addBoardFAB, friendFAB, shoppingFAB, notifyONFAB, notifyOFFFAB;
     private ImageButton imageButton1, imageButton2;
     private String id = "kim";
     private String userjson,result;
@@ -65,6 +66,8 @@ public class BoardMainActivity extends AppCompatActivity {
 
     GridLayout grid;
     Intent BMAIntent = getIntent();
+
+    int notifyNum = 0;  // 알림 켜진지 꺼진지
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +99,8 @@ public class BoardMainActivity extends AppCompatActivity {
             addBoardFAB = findViewById(R.id.addBoardFAB);
             friendFAB = findViewById(R.id.friendFAB);
             shoppingFAB = findViewById(R.id.shoppingFAB);
+            notifyONFAB = findViewById(R.id.notifyONFAB);
+            notifyOFFFAB = findViewById(R.id.notifyOFFFAB);
         } catch (Exception e){
             Log.e("FVBERROR", e.toString());
         }
@@ -117,6 +122,21 @@ public class BoardMainActivity extends AppCompatActivity {
         shoppingFAB.setOnClickListener(v -> {
             anim();
             // TODO
+        });
+
+        // 현재 알림 버튼을 눌러야 알림이 시작 되는데 버튼을 누르기 전에도 알림이 시작된 상태로 돼있도록 할 방법을 찾아야 함
+        notifyONFAB.setOnClickListener(v -> {
+            anim();
+            Toast.makeText(getApplicationContext(),"알림 ON",Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(BoardMainActivity.this, MyService.class);
+            startService(intent);
+        });
+
+        notifyOFFFAB.setOnClickListener(v -> {
+            anim();
+            Toast.makeText(getApplicationContext(),"알림 OFF",Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(BoardMainActivity.this,MyService.class);
+            stopService(intent);
         });
 
         imageButton1 = findViewById(R.id.imageButton1);
@@ -146,10 +166,14 @@ public class BoardMainActivity extends AppCompatActivity {
                 addBoardFAB.startAnimation(fab_close);
                 friendFAB.startAnimation(fab_close);
                 shoppingFAB.startAnimation(fab_close);
+                notifyONFAB.startAnimation(fab_close);
+                notifyOFFFAB.startAnimation(fab_close);
 
                 addBoardFAB.setClickable(false);
                 friendFAB.setClickable(false);
                 shoppingFAB.setClickable(false);
+                notifyONFAB.setClickable(false);
+                notifyOFFFAB.setClickable(false);
 
                 isFabOpen = false;
             } catch (Exception e){
@@ -161,10 +185,14 @@ public class BoardMainActivity extends AppCompatActivity {
                 addBoardFAB.startAnimation(fab_open);
                 friendFAB.startAnimation(fab_open);
                 shoppingFAB.startAnimation(fab_open);
+                notifyONFAB.startAnimation(fab_open);
+                notifyOFFFAB.startAnimation(fab_open);
 
                 addBoardFAB.setClickable(true);
                 friendFAB.setClickable(true);
                 shoppingFAB.setClickable(true);
+                notifyONFAB.setClickable(true);
+                notifyOFFFAB.setClickable(true);
 
                 isFabOpen = true;
             } catch (Exception e){

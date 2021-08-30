@@ -122,7 +122,29 @@
         android:layout_marginBottom="220dp"
         android:layout_marginRight="10dp"
         android:visibility="invisible"
-        app:srcCompat="@mipmap/ic_shopping"
+        app:srcCompat="@drawable/ic_shopping"
          />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/notifyOFFFAB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="290dp"
+        android:layout_marginRight="10dp"
+        android:visibility="invisible"
+        app:srcCompat="@drawable/ic_notify_off"
+        />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/notifyONFAB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="360dp"
+        android:layout_marginRight="10dp"
+        android:visibility="invisible"
+        app:srcCompat="@drawable/ic_notify_on"
+        />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
