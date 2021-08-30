@@ -107,6 +107,7 @@ public class BoardMainActivity extends AppCompatActivity {
             shoppingFAB = findViewById(R.id.shoppingFAB);
             notifyONFAB = findViewById(R.id.notifyONFAB);
             notifyOFFFAB = findViewById(R.id.notifyOFFFAB);
+            imageButton1 = findViewById(R.id.imageButton1);
         } catch (Exception e){
             Log.e("FVBERROR", e.toString());
         }
@@ -145,14 +146,12 @@ public class BoardMainActivity extends AppCompatActivity {
             stopService(intent);
         });
 
-        imageButton1 = findViewById(R.id.imageButton1);
         imageButton1.setOnClickListener(view -> {
             Intent baIntent = new Intent(getApplicationContext(), boardActivity.class);
             baIntent.putExtra("그룹명", "2팀 게시판");
             startActivity(baIntent);
         });
 
-        imageButton2 = findViewById(R.id.imageButton2);
         imageButton2.setOnClickListener(view -> {
             Intent baIntent2 = new Intent(getApplicationContext(), boardActivity.class);
             baIntent2.putExtra("그룹명", "우리 가족방");
@@ -161,9 +160,7 @@ public class BoardMainActivity extends AppCompatActivity {
 
         try{
             makeLinearLayout(grid);
-        } catch(Exception e){
-
-        }
+        } catch(Exception e){}
     }
 
     public void anim() {
@@ -216,8 +213,6 @@ public class BoardMainActivity extends AppCompatActivity {
         protected String doInBackground(String... params) {
             String userid = params[0];
             try {
-
-
                 String site_url_json = "http://192.168.0.3:5000/board";
 //                String site_url_json = "https://webhook.site/088d425c-1da8-4bb0-922d-f632cf432ec4";
                 URL url = new URL(site_url_json);
@@ -241,26 +236,20 @@ public class BoardMainActivity extends AppCompatActivity {
                     buffer.append(line);
                 }
                 resultJson = buffer.toString();
-
             } catch (Exception e) {
                 e.printStackTrace();
             }
             return resultJson;
         }
 
-
         protected void onPostExecute(String strJson) {
             super.onPostExecute(strJson);
 
             try {
                 JSONArray jsonarray = new JSONArray(strJson);
-
                 JSONObject jsonobj = jsonarray.getJSONObject(0);
 
-
-
                 String result_json_text =  jsonobj.getString("text");//ex3
-
 
                 Log.d("FOR_LOG", result_json_text);
 
@@ -300,41 +289,12 @@ public class BoardMainActivity extends AppCompatActivity {
         gl.addView(sl);
     }
 
-<<<<<<< HEAD
-=======
-    // 메뉴에서 다른 액티비티로 이동
-    @SuppressLint("NonConstantResourceId")
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        int id = item.getItemId();
-
-        switch(id){
-            case R.id.action_search:
-                break;
-            case R.id.changeDisplayCalendar:
-                break;
-            case R.id.changeDisplaySlide:
-                break;
-            case R.id.friendsList:
-                Intent FLintent = new Intent(getApplicationContext(), FriendListActivity.class);
-                startActivity(FLintent);
-                break;
-            case R.id.registerFriends:
-                Intent AFintent = new Intent(getApplicationContext(), AddFriendsActivity.class);
-                startActivity(AFintent);
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
->>>>>>> 7d4a8d5a1850e65075663052568c22a9c18296fe
     public class ImageLoadTask extends AsyncTask<Void, Void, Bitmap> {
 
         private String urlStr;
         private ImageView imageView;
         //HashMap 객체를 만들고 이미지의 주소를 메모리에 만들어진 비트맵 객체와 매핑
         private HashMap<String, Bitmap> bitmapHashMap = new HashMap<String, Bitmap>();
-<<<<<<< HEAD
 
         public ImageLoadTask(String urlStr ,ImageView imageView) {
             this.urlStr = urlStr;
@@ -361,37 +321,6 @@ public class BoardMainActivity extends AppCompatActivity {
                 }
                 URL url = new URL(urlStr);
                 bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-=======
-
-        public ImageLoadTask(String urlStr ,ImageView imageView){
-            this.urlStr = urlStr;
-            this.imageView = imageView;
-
-
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        //웹서버의 이미지 데이터를 받아 비트맵 객체로 만들어줌
-        @Override
-        protected Bitmap doInBackground(Void... voids) {
-            Bitmap bitmap = null;
-            try{
-                //새로운 비트맵 객체를 만들기 전에 해시테이블 안에 동일한 주소를 요청하는 경우에 이전에 만들어졌던 비트맵 객체를 메모리에서 해제
-                if(bitmapHashMap.containsKey(urlStr)){
-                    Bitmap oldBitmap = bitmapHashMap.remove(urlStr);
-                    if(oldBitmap != null){
-                        oldBitmap.recycle();
-                        oldBitmap = null;
-                    }
-                }
-                URL url = new URL(urlStr);
-                bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-
->>>>>>> 7d4a8d5a1850e65075663052568c22a9c18296fe
                 bitmapHashMap.put(urlStr, bitmap);
             }catch (Exception e){
                 e.printStackTrace();
