@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -20,6 +21,7 @@ import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -43,6 +45,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 import android.widget.Button;
@@ -83,6 +86,9 @@ public class BoardMainActivity extends AppCompatActivity {
         String[] params = {userjson};
         boardTask task = new boardTask();
         task.execute(params);//스레드 실행 함수
+        imageButton2 = findViewById(R.id.imageButton2);
+        ImageLoadTask task2 = new ImageLoadTask("http://192.168.0.3:5000/imgdownload",imageButton2);
+        task2.execute();
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("게시판");
@@ -294,74 +300,58 @@ public class BoardMainActivity extends AppCompatActivity {
         gl.addView(sl);
     }
 
-    public void HttpFileDownload(String urlString,String fileName) {
-        try {
-            FileInputStream mFileInputStream = new FileInputStream(fileName);
-            URL connectUrl = new URL(urlString);
-            Log.d("Test", "mFileInputStream  is " + mFileInputStream);
+    public class ImageLoadTask extends AsyncTask<Void, Void, Bitmap> {
 
-            // open connection
-            HttpURLConnection conn = (HttpURLConnection) connectUrl.openConnection();
-            conn.setDoInput(true);
-            conn.setDoOutput(true);
-            conn.setUseCaches(false);
-            conn.setRequestMethod("POST");
-            conn.setRequestProperty("Connection", "Keep-Alive");
-            conn.setRequestProperty("ENCTYPE", "multipart/form-data");
-            conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
-            conn.setRequestProperty("file", fileName);
-            conn.setRequestProperty("user", user_id);
-            conn.setRequestProperty("name", "file");
-            conn.setRequestProperty("someParameter", "someValue");
+        private String urlStr;
+        private ImageView imageView;
+        //HashMap 객체를 만들고 이미지의 주소를 메모리에 만들어진 비트맵 객체와 매핑
+        private HashMap<String, Bitmap> bitmapHashMap = new HashMap<String, Bitmap>();
 
+        public ImageLoadTask(String urlStr ,ImageView imageView) {
+            this.urlStr = urlStr;
+            this.imageView = imageView;
 
-            // write data
-            DataOutputStream dos = new DataOutputStream(conn.getOutputStream());
-            dos.writeBytes(twoHyphens + boundary + lineEnd);
-            dos.writeBytes("Content-Disposition: form-data; name=\"uploadedfile\";filename=\"" + fileName + "\"" + lineEnd);
-            dos.writeBytes(lineEnd);
+        }
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
 
-            int bytesAvailable = mFileInputStream.available();
-            int maxBufferSize = 1024;
-            int bufferSize = Math.min(bytesAvailable, maxBufferSize);
-
-            byte[] buffer = new byte[bufferSize];
-            int bytesRead = mFileInputStream.read(buffer, 0, bufferSize);
-
-            Log.d("Test", "image byte is " + bytesRead);
-
-            // read image
-            while (bytesRead > 0) {
-                dos.write(buffer, 0, bufferSize);
-                bytesAvailable = mFileInputStream.available();
-                bufferSize = Math.min(bytesAvailable, maxBufferSize);
-                bytesRead = mFileInputStream.read(buffer, 0, bufferSize);
+        //웹서버의 이미지 데이터를 받아 비트맵 객체로 만들어줌
+        @Override
+        protected Bitmap doInBackground(Void... voids) {
+            Bitmap bitmap = null;
+            try{
+                //새로운 비트맵 객체를 만들기 전에 해시테이블 안에 동일한 주소를 요청하는 경우에 이전에 만들어졌던 비트맵 객체를 메모리에서 해제
+                if(bitmapHashMap.containsKey(urlStr)){
+                    Bitmap oldBitmap = bitmapHashMap.remove(urlStr);
+                    if(oldBitmap != null){
+                        oldBitmap.recycle();
+                        oldBitmap = null;
+                    }
+                }
+                URL url = new URL(urlStr);
+                bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                bitmapHashMap.put(urlStr, bitmap);
+            }catch (Exception e){
+                e.printStackTrace();
             }
+            //여기서 return 하면 onPostExcute에 넘어감
+            return bitmap;
+        }
 
-            dos.writeBytes(lineEnd);
-            dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            super.onProgressUpdate(values);
+        }
 
-            // close streams
-            Log.e("Test", "File is written");
-            mFileInputStream.close();
-            dos.flush(); // finish upload...
+        //비트맵 객체로 변환하고 나면 메인 스레드에서 이미지뷰에 표시
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+            super.onPostExecute(bitmap);
 
-            // get response
-            int ch;
-            InputStream is = conn.getInputStream();
-            StringBuffer b = new StringBuffer();
-            while ((ch = is.read()) != -1) {
-                b.append((char) ch);
-            }
-            String s = b.toString();
-            Log.e("Test", "result = " + s);
-            // 원본에서 EditText/TextView에 텍스트 설정하는 것으로 추정하여 주석처리
-            // mEdityEntry.setText(s);
-            dos.close();
-            Toast.makeText(BoardMainActivity.this, "전송 완료", Toast.LENGTH_SHORT).show();
-        } catch (Exception e) {
-            Log.d("Test", "exception " + e.getMessage());
-            Toast.makeText(BoardMainActivity.this, "오류 메세지" + e.getMessage(), Toast.LENGTH_SHORT).show();
+            imageView.setImageBitmap(bitmap);
+            imageView.invalidate();
         }
     }
 }
