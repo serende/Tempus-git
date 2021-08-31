@@ -70,8 +70,6 @@ public class BoardMainActivity extends AppCompatActivity {
     GridLayout grid;
     Intent BMAIntent = getIntent();
 
-    int notifyNum = 0;  // 알림 켜진지 꺼진지
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,6 +96,7 @@ public class BoardMainActivity extends AppCompatActivity {
             anim();
         });
 
+        // anim()에서 사용할 애니메이션
         fab_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
         fab_close = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close);
 
@@ -131,18 +130,19 @@ public class BoardMainActivity extends AppCompatActivity {
             // TODO
         });
 
-        // 현재 알림 버튼을 눌러야 알림이 시작 되는데 버튼을 누르기 전에도 알림이 시작된 상태로 돼있도록 할 방법을 찾아야 함
+        // 알림 구현은 됐으나 초대 됐을 때만 알림이 오도록 조건문 구현이 필요
+        // 현재 appClass를 통해 ON버튼을 누르기 전에도 앱을 설치해서 실행하면 알림이 ON이 되도록 구현돼있음
         notifyONFAB.setOnClickListener(v -> {
             anim();
             Toast.makeText(getApplicationContext(),"알림 ON",Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(BoardMainActivity.this, MyService.class);
+            Intent intent = new Intent(BoardMainActivity.this, MyService.class);    // 알림 서비스 실행
             startService(intent);
         });
 
         notifyOFFFAB.setOnClickListener(v -> {
             anim();
             Toast.makeText(getApplicationContext(),"알림 OFF",Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(BoardMainActivity.this,MyService.class);
+            Intent intent = new Intent(BoardMainActivity.this,MyService.class);     // 알림 서비스 종료
             stopService(intent);
         });
 
@@ -163,6 +163,7 @@ public class BoardMainActivity extends AppCompatActivity {
         } catch(Exception e){}
     }
 
+    // 애니메이션 실행 함수
     public void anim() {
         if(isFabOpen) {
             try{
@@ -283,9 +284,9 @@ public class BoardMainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        // 그리드 레이아웃에 뷰 추가
         sl.addView(IB);
         sl.addView(BoardText);
-
         gl.addView(sl);
     }
 
