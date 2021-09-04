@@ -70,6 +70,9 @@ public class BoardMainActivity extends AppCompatActivity {
     GridLayout grid;
     Intent BMAIntent = getIntent();
 
+    int InviteYN = 0;
+    String InviteGroupName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,7 +94,7 @@ public class BoardMainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("게시판");
 
-        FloatingActionButton openFAB = findViewById(R.id.openFAB);
+        openFAB = findViewById(R.id.openFAB);
         openFAB.setOnClickListener(v -> {
             anim();
         });
@@ -135,8 +138,21 @@ public class BoardMainActivity extends AppCompatActivity {
         notifyONFAB.setOnClickListener(v -> {
             anim();
             Toast.makeText(getApplicationContext(),"알림 ON",Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(BoardMainActivity.this, MyService.class);    // 알림 서비스 실행
-            startService(intent);
+
+            // 초대가 왔다면 알림 작동하도록
+            if(InviteYN == 1){
+                // 실행
+                Intent intent = new Intent(BoardMainActivity.this, MyService.class);    // 알림 서비스 실행
+                startService(intent);
+
+                InviteYN = 0;   // 초대가 안 온 상태로 리셋
+            }
+            else if(InviteYN == 0){
+                // 실행 x
+            }
+            else {
+                Toast.makeText(getApplicationContext(),"Invite Message Error", Toast.LENGTH_SHORT).show();
+            }
         });
 
         notifyOFFFAB.setOnClickListener(v -> {
