@@ -9,8 +9,10 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
+import com.applandeo.Tempus.LoginActivity;
 import com.applandeo.Tempus.R;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -32,12 +34,18 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -68,7 +76,9 @@ public class AddBoardActivity extends AppCompatActivity {
     String twoHyphens = "--";
     String boundary = "boundary=----WebKitFormBoundarylLEkUd8JSJOasqs0";
     String user_id = "test";
-
+    String WR_ID,WR_BODY,boardjson;
+    BufferedReader reader = null;
+    String result;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -111,6 +121,21 @@ public class AddBoardActivity extends AppCompatActivity {
             Bitmap resize = Bitmap.createScaledBitmap(bitmap, image_w, image_h, true);
             resize.compress(Bitmap.CompressFormat.JPEG, 100, stream);
             byte[] byteArray = stream.toByteArray();
+
+            WR_ID = BoardNameEdit.getText().toString();
+            WR_BODY = memoEdit.getText().toString();
+            JSONObject userdata = new JSONObject();
+            try{
+                userdata.put("WR_ID",WR_ID);
+                userdata.put("WR_BODY",WR_BODY);
+                boardjson = userdata.toString();
+            }catch (JSONException e){
+                e.printStackTrace();
+            }
+            String[] params = {boardjson};
+            AddboardTask Write = new AddboardTask();
+            Write.execute(params);
+
 
             Intent intent = new Intent(getApplicationContext(), BoardMainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -352,4 +377,58 @@ public class AddBoardActivity extends AppCompatActivity {
             Toast.makeText(AddBoardActivity.this, "오류 메세지" + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
+    private class AddboardTask extends AsyncTask<String, Void, String> {
+
+        protected String doInBackground(String... params) {
+            //String hjson = params[0];
+            String userdata = params[0];
+            try {
+                String host_url = "http://192.168.0.3:5000/addboard";
+                URL url = new URL(host_url);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setConnectTimeout(15*1000);//Timeout setting
+                conn.setRequestProperty("Content-Type", "application/json");//Request body 전달시 json 형태로 전달
+                conn.setRequestMethod("POST");//보내는 데이터 형태는 post로 응답
+                conn.setDoOutput(true);//서버로 응답을 보냄
+                conn.setDoInput(true);//서버로부터 응답을 받음
+                conn.connect();
+                OutputStreamWriter streamWriter = new OutputStreamWriter(conn.getOutputStream());
+                streamWriter.write(userdata);//Request body에 json data 세팅
+                streamWriter.flush();//json data 입력후 저장
+                streamWriter.close();
+                InputStream inputStream = conn.getInputStream();
+                StringBuffer buffer = new StringBuffer();
+                reader = new BufferedReader(new InputStreamReader(inputStream));
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    buffer.append(line);
+                }
+                result = buffer.toString();
+                int responsecode = conn.getResponseCode();//http 응답코드 송신
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(String str) {
+            super.onPostExecute(str);
+            if(str.equals("error")==true) {
+                Toast.makeText(AddBoardActivity.this, "errer", Toast.LENGTH_SHORT).show();
+            }
+            else{
+                Toast.makeText(AddBoardActivity.this, "전송 성공", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(AddBoardActivity.this, BoardMainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);  // 상위 스택 액티비티 모두 제거
+                AddBoardActivity.this.finish();
+                startActivity(intent);
+            }
+        }
+    }
+
+
 }
