@@ -113,15 +113,6 @@ public class AddBoardActivity extends AppCompatActivity {
             // TODO
 
             // 이미지 전달 전 사이즈 조정
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            Bitmap bitmap = ((BitmapDrawable)userImage.getDrawable()).getBitmap();
-            float scale = (float) (1024/(float)bitmap.getWidth());
-            int image_w = (int) (bitmap.getWidth() * scale);
-            int image_h = (int) (bitmap.getHeight() * scale);
-            Bitmap resize = Bitmap.createScaledBitmap(bitmap, image_w, image_h, true);
-            resize.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-            byte[] byteArray = stream.toByteArray();
-
             WR_ID = BoardNameEdit.getText().toString();
             WR_BODY = memoEdit.getText().toString();
             JSONObject userdata = new JSONObject();
@@ -135,6 +126,16 @@ public class AddBoardActivity extends AppCompatActivity {
             String[] params = {boardjson};
             AddboardTask Write = new AddboardTask();
             Write.execute(params);
+
+
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            Bitmap bitmap = ((BitmapDrawable)userImage.getDrawable()).getBitmap();//오류 발생(09-05)
+            float scale = (float) (1024/(float)bitmap.getWidth());
+            int image_w = (int) (bitmap.getWidth() * scale);
+            int image_h = (int) (bitmap.getHeight() * scale);
+            Bitmap resize = Bitmap.createScaledBitmap(bitmap, image_w, image_h, true);
+            resize.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+            byte[] byteArray = stream.toByteArray();
 
 
             Intent intent = new Intent(getApplicationContext(), BoardMainActivity.class);
@@ -384,6 +385,7 @@ public class AddBoardActivity extends AppCompatActivity {
             String userdata = params[0];
             try {
                 String host_url = "http://192.168.0.3:5000/addboard";
+//                String host_url = "https://webhook.site/2e08c0c3-79dc-4f65-bba8-3cba6718f78f";
                 URL url = new URL(host_url);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setConnectTimeout(15*1000);//Timeout setting
