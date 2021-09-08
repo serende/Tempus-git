@@ -26,7 +26,7 @@ public class appClass extends Application {
                     "Noti_id",
                     "알림 채널",
                     NotificationManager.IMPORTANCE_DEFAULT);                                // 알림 중요도
-            notificationChannel.setDescription("Notification Channel");                     // 채널 간단 설명
+            notificationChannel.setDescription("Tempus Notification Channel");                     // 채널 간단 설명
             notificationChannel.enableLights(true);                                         // 알림 표시등 표시 여부
             notificationChannel.setLightColor(Color.GREEN);                                 // 알림 표시등 빛의 색깔 설정
             notificationChannel.enableVibration(true);                                      // 진동 발생 여부
@@ -38,6 +38,6 @@ public class appClass extends Application {
         // 앱이 설치돼있을 때 기본적으로 알림 ON
         // 초대가 왔을 때만 알림이 오도록 변경 필요
         Intent intent = new Intent(this, MyService.class);
-        startService(intent);
+        //startService(intent);
     }
 }

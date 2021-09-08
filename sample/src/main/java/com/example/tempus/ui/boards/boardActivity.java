@@ -1,16 +1,22 @@
 package com.example.tempus.ui.boards;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 import com.applandeo.Tempus.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -43,6 +49,9 @@ public class boardActivity extends AppCompatActivity {
 
     String[] names = new String[30];
     Integer nameNum;
+
+    LinearLayout ll;
+    LinearLayout.LayoutParams params;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +87,6 @@ public class boardActivity extends AppCompatActivity {
         });
 
         // 글을 누르면 댓글을 쓸 수 있는 ContentActivity로 이동
-        // 변수도 intent를 통해 전달하도록 변경 필요
         contentView.setOnClickListener(v -> {
             Intent intent = new Intent(boardActivity.this, ContentActivity.class);
             intent.putExtra("ID", WR_ID);
@@ -88,6 +96,13 @@ public class boardActivity extends AppCompatActivity {
             intent.putExtra("GROUP", BAIntent.getStringExtra("GROUP"));
             startActivity(intent);
         });
+
+        // 레이아웃 생성
+        ll = findViewById(R.id.ll);
+        params = new LinearLayout.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT
+                , Toolbar.LayoutParams.WRAP_CONTENT);
+
+        MakeLinearLayout(ll);
     }
 
     private class boardTask extends AsyncTask<Void, Void, String> {
@@ -179,5 +194,63 @@ public class boardActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void MakeLinearLayout(LinearLayout ll){
+        LinearLayout.LayoutParams LayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        LayoutParams.weight = 1.0f;
+        LayoutParams.gravity = Gravity.CENTER;
+
+        LinearLayout.LayoutParams btnParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ConvertDPtoPX(this, 200));
+        btnParams.gravity = Gravity.LEFT|Gravity.START;
+
+        LinearLayout.LayoutParams tvParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ConvertDPtoPX(this, 30));
+        tvParams.gravity = Gravity.LEFT|Gravity.CENTER;
+
+        // for루프로 글이 작성된 횟수만큼 반복하도록 해야 함
+        for(int i=0;;i++){
+            LinearLayout sl = new LinearLayout(this);
+            sl.setOrientation(LinearLayout.VERTICAL);
+            sl.setLayoutParams(LayoutParams);
+            sl.setBackground(ContextCompat.getDrawable(this, R.drawable.layoutborder4));
+
+            Button btn = new Button(this);
+            btn.setLayoutParams(btnParams);
+            btn.setText("contents");
+            btn.setBackgroundColor(Color.WHITE);
+            btn.setGravity(Gravity.LEFT|Gravity.START);
+            btn.setBackground(ContextCompat.getDrawable(this, R.drawable.layoutborder4));
+            btn.setOnClickListener(v -> {
+                Intent intent = new Intent(boardActivity.this, ContentActivity.class);
+                intent.putExtra("ID", WR_ID);
+                intent.putExtra("TYPE", WR_TYPE);
+                intent.putExtra("DATE", WR_DATE);
+                intent.putExtra("CONTENT", WR_BODY);
+                intent.putExtra("GROUP", BAIntent.getStringExtra("GROUP"));
+                startActivity(intent);
+            });
+
+
+            TextView dateView = new TextView(this);
+            dateView.setLayoutParams(tvParams);
+            dateView.setGravity(Gravity.CENTER);
+            dateView.setText("date");
+            dateView.setPadding(ConvertDPtoPX(this,4),0,0,0);
+            dateView.setBackground(ContextCompat.getDrawable(this, R.drawable.layoutborder4));
+
+            sl.addView(btn);
+            sl.addView(dateView);
+            ll.addView(sl);
+
+            break;  // 임시 브레이크
+        }
+
+
+    }
+
+    // 동적 레이아웃에서 사이즈를 DP로 쓰기 위한 함수
+    public static int ConvertDPtoPX(Context context, int dp) {
+        float density = context.getResources().getDisplayMetrics().density;
+        return Math.round((float) dp * density);
     }
 }

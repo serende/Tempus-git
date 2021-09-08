@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.tempus.ui.boards.boardActivity">
+    tools:context="com.example.tempus.ui.boards.boardActivity"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -61,9 +62,15 @@
                 android:layout_marginLeft="4dp"/>
         </LinearLayout>
 
-
-
     </LinearLayout>
+
+    <!-- 동적 레이아웃 -->
+    <LinearLayout
+        android:id="@+id/ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="270dp"/>
 
     <!-- 지인 초대로 이동 -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
