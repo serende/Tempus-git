@@ -77,6 +77,9 @@ public class BoardMainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board_main);
+
+        String user_EMAIL = BMAIntent.getStringExtra("EMAIL");  // 로그인 액티비티에서 전달받은 사용자의 email
+
         JSONObject useremail = new JSONObject();
         try{
             useremail.put("email",id);

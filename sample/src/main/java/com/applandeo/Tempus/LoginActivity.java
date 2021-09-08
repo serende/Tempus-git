@@ -75,27 +75,19 @@ public class LoginActivity extends Activity {
         });
 
 
-        mEmailView.setOnEditorActionListener(new TextView.OnEditorActionListener()
-        {
-            @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if(id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL){
-                    return true;
-                }
-                return false;
+        mEmailView.setOnEditorActionListener((textView, id, keyEvent) -> {
+            if(id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL){
+                return true;
             }
-
+            return false;
         });
-        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL) {
-                    //attemptLogin();
+        mPasswordView.setOnEditorActionListener((textView, id, keyEvent) -> {
+            if (id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL) {
+                //attemptLogin();
 
-                    return true;
-                }
-                return false;
+                return true;
             }
+            return false;
         });
 
 
@@ -149,6 +141,7 @@ public class LoginActivity extends Activity {
                 Toast.makeText(LoginActivity.this, "로그인 성공", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(LoginActivity.this, BoardMainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);  // 상위 스택 액티비티 모두 제거
+                intent.putExtra("EMAIL", mEmailView.getText().toString());
                 LoginActivity.this.finish();
                 startActivity(intent);
             }
