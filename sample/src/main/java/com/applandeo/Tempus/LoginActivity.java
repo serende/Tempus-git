@@ -46,7 +46,7 @@ public class LoginActivity extends Activity {
 
         Button loginInButton = (Button) findViewById(R.id.login); // login button
 
-        Button SignuppButton = (Button) findViewById(R.id.sign_up); // sign up button
+        Button SignUpButton = (Button) findViewById(R.id.sign_up); // sign up button
 
 
         loginInButton.setOnClickListener(v -> {
@@ -68,7 +68,7 @@ public class LoginActivity extends Activity {
 
         });
 
-        SignuppButton.setOnClickListener(v -> {
+        SignUpButton.setOnClickListener(v -> {
             //회원 가입 페이지로 이동
             Intent Signintent = new Intent(this, SignupActivity.class);//임시 페이지
             startActivity(Signintent);
