@@ -53,6 +53,8 @@ public class boardActivity extends AppCompatActivity {
     LinearLayout ll;
     LinearLayout.LayoutParams params;
 
+    String user_EMAIL;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +63,7 @@ public class boardActivity extends AppCompatActivity {
         BAIntent = getIntent();
         names = getIntent().getStringArrayExtra("names");
         nameNum = getIntent().getIntExtra("nameNum", 0);
+        user_EMAIL = BAIntent.getStringExtra("EMAIL");
 
         dateView = findViewById(R.id.dateView);
         contentView = findViewById(R.id.contentView);
@@ -74,6 +77,7 @@ public class boardActivity extends AppCompatActivity {
         addFAB = findViewById(R.id.addFAB);
         addFAB.setOnClickListener(v -> {
             Intent intent = new Intent(boardActivity.this, WriteActivity.class);
+            intent.putExtra("EMAIL", user_EMAIL);
             startActivity(intent);
         });
 
@@ -83,6 +87,7 @@ public class boardActivity extends AppCompatActivity {
             // TODO
             Intent intent = new Intent(boardActivity.this, InviteActivity.class);
             intent.putExtra("GROUP", BAIntent.getStringExtra("GROUP"));
+            intent.putExtra("EMAIL", user_EMAIL);
             startActivity(intent);
         });
 
@@ -94,6 +99,7 @@ public class boardActivity extends AppCompatActivity {
             intent.putExtra("DATE", WR_DATE);
             intent.putExtra("CONTENT", WR_BODY);
             intent.putExtra("GROUP", BAIntent.getStringExtra("GROUP"));
+            intent.putExtra("EMAIL", user_EMAIL);
             startActivity(intent);
         });
 
@@ -227,6 +233,7 @@ public class boardActivity extends AppCompatActivity {
                 intent.putExtra("DATE", WR_DATE);
                 intent.putExtra("CONTENT", WR_BODY);
                 intent.putExtra("GROUP", BAIntent.getStringExtra("GROUP"));
+                intent.putExtra("EMAIL", user_EMAIL);
                 startActivity(intent);
             });
 

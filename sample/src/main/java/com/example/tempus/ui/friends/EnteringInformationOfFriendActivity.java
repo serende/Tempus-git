@@ -38,10 +38,16 @@ public class EnteringInformationOfFriendActivity extends AppCompatActivity {
     Button finButton;
     EditText phoneNumberEditText, nameEditText, emailEditText, groupEditText, memoEditText;
 
+    Intent EIFIntent;
+    String user_EMAIL;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_entering_information_of_friend);
+
+        EIFIntent = getIntent();
+        user_EMAIL = EIFIntent.getStringExtra("EMAIL");
 
         // 전화번호 기입
         phoneNumberEditText = findViewById(R.id.phoneNumberEditText);
@@ -99,6 +105,7 @@ public class EnteringInformationOfFriendActivity extends AppCompatActivity {
                 // 지인 목록 페이지로 이동
                 Intent intent = new Intent(v.getContext(), FriendListActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);  // 상위 스택 액티비티 모두 제거
+                intent.putExtra("EMAIL", user_EMAIL);
                 EnteringInformationOfFriendActivity.this.finish();
                 startActivity(intent);
             } catch (Exception e){

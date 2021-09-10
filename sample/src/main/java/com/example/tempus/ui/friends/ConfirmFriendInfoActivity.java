@@ -35,10 +35,16 @@ public class ConfirmFriendInfoActivity extends AppCompatActivity {
 
     Integer n;
 
+    Intent CFIAIntent;
+    String user_EMAIL;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirm_friend_info);
+
+        CFIAIntent = getIntent();
+        user_EMAIL = CFIAIntent.getStringExtra("EMAIL");
 
         phoneNumberTextView = findViewById(R.id.phoneNumberTextView);
         nameTextView = findViewById(R.id.nameTextView);
@@ -51,9 +57,10 @@ public class ConfirmFriendInfoActivity extends AppCompatActivity {
         finButton = findViewById(R.id.finButton);
         finButton.setOnClickListener(v -> {
             // 지인 정보 수정 페이지로 이동
-            Intent CFIntent = new Intent(ConfirmFriendInfoActivity.this, EditFriendInfoActivity.class);
-            CFIntent.putExtra("지인 번호", n);
-            startActivity(CFIntent);
+            Intent intent = new Intent(ConfirmFriendInfoActivity.this, EditFriendInfoActivity.class);
+            intent.putExtra("지인 번호", n);
+            intent.putExtra("EMAIL", user_EMAIL);
+            startActivity(intent);
         });
     }
     // 파일에서 텍스트를 읽어 옴

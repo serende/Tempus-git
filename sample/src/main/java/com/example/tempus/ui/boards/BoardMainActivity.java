@@ -73,6 +73,8 @@ public class BoardMainActivity extends AppCompatActivity {
     int InviteYN = 0;
     String InviteGroupName;
 
+    String user_EMAIL;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,7 +83,7 @@ public class BoardMainActivity extends AppCompatActivity {
         BMAIntent = getIntent();
 
         // 에러 확인 필요
-        String user_EMAIL = BMAIntent.getStringExtra("EMAIL");  // 로그인 액티비티에서 전달받은 사용자의 email
+        user_EMAIL = BMAIntent.getStringExtra("EMAIL");  // 로그인 액티비티에서 전달받은 사용자의 email
 
         JSONObject useremail = new JSONObject();
         try{
@@ -124,14 +126,16 @@ public class BoardMainActivity extends AppCompatActivity {
         addBoardFAB.setOnClickListener(v -> {
             anim();
             Intent intent = new Intent(getApplicationContext(), AddBoardActivity.class);
+            intent.putExtra("EMAIL", user_EMAIL);
             startActivity(intent);
         });
 
         // 지인 목록 액티비티로 이동
         friendFAB.setOnClickListener(v -> {
             anim();
-            Intent BMAIntent = new Intent(getApplicationContext(), FriendListActivity.class);
-            startActivity(BMAIntent);
+            Intent intent = new Intent(getApplicationContext(), FriendListActivity.class);
+            intent.putExtra("EMAIL", user_EMAIL);
+            startActivity(intent);
         });
 
         shoppingFAB.setOnClickListener(v -> {
@@ -171,12 +175,14 @@ public class BoardMainActivity extends AppCompatActivity {
         imageButton1.setOnClickListener(view -> {
             Intent baIntent = new Intent(getApplicationContext(), boardActivity.class);
             baIntent.putExtra("그룹명", "2팀 게시판");
+            baIntent.putExtra("EMAIL", user_EMAIL);
             startActivity(baIntent);
         });
 
         imageButton2.setOnClickListener(view -> {
             Intent baIntent2 = new Intent(getApplicationContext(), boardActivity.class);
             baIntent2.putExtra("그룹명", "우리 가족방");
+            baIntent2.putExtra("EMAIL", user_EMAIL);
             startActivity(baIntent2);
         });
 
@@ -281,7 +287,7 @@ public class BoardMainActivity extends AppCompatActivity {
 
                 TextView textView = (TextView)findViewById(R.id.testtext);
                 textView.setText(result_json_text);
-                makeLinearLayout(grid);
+                //makeLinearLayout(grid);
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -308,6 +314,7 @@ public class BoardMainActivity extends AppCompatActivity {
         IB.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), boardActivity.class);
             intent.putExtra("GROUP", BMAIntent.getStringExtra("boardName"));
+            intent.putExtra("EMAIL", user_EMAIL);
             startActivity(intent);
         });
 

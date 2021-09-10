@@ -31,6 +31,7 @@ import android.widget.Toast;
 
 import com.applandeo.Tempus.R;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.DataOutputStream;
@@ -42,6 +43,11 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import cz.msebera.android.httpclient.client.methods.HttpPost;
+import cz.msebera.android.httpclient.entity.ContentType;
+import cz.msebera.android.httpclient.entity.mime.HttpMultipartMode;
+import cz.msebera.android.httpclient.entity.mime.MultipartEntityBuilder;
 
 public class CreateExpenditureHistoryActivityForWrite extends AppCompatActivity {
 
@@ -75,16 +81,23 @@ public class CreateExpenditureHistoryActivityForWrite extends AppCompatActivity 
     String boundary = "boundary=----WebKitFormBoundarylLEkUd8JSJOasqs0";
     String user_id = "test";
 
+    Intent CEHAIntent;
+    String user_EMAIL;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_expenditure_history_for_write);
+
+        CEHAIntent = getIntent();
+        user_EMAIL = CEHAIntent.getStringExtra("EMAIL");
 
         dayView = findViewById(R.id.dayView);
 
         Button changeDisplay = findViewById(R.id.changeDisplay);
         changeDisplay.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext(), WriteActivity.class);
+            intent.putExtra("EMAIL", user_EMAIL);
             startActivity(intent);
         });
 
@@ -129,6 +142,74 @@ public class CreateExpenditureHistoryActivityForWrite extends AppCompatActivity 
             String urIString = "http://192.168.0.3:5000/imgupload";
             //String urIString = "https://webhook.site/d4dc0f16-d848-41ba-a14f-bbea18b82018";
             DoFileUpload(urIString, getAbsolutePath(photoURI));
+            /*
+            uploadMultipart(urIString, getAbsolutePath(photoURI));
+
+            HttpPost post = new HttpPost("http://echo.200please.com");
+            InputStream inputStream = new FileInputStream(zipFileName);
+            File file = new File(imageFileName);
+            String message = "This is a multipart post";
+            MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+            builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+            builder.addBinaryBody
+                    ("upfile", file, ContentType.DEFAULT_BINARY, imageFileName);
+            builder.addBinaryBody
+                    ("upstream", inputStream, ContentType.create("application/zip"), zipFileName);
+            builder.addTextBody("text", message, ContentType.TEXT_PLAIN);
+
+            HttpEntity entity = builder.build();
+            post.setEntity(entity);
+            HttpResponse response = client.execute(post);
+            try {
+
+                AndroidUploader uploader = new AndroidUploader("user", "userPwd");
+
+                String path = getAbsolutePath(photoURI);
+
+                uploader.uploadPicture(path);
+
+            } catch (Exception e) {
+
+                Log.e(e.getClass().getName(), e.getMessage());
+
+            }
+
+
+            try {
+                head.put("WR_ID", "1");     //head 부분 생성 시작
+                head.put("WR_TYPE", "A");    //head 부분 생성 완료
+                // A: 자유 형식, B: 지출 목록 형식
+
+                jsonObject.put("head", head);   //head 오브젝트 추가
+                headjson = jsonObject.toString();
+                // 작성일자
+                body.put("WR_DATE", WR_date);   //body부분 생성 시작
+                // 글 내용
+                body.put("WR_BODY", WR_body);   //body부분 생성 완료
+
+
+                jsonObject.put("body", body);   //body 오브젝트 추가
+                bodyjson = jsonObject.toString();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            // 작성 일자 혹은 내용이 빈 칸인 경우 완료버튼 onClick함수 종료
+            if (dateEdit.getText().length() == 0 || contentEdit.getText().length() == 0) {
+                Toast.makeText(CreateExpenditureHistoryActivityForWrite.this, "작성 일자 혹은 내용에 작성된 글이 없습니다.", Toast.LENGTH_SHORT).show();
+                return;
+            }//            Log.e("json", "생성한 json : " + jsonObject.toString());
+            String[] params = {headjson,bodyjson};
+            PostTask Write = new PostTask();
+            Write.execute(params);
+
+            Intent baIntent = new Intent(CreateExpenditureHistoryActivityForWrite.this, boardActivity.class);
+            baIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);  // 상위 스택 액티비티 모두 제거
+            baIntent.putExtra("EMAIL", user_EMAIL);
+            CreateExpenditureHistoryActivityForWrite.this.finish();
+            startActivity(baIntent);
+
+             */
         });
 
         userImage = findViewById(R.id.userImage);
@@ -161,37 +242,6 @@ public class CreateExpenditureHistoryActivityForWrite extends AppCompatActivity 
         //Toast.makeText(WriteActivity.this, cursor.getString(column_index), Toast.LENGTH_SHORT).show();
         return cursor.getString(column_index);
     }
-
-    /*
-    private void captureCamera() {
-        String state = Environment.getExternalStorageState();
-        // 외장 메모리 검사
-        if (Environment.MEDIA_MOUNTED.equals(state)) {
-            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
-            if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                File photoFile = null;
-                try {
-                    photoFile = createImageFile();
-                } catch (IOException ex) {
-                    Log.e("captureCamera Error", ex.toString());
-                }
-                if (photoFile != null) {
-                    Uri providerURI = FileProvider.getUriForFile(this, getPackageName(), photoFile);
-                    imageUri = providerURI;
-
-                    // 인텐트에 전달할 때는 FileProvier의 Return값인 content://로만, providerURI의 값에 카메라 데이터를 넣어 보냄
-                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, providerURI);
-
-                    startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
-                }
-            }
-        } else {
-            //Toast.makeText(this, "저장공간이 접근 불가능한 기기입니다", Toast.LENGTH_SHORT).show();
-            return;
-        }
-    }
-     */
 
     public File createImageFile() throws IOException {
         // Create an image file name

@@ -79,11 +79,18 @@ public class AddBoardActivity extends AppCompatActivity {
     String WR_ID,WR_BODY,boardjson;
     BufferedReader reader = null;
     String result;
+
+    Intent ABAIntent;
+    String user_EMAIL;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_board);
+
+        ABAIntent = getIntent();
+        user_EMAIL = ABAIntent.getStringExtra("EMAIL");
 
         try{
             BoardNameEdit = findViewById(R.id.BoardNameEdit);
@@ -146,6 +153,7 @@ public class AddBoardActivity extends AppCompatActivity {
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 //intent.putExtra("image", byteArray);
                 intent.putExtra("boardName", BoardNameEdit.getText().toString());
+                intent.putExtra("EMAIL", user_EMAIL);
                 AddBoardActivity.this.finish();
                 startActivity(intent);
 
@@ -440,11 +448,10 @@ public class AddBoardActivity extends AppCompatActivity {
                 Toast.makeText(AddBoardActivity.this, "전송 성공", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(AddBoardActivity.this, BoardMainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);  // 상위 스택 액티비티 모두 제거
+                intent.putExtra("EMAIL", user_EMAIL);
                 AddBoardActivity.this.finish();
                 startActivity(intent);
             }
         }
     }
-
-
 }

@@ -48,6 +48,7 @@ public class InviteActivity extends AppCompatActivity {
 
     Intent IAIntent;
 
+    String user_EMAIL;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +60,7 @@ public class InviteActivity extends AppCompatActivity {
          */
 
         IAIntent = getIntent();
+        user_EMAIL = IAIntent.getStringExtra("EMAIL");
 
         addButton = findViewById(R.id.addButton);
         finButton = findViewById(R.id.finButton);
@@ -72,6 +74,7 @@ public class InviteActivity extends AppCompatActivity {
         
         addButton.setOnClickListener(v -> {
             Intent intent = new Intent(this, AddFriendsActivity.class);
+            intent.putExtra("EMAIL", user_EMAIL);
             startActivity(intent);
         });
         finButton.setOnClickListener(v -> {
@@ -80,6 +83,7 @@ public class InviteActivity extends AppCompatActivity {
             intent.putExtra("names", names);
             intent.putExtra("nameNum", nameNum);
             intent.putExtra("GROUP", IAIntent.getStringExtra("GROUP"));
+            intent.putExtra("EMAIL", user_EMAIL);
 
             for(int i = 0; i<nameNum; i++){
                 Log.i("testNames", names[i] + " " + nameNum + " ");
@@ -188,6 +192,7 @@ public class InviteActivity extends AppCompatActivity {
 
                         Intent baIntent = new Intent(InviteActivity.this, ConfirmFriendInfoActivity.class);
                         baIntent.putExtra("지인 번호", friendNum);
+                        baIntent.putExtra("EMAIL", user_EMAIL);
                         startActivity(baIntent);
                     });
 
