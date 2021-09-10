@@ -59,7 +59,7 @@ public class BoardMainActivity extends AppCompatActivity {
 
     private FloatingActionButton openFAB, addBoardFAB, friendFAB, shoppingFAB, notifyONFAB, notifyOFFFAB;
     private ImageButton imageButton1, imageButton2;
-    private String id = "kim";
+    private String id = "admin";//test용 인텐드 받은 이메일 계정
     private String userjson,result;
 
     String lineEnd = "\r\n";
@@ -79,7 +79,7 @@ public class BoardMainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_board_main);
 
         // 에러 확인 필요
-        String user_EMAIL = BMAIntent.getStringExtra("EMAIL");  // 로그인 액티비티에서 전달받은 사용자의 email
+//        String user_EMAIL = BMAIntent.getStringExtra("EMAIL");  // 로그인 액티비티에서 전달받은 사용자의 email
 
         JSONObject useremail = new JSONObject();
         try{
@@ -274,9 +274,12 @@ public class BoardMainActivity extends AppCompatActivity {
 
                 Log.d("FOR_LOG", result_json_text);
 
+//                String Strjson = result_json_text.toString();
+//                Strjson.replaceAll("[(),]","");
+
                 TextView textView = (TextView)findViewById(R.id.testtext);
                 textView.setText(result_json_text);
-
+                makeLinearLayout(grid);
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -291,12 +294,14 @@ public class BoardMainActivity extends AppCompatActivity {
 
         // addBoard에서 전달 받은 이미지 또는 서버에서 전달받은 이미지를 보여주며, board액티비티로 이동시키는 버튼
         ImageButton IB = new ImageButton(this);
-        byte[] byteArray = BMAIntent.getByteArrayExtra("image");
+        ImageLoadTask task2 = new ImageLoadTask("http://192.168.0.3:5000/imgdownload",IB);//Imageview(IB)에 해당 url에서 이미지를 받아 넣음
+        task2.execute();
+        byte[] byteArray = BMAIntent.getByteArrayExtra("image");//해당 부분에서 한번 루프하여 다시 함수가 호출되고 2번 호출되면서 오류발생으로 앱 정지
         IB.setImageBitmap(BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length));
-
         // addBoard에서 전달 받은 게시판명을 텍스트뷰로 세팅
         TextView BoardText = new TextView(this);
-        BoardText.setText(BMAIntent.getStringExtra("boardName"));
+//        BoardText.setText(BMAIntent.getStringExtra("boardName"));
+        BoardText.setText("test");
 
         IB.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), boardActivity.class);

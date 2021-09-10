@@ -46,7 +46,6 @@ public class LoginActivity extends Activity {
         mPasswordView = findViewById(R.id.password);
 
         Button loginInButton = findViewById(R.id.login); // login button
-
         Button SignUpButton = findViewById(R.id.sign_up); // sign up button
 
         loginInButton.setOnClickListener(v -> {

@@ -75,7 +75,7 @@ public class AddBoardActivity extends AppCompatActivity {
     String lineEnd = "\r\n";
     String twoHyphens = "--";
     String boundary = "boundary=----WebKitFormBoundarylLEkUd8JSJOasqs0";
-    String user_id = "test";
+    String user_id = "admin";//로그인시 갱신되는 이메일 계정, 현재 테스트로 임시 정의하여 사용중
     String WR_ID,WR_BODY,boardjson;
     BufferedReader reader = null;
     String result;
@@ -114,11 +114,12 @@ public class AddBoardActivity extends AppCompatActivity {
 
             // 이미지 전달 전 사이즈 조정
             WR_ID = BoardNameEdit.getText().toString();
-            WR_BODY = memoEdit.getText().toString();
+            WR_BODY = BoardNameEdit.getText().toString();
             JSONObject userdata = new JSONObject();
             try{
                 userdata.put("WR_ID",WR_ID);
-                userdata.put("WR_BODY",WR_BODY);
+                userdata.put("WR_BODY",BoardNameEdit);
+                userdata.put("WR_CONTENT",memoEdit);
                 boardjson = userdata.toString();
             }catch (JSONException e){
                 e.printStackTrace();
