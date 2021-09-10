@@ -25,10 +25,16 @@ public class AddFriendsActivity extends AppCompatActivity {
     String name;
     String number;
 
+    Intent AFAIntent;
+    String user_EMAIL;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_friends);
+
+        AFAIntent = getIntent();
+        user_EMAIL = AFAIntent.getStringExtra("EMAIL");
 
         name = "";
         number = "";
@@ -36,6 +42,7 @@ public class AddFriendsActivity extends AppCompatActivity {
         Button registerWithPhoneNumberButton = findViewById(R.id.registerWithPhoneNumberButton);
         registerWithPhoneNumberButton.setOnClickListener(v -> {
             Intent intent = new Intent(v.getContext(), EnteringInformationOfFriendActivity.class);
+            intent.putExtra("EMAIL", user_EMAIL);
             startActivity(intent);
         });
 
@@ -85,6 +92,7 @@ public class AddFriendsActivity extends AppCompatActivity {
                 Intent afIntent = new Intent(AddFriendsActivity.this, EnteringInformationOfFriendActivity.class);
                 afIntent.putExtra("지인명", name);
                 afIntent.putExtra("전화번호", number);
+                afIntent.putExtra("EMAIL", user_EMAIL);
 
                 startActivity(afIntent);
             }

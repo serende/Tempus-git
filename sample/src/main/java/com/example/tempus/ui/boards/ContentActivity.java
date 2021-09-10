@@ -47,12 +47,15 @@ public class ContentActivity extends AppCompatActivity {
     Integer n=1;
     String comNum; // comment number
 
+    String user_EMAIL;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_content);
 
         CAIntent = getIntent();
+        user_EMAIL = CAIntent.getStringExtra("EMAIL");
 
         // 작성자명
         nameTextView = findViewById(R.id.nameTextView);

@@ -40,14 +40,21 @@ public class FriendListActivity extends AppCompatActivity {
 
     Button addButton;
 
+    Intent FLAIntent;
+    String user_EMAIL;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friend_list);
 
+        FLAIntent = getIntent();
+        user_EMAIL = FLAIntent.getStringExtra("EMAIL");
+
         addButton = findViewById(R.id.addButton);
         addButton.setOnClickListener(v -> {
             Intent intent = new Intent(this, AddFriendsActivity.class);
+            intent.putExtra("EMAIL", user_EMAIL);
             startActivity(intent);
         });
 
@@ -148,9 +155,10 @@ public class FriendListActivity extends AppCompatActivity {
                     btn.setOnClickListener(v -> {
                         Log.d("log", "position :" + friendNum);
 
-                        Intent baIntent = new Intent(FriendListActivity.this, ConfirmFriendInfoActivity.class);
-                        baIntent.putExtra("지인 번호", friendNum);
-                        startActivity(baIntent);
+                        Intent intent = new Intent(FriendListActivity.this, ConfirmFriendInfoActivity.class);
+                        intent.putExtra("지인 번호", friendNum);
+                        intent.putExtra("EMAIL", user_EMAIL);
+                        startActivity(intent);
                     });
 
                     //버튼 add

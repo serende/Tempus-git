@@ -30,10 +30,16 @@ public class EditFriendInfoActivity extends AppCompatActivity {
 
     Integer n;
 
+    Intent EFIAIntent;
+    String user_EMAIL;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_friend_info);
+
+        EFIAIntent = getIntent();
+        user_EMAIL = EFIAIntent.getStringExtra("EMAIL");
 
         // 전화번호 기입
         phoneNumberEditText = findViewById(R.id.phoneNumberEditText);
@@ -116,6 +122,7 @@ public class EditFriendInfoActivity extends AppCompatActivity {
             // 지인 정보 화면으로 다시 이동
             Intent CFIntent = new Intent(EditFriendInfoActivity.this, ConfirmFriendInfoActivity.class);
             CFIntent.putExtra("지인 번호", n);
+            CFIntent.putExtra("EMAIL", user_EMAIL);
             CFIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);  // 상위 스택 액티비티 모두 제거
             EditFriendInfoActivity.this.finish();
             startActivity(CFIntent);
