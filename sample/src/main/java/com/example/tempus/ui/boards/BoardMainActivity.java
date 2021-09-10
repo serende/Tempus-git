@@ -20,9 +20,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -79,7 +81,7 @@ public class BoardMainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board_main);
-        grid = findViewById(R.id.grid);
+
         BMAIntent = getIntent();
         user_EMAIL = BMAIntent.getStringExtra("EMAIL");  // 로그인 액티비티에서 전달받은 사용자의 email
 
@@ -190,9 +192,7 @@ public class BoardMainActivity extends AppCompatActivity {
 
         try{
             makeLinearLayout(grid);
-        } catch(Exception e){
-            Log.e("makeLinearerror", e.toString());
-        }
+        } catch(Exception e){Log.e("makeLinearerror", e.toString());}
     }
 
     // 애니메이션 실행 함수
@@ -312,7 +312,6 @@ public class BoardMainActivity extends AppCompatActivity {
         ImageLoadTask task2 = new ImageLoadTask("http://192.168.0.3:5000/imgdownload",IB);//Imageview(IB)에 해당 url에서 이미지를 받아 넣음
         task2.execute();
         byte[] byteArray = BMAIntent.getByteArrayExtra("image");//해당 부분에서 한번 루프하여 다시 함수가 호출되고 2번 호출되면서 오류발생으로 앱 정지
-        IB.setImageBitmap(BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length));
         IB.setPadding(ConvertDPtoPX(this, 35), 0, 0, 0);
 
         // 게시판명
@@ -321,7 +320,7 @@ public class BoardMainActivity extends AppCompatActivity {
         BoardText.setText("test");
         BoardText.setTextColor(Color.BLACK);
         BoardText.setPadding(ConvertDPtoPX(this, 35), 0, 0, 0);
-
+        BoardText.setBackgroundColor(Color.WHITE);
         IB.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), boardActivity.class);
             intent.putExtra("GROUP", BMAIntent.getStringExtra("boardName"));

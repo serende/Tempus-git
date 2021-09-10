@@ -437,6 +437,7 @@ public class WriteActivity extends AppCompatActivity {
     // 서버에 이미지 업로드
     public void HttpFileUpload(String urlString, String params, String fileName) {
         try {
+
             FileInputStream mFileInputStream = new FileInputStream(fileName);
             URL connectUrl = new URL(urlString);
             Log.d("Test", "mFileInputStream  is " + mFileInputStream);
@@ -459,7 +460,7 @@ public class WriteActivity extends AppCompatActivity {
             // write data
             DataOutputStream dos = new DataOutputStream(conn.getOutputStream());
             dos.writeBytes(twoHyphens + boundary + lineEnd);
-            dos.writeBytes("Content-Disposition: form-data; name=\"uploadedfile\";filename=\"" + fileName + "\"" + lineEnd);
+            dos.writeBytes("Content-Disposition: form-data; name=\"uploadedfile\";filename=\"" + "그림에 맞는 제목"+".jpg" + "\"" + lineEnd);
             dos.writeBytes(lineEnd);
 
             int bytesAvailable = mFileInputStream.available();

@@ -120,13 +120,13 @@ public class AddBoardActivity extends AppCompatActivity {
             // TODO
 
             // 이미지 전달 전 사이즈 조정
-            WR_ID = BoardNameEdit.getText().toString();
-            WR_BODY = BoardNameEdit.getText().toString();
+            WR_ID = BoardNameEdit.getText().toString();//인텐드 받은 이메일을 담을 변수
+            WR_BODY = BoardNameEdit.getText().toString();//addboard내 게시판 제목을 담을 변수
             JSONObject userdata = new JSONObject();
             try{
-                userdata.put("WR_ID",WR_ID);
-                userdata.put("WR_BODY",BoardNameEdit);
-                userdata.put("WR_CONTENT",memoEdit);
+                userdata.put("WR_ID",user_id);//임시로 인텐드 받을 이메일을 미리 선언하여 사용중
+                userdata.put("WR_BODY",WR_BODY);
+//                userdata.put("WR_CONTENT",memoEdit);//게시판 설명 데이터를 담을 변수, 현재 게시판 설명에 대한 사용처가 없어 변수는 미사용중
                 boardjson = userdata.toString();
             }catch (JSONException e){
                 e.printStackTrace();
@@ -134,7 +134,13 @@ public class AddBoardActivity extends AppCompatActivity {
             String[] params = {boardjson};
             AddboardTask Write = new AddboardTask();
             Write.execute(params);
+            DoFileUpload("http://192.168.0.3:5000/imgupload", getAbsolutePath(photoURI));
 
+            //            Intent intent = new Intent(AddBoardActivity.this, BoardMainActivity.class);
+//            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);  // 상위 스택 액티비티 모두 제거
+//            intent.putExtra("EMAIL", user_EMAIL);
+//            AddBoardActivity.this.finish();
+//            startActivity(intent);
 
             try{
                 /*
@@ -446,11 +452,6 @@ public class AddBoardActivity extends AppCompatActivity {
             }
             else{
                 Toast.makeText(AddBoardActivity.this, "전송 성공", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(AddBoardActivity.this, BoardMainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);  // 상위 스택 액티비티 모두 제거
-                intent.putExtra("EMAIL", user_EMAIL);
-                AddBoardActivity.this.finish();
-                startActivity(intent);
             }
         }
     }
