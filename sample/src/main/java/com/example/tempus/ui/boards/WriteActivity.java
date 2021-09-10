@@ -206,10 +206,10 @@ public class WriteActivity extends AppCompatActivity {
 //            PostTask Write = new PostTask();
 //            Write.execute(params);
 //
-//            Intent baIntent = new Intent(WriteActivity.this, boardActivity.class);
-//            baIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);  // 상위 스택 액티비티 모두 제거
-//            WriteActivity.this.finish();
-//            startActivity(baIntent);
+            Intent baIntent = new Intent(WriteActivity.this, boardActivity.class);
+            baIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);  // 상위 스택 액티비티 모두 제거
+            WriteActivity.this.finish();
+            startActivity(baIntent);
         });
 
         radioGroup = findViewById(R.id.radioGroup);

@@ -77,7 +77,7 @@ public class BoardMainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board_main);
-
+        grid = findViewById(R.id.grid);
         BMAIntent = getIntent();
 
         // 에러 확인 필요
@@ -92,6 +92,7 @@ public class BoardMainActivity extends AppCompatActivity {
         }catch (JSONException e){
             e.printStackTrace();
         }
+
         String[] params = {userjson};
         boardTask task = new boardTask();
         task.execute(params);//스레드 실행 함수
@@ -186,7 +187,9 @@ public class BoardMainActivity extends AppCompatActivity {
 
         try{
             makeLinearLayout(grid);
-        } catch(Exception e){}
+        } catch(Exception e){
+            Log.e("makeLinearerror", e.toString());
+        }
     }
 
     // 애니메이션 실행 함수
@@ -295,16 +298,18 @@ public class BoardMainActivity extends AppCompatActivity {
 
     // 그리드 레이아웃 내에 리니어레이아웃을 생성할 함수
     public void makeLinearLayout(GridLayout gl){
+        int n = 0;
         LinearLayout sl = new LinearLayout(this);
         sl.setOrientation(LinearLayout.VERTICAL);
 
         // addBoard에서 전달 받은 이미지 또는 서버에서 전달받은 이미지를 보여주며, board액티비티로 이동시키는 버튼
         ImageButton IB = new ImageButton(this);
+        IB.setId(n);
+//        ImageButton imageButton3 = findViewById(R.id.n);
         ImageLoadTask task2 = new ImageLoadTask("http://192.168.0.3:5000/imgdownload",IB);//Imageview(IB)에 해당 url에서 이미지를 받아 넣음
         task2.execute();
-        byte[] byteArray = BMAIntent.getByteArrayExtra("image");//해당 부분에서 한번 루프하여 다시 함수가 호출되고 2번 호출되면서 오류발생으로 앱 정지
-        IB.setImageBitmap(BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length));
-        // addBoard에서 전달 받은 게시판명을 텍스트뷰로 세팅
+        byte[] byteArray = BMAIntent.getByteArrayExtra("image");
+//        IB.setImageBitmap(BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length));
         TextView BoardText = new TextView(this);
 //        BoardText.setText(BMAIntent.getStringExtra("boardName"));
         BoardText.setText("test");
