@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
@@ -41,13 +42,12 @@ public class LoginActivity extends Activity {
 
         // Set up the login form.
 
-        mEmailView = (EditText) findViewById(R.id.username);
-        mPasswordView = (EditText) findViewById(R.id.password);
+        mEmailView = findViewById(R.id.username);
+        mPasswordView = findViewById(R.id.password);
 
-        Button loginInButton = (Button) findViewById(R.id.login); // login button
+        Button loginInButton = findViewById(R.id.login); // login button
 
-        Button SignuppButton = (Button) findViewById(R.id.sign_up); // sign up button
-
+        Button SignUpButton = findViewById(R.id.sign_up); // sign up button
 
         loginInButton.setOnClickListener(v -> {
             //서버 구축시 데이터 넘김
@@ -64,16 +64,13 @@ public class LoginActivity extends Activity {
             String[] params = {userjson};
             loginTask Write = new loginTask();
             Write.execute(params);
-
-
         });
 
-        SignuppButton.setOnClickListener(v -> {
+        SignUpButton.setOnClickListener(v -> {
             //회원 가입 페이지로 이동
             Intent Signintent = new Intent(this, SignupActivity.class);//임시 페이지
             startActivity(Signintent);
         });
-
 
         mEmailView.setOnEditorActionListener((textView, id, keyEvent) -> {
             if(id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL){
@@ -81,6 +78,7 @@ public class LoginActivity extends Activity {
             }
             return false;
         });
+
         mPasswordView.setOnEditorActionListener((textView, id, keyEvent) -> {
             if (id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL) {
                 //attemptLogin();
@@ -89,10 +87,6 @@ public class LoginActivity extends Activity {
             }
             return false;
         });
-
-
-
-
 
     }
     private class loginTask extends AsyncTask<String, Void, String> {
@@ -141,7 +135,12 @@ public class LoginActivity extends Activity {
                 Toast.makeText(LoginActivity.this, "로그인 성공", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(LoginActivity.this, BoardMainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);  // 상위 스택 액티비티 모두 제거
-                intent.putExtra("EMAIL", mEmailView.getText().toString());
+                try{
+                    intent.putExtra("EMAIL", mEmailView.getText().toString());
+                } catch(Exception e){
+                    Log.e("LAEMAILERROR", e.toString());
+                }
+
                 LoginActivity.this.finish();
                 startActivity(intent);
             }

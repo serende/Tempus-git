@@ -129,24 +129,33 @@ public class AddBoardActivity extends AppCompatActivity {
 
 
             try{
+                /*
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 Bitmap bitmap = ((BitmapDrawable)userImage.getDrawable()).getBitmap();//오류 발생(09-05)
-                float scale = (float) (1024/(float)bitmap.getWidth());
+                float scale = 1024/(float)bitmap.getWidth();
                 int image_w = (int) (bitmap.getWidth() * scale);
                 int image_h = (int) (bitmap.getHeight() * scale);
                 Bitmap resize = Bitmap.createScaledBitmap(bitmap, image_w, image_h, true);
                 resize.compress(Bitmap.CompressFormat.JPEG, 100, stream);
                 byte[] byteArray = stream.toByteArray();
 
+                 */
+
                 Intent intent = new Intent(getApplicationContext(), BoardMainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.putExtra("image", byteArray);
+                //intent.putExtra("image", byteArray);
                 intent.putExtra("boardName", BoardNameEdit.getText().toString());
                 AddBoardActivity.this.finish();
                 startActivity(intent);
 
             } catch (Exception e){
                 Log.e("ABitmapError", e.toString());
+                /*
+                E/ABitmapError: java.lang.NullPointerException:
+                Attempt to invoke virtual method
+                'android.graphics.drawable.Drawable android.widget.ImageView.getDrawable()'
+                on a null object reference
+                 */
             }
         });
 
