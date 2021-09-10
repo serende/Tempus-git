@@ -14,6 +14,7 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HttpResponse;
 import com.applandeo.Tempus.MainActivity;
 import com.applandeo.Tempus.R;
 import com.applandeo.Tempus.SignupActivity;
@@ -64,6 +65,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 
+import cz.msebera.android.httpclient.HttpEntity;
 import cz.msebera.android.httpclient.client.methods.HttpPost;
 import cz.msebera.android.httpclient.entity.ContentType;
 import cz.msebera.android.httpclient.entity.mime.HttpMultipartMode;
@@ -100,6 +102,8 @@ public class WriteActivity extends AppCompatActivity {
     Intent WAIntent;
     String user_EMAIL;
 
+    String groupName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,6 +111,7 @@ public class WriteActivity extends AppCompatActivity {
 
         WAIntent = getIntent();
         user_EMAIL = WAIntent.getStringExtra("EMAIL");
+        groupName = WAIntent.getStringExtra("GROUP");
 
         // Disable StrictMode
         StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
@@ -119,6 +124,7 @@ public class WriteActivity extends AppCompatActivity {
             // 지출 내역 형식으로 변경
             Intent intent = new Intent(getApplicationContext(), CreateExpenditureHistoryActivityForWrite.class);
             intent.putExtra("EMAIL", user_EMAIL);
+            intent.putExtra("GROUP", groupName);
             startActivity(intent);
         });
 
@@ -149,9 +155,9 @@ public class WriteActivity extends AppCompatActivity {
             String urIString = "http://192.168.0.3:5000/imgupload";
             //String urIString = "https://webhook.site/d4dc0f16-d848-41ba-a14f-bbea18b82018";
             DoFileUpload(urIString, getAbsolutePath(photoURI));
-            /*
-            uploadMultipart(urIString, getAbsolutePath(photoURI));
+            //uploadMultipart(urIString, getAbsolutePath(photoURI));
 
+            /*
             HttpPost post = new HttpPost("http://echo.200please.com");
             InputStream inputStream = new FileInputStream(zipFileName);
             File file = new File(imageFileName);
@@ -168,18 +174,15 @@ public class WriteActivity extends AppCompatActivity {
             post.setEntity(entity);
             HttpResponse response = client.execute(post);
             try {
-
                 AndroidUploader uploader = new AndroidUploader("user", "userPwd");
 
                 String path = getAbsolutePath(photoURI);
 
                 uploader.uploadPicture(path);
-
             } catch (Exception e) {
-
                 Log.e(e.getClass().getName(), e.getMessage());
-
             }
+
 
 
             try {
@@ -210,13 +213,15 @@ public class WriteActivity extends AppCompatActivity {
             PostTask Write = new PostTask();
             Write.execute(params);
 
-            Intent baIntent = new Intent(WriteActivity.this, boardActivity.class);
-            baIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);  // 상위 스택 액티비티 모두 제거
-            baIntent.putExtra("EMAIL", user_EMAIL);
-            WriteActivity.this.finish();
-            startActivity(baIntent);
-
              */
+
+            Intent intent = new Intent(WriteActivity.this, boardActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);  // 상위 스택 액티비티 모두 제거
+            intent.putExtra("EMAIL", user_EMAIL);
+            intent.putExtra("GROUP", groupName);
+
+            WriteActivity.this.finish();
+            startActivity(intent);
         });
 
         radioGroup = findViewById(R.id.radioGroup);

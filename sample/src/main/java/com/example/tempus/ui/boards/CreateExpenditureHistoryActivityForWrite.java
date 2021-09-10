@@ -83,6 +83,7 @@ public class CreateExpenditureHistoryActivityForWrite extends AppCompatActivity 
 
     Intent CEHAIntent;
     String user_EMAIL;
+    String groupName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +92,7 @@ public class CreateExpenditureHistoryActivityForWrite extends AppCompatActivity 
 
         CEHAIntent = getIntent();
         user_EMAIL = CEHAIntent.getStringExtra("EMAIL");
+        groupName = CEHAIntent.getStringExtra("GROUP");
 
         dayView = findViewById(R.id.dayView);
 
@@ -202,14 +204,13 @@ public class CreateExpenditureHistoryActivityForWrite extends AppCompatActivity 
             String[] params = {headjson,bodyjson};
             PostTask Write = new PostTask();
             Write.execute(params);
-
-            Intent baIntent = new Intent(CreateExpenditureHistoryActivityForWrite.this, boardActivity.class);
-            baIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);  // 상위 스택 액티비티 모두 제거
-            baIntent.putExtra("EMAIL", user_EMAIL);
+ */
+            Intent intent = new Intent(CreateExpenditureHistoryActivityForWrite.this, boardActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);  // 상위 스택 액티비티 모두 제거
+            intent.putExtra("EMAIL", user_EMAIL);
+            intent.putExtra("GROUP", groupName);
             CreateExpenditureHistoryActivityForWrite.this.finish();
-            startActivity(baIntent);
-
-             */
+            startActivity(intent);
         });
 
         userImage = findViewById(R.id.userImage);

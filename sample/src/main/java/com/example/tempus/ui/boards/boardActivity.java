@@ -78,6 +78,7 @@ public class boardActivity extends AppCompatActivity {
         addFAB.setOnClickListener(v -> {
             Intent intent = new Intent(boardActivity.this, WriteActivity.class);
             intent.putExtra("EMAIL", user_EMAIL);
+            intent.putExtra("GROUP", BAIntent.getStringExtra("GROUP"));
             startActivity(intent);
         });
 
