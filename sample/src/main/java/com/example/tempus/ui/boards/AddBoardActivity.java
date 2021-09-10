@@ -24,6 +24,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.os.Environment;
+import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.util.Log;
@@ -88,10 +89,13 @@ public class AddBoardActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_board);
-
+        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+                .permitDiskReads()
+                .permitDiskWrites()
+                .permitNetwork().build());
         ABAIntent = getIntent();
         user_EMAIL = ABAIntent.getStringExtra("EMAIL");
-
+        userImage = findViewById(R.id.userImage);
         try{
             BoardNameEdit = findViewById(R.id.BoardNameEdit);
             addPhoto = findViewById(R.id.addPhoto);
