@@ -81,17 +81,17 @@ public class BoardMainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_board_main);
 
         BMAIntent = getIntent();
-
-        // 에러 확인 필요
         user_EMAIL = BMAIntent.getStringExtra("EMAIL");  // 로그인 액티비티에서 전달받은 사용자의 email
 
         JSONObject useremail = new JSONObject();
+
         try{
-            useremail.put("email",id);
+            useremail.put("email",user_EMAIL);
             userjson = useremail.toString();
         }catch (JSONException e){
             e.printStackTrace();
         }
+
         String[] params = {userjson};
         boardTask task = new boardTask();
         task.execute(params);//스레드 실행 함수
@@ -287,7 +287,7 @@ public class BoardMainActivity extends AppCompatActivity {
 
                 TextView textView = (TextView)findViewById(R.id.testtext);
                 textView.setText(result_json_text);
-                //makeLinearLayout(grid);
+//                makeLinearLayout(grid);
 
             } catch (JSONException e) {
                 e.printStackTrace();
