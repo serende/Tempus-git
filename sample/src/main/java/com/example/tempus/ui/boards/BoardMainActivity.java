@@ -301,38 +301,40 @@ public class BoardMainActivity extends AppCompatActivity {
 
     // 그리드 레이아웃 내에 리니어레이아웃을 생성할 함수
     public void makeLinearLayout(GridLayout gl){
-        int n = 0;
-        LinearLayout sl = new LinearLayout(this);
-        sl.setOrientation(LinearLayout.VERTICAL);
-        sl.setPadding(0, ConvertDPtoPX(this,10),0,0);
+        public void makeLinearLayout(GridLayout gl){
+            int n = 0;
+            LinearLayout sl = new LinearLayout(this);
+            sl.setOrientation(LinearLayout.VERTICAL);
+            sl.setPadding(0, ConvertDPtoPX(this,10),0,0);
 
-        // addBoard에서 전달 받은 이미지 또는 서버에서 전달받은 이미지를 보여주며, board액티비티로 이동시키는 버튼
-        ImageButton IB = new ImageButton(this);
-        IB.setId(n);
-        ImageLoadTask task2 = new ImageLoadTask("http://192.168.0.3:5000/imgdownload",IB);//Imageview(IB)에 해당 url에서 이미지를 받아 넣음
-        task2.execute();
-        byte[] byteArray = BMAIntent.getByteArrayExtra("image");//해당 부분에서 한번 루프하여 다시 함수가 호출되고 2번 호출되면서 오류발생으로 앱 정지
-        IB.setImageBitmap(BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length));
-        IB.setPadding(ConvertDPtoPX(this, 35), 0, 0, 0);
+            // addBoard에서 전달 받은 이미지 또는 서버에서 전달받은 이미지를 보여주며, board액티비티로 이동시키는 버튼
+            ImageButton IB = new ImageButton(this);
+            IB.setId(n);
+            ImageLoadTask task2 = new ImageLoadTask("http://192.168.0.3:5000/imgdownload",IB);//Imageview(IB)에 해당 url에서 이미지를 받아 넣음
+            task2.execute();
+            byte[] byteArray = BMAIntent.getByteArrayExtra("image");//해당 부분에서 한번 루프하여 다시 함수가 호출되고 2번 호출되면서 오류발생으로 앱 정지
+            IB.setPadding(ConvertDPtoPX(this, 35), 0, 0, 0);
+            IB.setBackgroundColor(Color.WHITE);
 
-        // 게시판명
-        TextView BoardText = new TextView(this);
+            // 게시판명
+            TextView BoardText = new TextView(this);
 //        BoardText.setText(BMAIntent.getStringExtra("boardName"));
-        BoardText.setText("test");
-        BoardText.setTextColor(Color.BLACK);
-        BoardText.setPadding(ConvertDPtoPX(this, 35), 0, 0, 0);
+            BoardText.setText("test");
+            BoardText.setTextColor(Color.BLACK);
+            BoardText.setPadding(ConvertDPtoPX(this, 35), 0, 0, 0);
 
-        IB.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), boardActivity.class);
-            intent.putExtra("GROUP", BMAIntent.getStringExtra("boardName"));
-            intent.putExtra("EMAIL", user_EMAIL);
-            startActivity(intent);
-        });
+            IB.setOnClickListener(v -> {
+                Intent intent = new Intent(getApplicationContext(), boardActivity.class);
+                intent.putExtra("GROUP", BMAIntent.getStringExtra("boardName"));
+                intent.putExtra("EMAIL", user_EMAIL);
+                startActivity(intent);
+            });
 
-        // 그리드 레이아웃에 뷰 추가
-        sl.addView(IB);
-        sl.addView(BoardText);
-        gl.addView(sl);
+            // 그리드 레이아웃에 뷰 추가
+            sl.addView(IB);
+            sl.addView(BoardText);
+            gl.addView(sl);
+        }
     }
 
     public class ImageLoadTask extends AsyncTask<Void, Void, Bitmap> {
