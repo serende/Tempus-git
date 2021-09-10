@@ -83,6 +83,8 @@ public class BoardMainActivity extends AppCompatActivity {
         BMAIntent = getIntent();
         user_EMAIL = BMAIntent.getStringExtra("EMAIL");  // 로그인 액티비티에서 전달받은 사용자의 email
 
+        grid = findViewById(R.id.grid);
+
         JSONObject useremail = new JSONObject();
 
         try{
@@ -297,11 +299,13 @@ public class BoardMainActivity extends AppCompatActivity {
 
     // 그리드 레이아웃 내에 리니어레이아웃을 생성할 함수
     public void makeLinearLayout(GridLayout gl){
+        int n = 0;
         LinearLayout sl = new LinearLayout(this);
         sl.setOrientation(LinearLayout.VERTICAL);
 
         // addBoard에서 전달 받은 이미지 또는 서버에서 전달받은 이미지를 보여주며, board액티비티로 이동시키는 버튼
         ImageButton IB = new ImageButton(this);
+        IB.setId(n);
         ImageLoadTask task2 = new ImageLoadTask("http://192.168.0.3:5000/imgdownload",IB);//Imageview(IB)에 해당 url에서 이미지를 받아 넣음
         task2.execute();
         byte[] byteArray = BMAIntent.getByteArrayExtra("image");//해당 부분에서 한번 루프하여 다시 함수가 호출되고 2번 호출되면서 오류발생으로 앱 정지
