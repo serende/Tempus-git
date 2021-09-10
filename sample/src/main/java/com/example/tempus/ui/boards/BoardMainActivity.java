@@ -81,11 +81,13 @@ public class BoardMainActivity extends AppCompatActivity {
         BMAIntent = getIntent();
 
         // 에러 확인 필요
-        String user_EMAIL = BMAIntent.getStringExtra("EMAIL");  // 로그인 액티비티에서 전달받은 사용자의 email
+        try {
+            String user_EMAIL = BMAIntent.getStringExtra("EMAIL");  // 로그인 액티비티에서 전달받은 사용자의 email
 
+//            Toast.makeText(getApplicationContext(), user_EMAIL.toString(), Toast.LENGTH_SHORT).show();
         JSONObject useremail = new JSONObject();
         try{
-            useremail.put("email",id);
+            useremail.put("email",user_EMAIL);
             userjson = useremail.toString();
         }catch (JSONException e){
             e.printStackTrace();
@@ -99,7 +101,9 @@ public class BoardMainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("게시판");
-
+        }catch(Exception e){
+            Log.e("intentERROR", e.toString());
+        }
         openFAB = findViewById(R.id.openFAB);
         openFAB.setOnClickListener(v -> {
             anim();
@@ -281,7 +285,7 @@ public class BoardMainActivity extends AppCompatActivity {
 
                 TextView textView = (TextView)findViewById(R.id.testtext);
                 textView.setText(result_json_text);
-                makeLinearLayout(grid);
+//                makeLinearLayout(grid);
 
             } catch (JSONException e) {
                 e.printStackTrace();

@@ -135,7 +135,7 @@ public class LoginActivity extends Activity {
                 Intent intent = new Intent(LoginActivity.this, BoardMainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);  // 상위 스택 액티비티 모두 제거
                 intent.putExtra("EMAIL", mEmailView.getText().toString());
-                Toast.makeText(getApplicationContext(), mEmailView.getText().toString(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(), mEmailView.getText().toString(), Toast.LENGTH_SHORT).show();
 
                 LoginActivity.this.finish();
                 startActivity(intent);
