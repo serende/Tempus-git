@@ -68,7 +68,7 @@ public class BoardMainActivity extends AppCompatActivity {
     String user_id = "test";
 
     GridLayout grid;
-    Intent BMAIntent = getIntent();
+    Intent BMAIntent;
 
     int InviteYN = 0;
     String InviteGroupName;
@@ -78,8 +78,10 @@ public class BoardMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board_main);
 
+        BMAIntent = getIntent();
+
         // 에러 확인 필요
-//        String user_EMAIL = BMAIntent.getStringExtra("EMAIL");  // 로그인 액티비티에서 전달받은 사용자의 email
+        String user_EMAIL = BMAIntent.getStringExtra("EMAIL");  // 로그인 액티비티에서 전달받은 사용자의 email
 
         JSONObject useremail = new JSONObject();
         try{

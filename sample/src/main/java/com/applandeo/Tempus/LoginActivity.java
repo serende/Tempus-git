@@ -134,11 +134,8 @@ public class LoginActivity extends Activity {
                 Toast.makeText(LoginActivity.this, "로그인 성공", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(LoginActivity.this, BoardMainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);  // 상위 스택 액티비티 모두 제거
-                try{
-                    intent.putExtra("EMAIL", mEmailView.getText().toString());
-                } catch(Exception e){
-                    Log.e("LAEMAILERROR", e.toString());
-                }
+                intent.putExtra("EMAIL", mEmailView.getText().toString());
+                Toast.makeText(getApplicationContext(), mEmailView.getText().toString(), Toast.LENGTH_SHORT).show();
 
                 LoginActivity.this.finish();
                 startActivity(intent);
