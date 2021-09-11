@@ -84,7 +84,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"/>
 
-    <!-- 이 버튼을 누르면 나머지 3개 버튼이 활성화 -->
+    <!-- 이 버튼을 누르면 나머지 버튼들이 활성화 -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/openFAB"
         android:layout_width="wrap_content"

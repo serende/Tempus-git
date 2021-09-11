@@ -152,21 +152,8 @@ public class BoardMainActivity extends AppCompatActivity {
         notifyONFAB.setOnClickListener(v -> {
             anim();
             Toast.makeText(getApplicationContext(),"알림 ON",Toast.LENGTH_SHORT).show();
-
-            // 초대가 왔다면 알림 작동하도록
-            if(InviteYN == 1){
-                // 실행
-                Intent intent = new Intent(BoardMainActivity.this, MyService.class);    // 알림 서비스 실행
-                startService(intent);
-
-                InviteYN = 0;   // 초대가 안 온 상태로 리셋
-            }
-            else if(InviteYN == 0){
-                // 실행 x
-            }
-            else {
-                Toast.makeText(getApplicationContext(),"Invite Message Error", Toast.LENGTH_SHORT).show();
-            }
+            Intent intent = new Intent(BoardMainActivity.this, MyService.class);    // 알림 서비스 실행
+            startService(intent);
         });
 
         notifyOFFFAB.setOnClickListener(v -> {
@@ -305,6 +292,7 @@ public class BoardMainActivity extends AppCompatActivity {
         LinearLayout sl = new LinearLayout(this);
         sl.setOrientation(LinearLayout.VERTICAL);
         sl.setPadding(0, ConvertDPtoPX(this,10),0,0);
+        sl.setBackgroundColor(Color.TRANSPARENT);
 
         // addBoard에서 전달 받은 이미지 또는 서버에서 전달받은 이미지를 보여주며, board액티비티로 이동시키는 버튼
         ImageButton IB = new ImageButton(this);
@@ -320,7 +308,8 @@ public class BoardMainActivity extends AppCompatActivity {
         BoardText.setText("test");
         BoardText.setTextColor(Color.BLACK);
         BoardText.setPadding(ConvertDPtoPX(this, 35), 0, 0, 0);
-        BoardText.setBackgroundColor(Color.WHITE);
+        BoardText.setBackgroundColor(Color.TRANSPARENT);
+
         IB.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), boardActivity.class);
             intent.putExtra("GROUP", BMAIntent.getStringExtra("boardName"));
