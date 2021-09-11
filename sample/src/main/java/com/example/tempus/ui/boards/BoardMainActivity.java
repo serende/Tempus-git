@@ -1,8 +1,6 @@
 package com.example.tempus.ui.boards;
 
 import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -10,39 +8,30 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
 import com.applandeo.Tempus.R;
 import com.example.tempus.ui.MyService;
-import com.example.tempus.ui.addSchedule.expenditureBreakdownActivity;
-import com.example.tempus.ui.friends.AddFriendsActivity;
 import com.example.tempus.ui.friends.FriendListActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.provider.MediaStore;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.GridLayout;
@@ -50,8 +39,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 public class BoardMainActivity extends AppCompatActivity {
@@ -68,13 +55,13 @@ public class BoardMainActivity extends AppCompatActivity {
     String twoHyphens = "--";
     String boundary = "boundary=----WebKitFormBoundarylLEkUd8JSJOasqs0";
     String user_id = "test";
-
+    Uri photoURI;
     GridLayout grid;
     Intent BMAIntent;
-
+    StringBuffer tempboardname = new StringBuffer();
     int InviteYN = 0;
     String InviteGroupName;
-
+    int count = 0;
     String user_EMAIL;
 
     @Override
@@ -178,7 +165,10 @@ public class BoardMainActivity extends AppCompatActivity {
         });
 
         try{
-            makeLinearLayout(grid);
+            for(int i = 0; i<2;i++){
+                count=i;
+            makeLinearLayout(grid,count);
+            }
         } catch(Exception e){Log.e("makeLinearerror", e.toString());}
     }
 
@@ -223,12 +213,26 @@ public class BoardMainActivity extends AppCompatActivity {
             }
         }
     }
+    private String getAbsolutePath(Uri contentUri) {
+        String[] proj = {MediaStore.Images.Media.DATA};
+        Cursor cursor = getContentResolver().query(contentUri, proj, null, null, null);
+        cursor.moveToFirst();
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        //Toast.makeText(WriteActivity.this, cursor.getString(column_index), Toast.LENGTH_SHORT).show();
+        return cursor.getString(column_index);
+    }
+
     private class boardTask extends AsyncTask<String, Void, String> {
 
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
         String resultJson = "";
+        StringBuffer tempboardname = new StringBuffer();
+        int num = 0;
+        public boardTask(int number) {
+            this.num = number;
 
+        }
         @Override
         protected String doInBackground(String... params) {
             String userid = params[0];
@@ -265,52 +269,73 @@ public class BoardMainActivity extends AppCompatActivity {
         protected void onPostExecute(String strJson) {
             super.onPostExecute(strJson);
 
-            try {
-                JSONArray jsonarray = new JSONArray(strJson);
-                JSONObject jsonobj = jsonarray.getJSONObject(0);
-
-                String result_json_text =  jsonobj.getString("text");//ex3
-
-                Log.d("FOR_LOG", result_json_text);
-
-//                String Strjson = result_json_text.toString();
-//                Strjson.replaceAll("[(),]","");
-
-//                TextView textView = (TextView)findViewById(R.id.testtext);
-//                textView.setText(result_json_text);
-//                BoardText.setText("test");
-//                BoardText.setTextColor(Color.BLACK);
-//                BoardText.setPadding(ConvertDPtoPX(this, 35), 0, 0, 0);
-//                BoardText.setBackgroundColor(Color.TRANSPARENT);
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+//            try {
+//                JSONArray jsonarray = new JSONArray(strJson);
+//                JSONObject jsonobj = jsonarray.getJSONObject(num);
+//
+//                String result_json_text =  jsonobj.getString("text");//ex3
+//
+//                Log.d("FOR_LOG", result_json_text);
+//
+////                TextView textView = (TextView)findViewById(R.id.testtext);
+////                textView.setText(result_json_text);
+////                BoardText.setText("test");
+////                BoardText.setTextColor(Color.BLACK);
+////                BoardText.setPadding(ConvertDPtoPX(this, 35), 0, 0, 0);
+////                BoardText.setBackgroundColor(Color.TRANSPARENT);
+//
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//
+//            }
         }
+
     }
 
     // 그리드 레이아웃 내에 리니어레이아웃을 생성할 함수
-    public void makeLinearLayout(GridLayout gl){
+    public void makeLinearLayout(GridLayout gl,int num){
+        try {
         int n = 0;
         LinearLayout sl = new LinearLayout(this);
         sl.setOrientation(LinearLayout.VERTICAL);
         sl.setPadding(0, ConvertDPtoPX(this,10),0,0);
         sl.setBackgroundColor(Color.TRANSPARENT);
 
+        TextView BoardText = new TextView(this);
+        boardTask task = new boardTask(num);
+        String[] params = {userjson};
+
+            String resultjson = task.execute(params).get();//스레드 실행 함수
+            JSONArray jsonarray = new JSONArray(resultjson);
+            JSONObject jsonobj = jsonarray.getJSONObject(count);
+            String result_json_text =  jsonobj.getString("text");//ex3
+//            TextView textView = (TextView)findViewById(R.id.testtext);
+//            textView.setText(result_json_text);
+            BoardText.setText(result_json_text);
+            Log.d("FOR_LOG", result_json_text);
+
+        BoardText.setTextColor(Color.BLACK);
+        BoardText.setPadding(ConvertDPtoPX(this, 35), 0, 0, 0);
+        BoardText.setBackgroundColor(Color.TRANSPARENT);
+
+
         // addBoard에서 전달 받은 이미지 또는 서버에서 전달받은 이미지를 보여주며, board액티비티로 이동시키는 버튼
         ImageButton IB = new ImageButton(this);
-        IB.setId(n);
+//        IB.setId(n);
         ImageLoadTask task2 = new ImageLoadTask("http://192.168.0.3:5000/imgdownload",IB);//Imageview(IB)에 해당 url에서 이미지를 받아 넣음
         task2.execute();
+        String a = IB.getTransitionName();
+
         byte[] byteArray = BMAIntent.getByteArrayExtra("image");
         IB.setPadding(ConvertDPtoPX(this, 35), 0, 0, 0);
 
+
         // 게시판명
-        TextView BoardText = new TextView(this);
+
 //        BoardText.setText(BMAIntent.getStringExtra("boardName"));
-        boardTask task = new boardTask();
-        String[] params = {userjson};
-        task.execute(params);//스레드 실행 함수
+////        String[] params = {userjson};
+////        boardTask task = new boardTask();
+////        task.execute(params);//스레드 실행 함수
 
         IB.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), boardActivity.class);
@@ -323,6 +348,9 @@ public class BoardMainActivity extends AppCompatActivity {
         sl.addView(IB);
         sl.addView(BoardText);
         gl.addView(sl);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
     public class ImageLoadTask extends AsyncTask<Void, Void, Bitmap> {
@@ -358,6 +386,7 @@ public class BoardMainActivity extends AppCompatActivity {
                 URL url = new URL(urlStr);
                 bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream());
                 bitmapHashMap.put(urlStr, bitmap);
+                Toast.makeText(BoardMainActivity.this, "작성 일자 혹은 내용에 작성된 글이 없습니다.", Toast.LENGTH_SHORT).show();
             }catch (Exception e){
                 e.printStackTrace();
             }
