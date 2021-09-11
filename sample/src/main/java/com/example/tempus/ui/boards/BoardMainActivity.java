@@ -97,11 +97,11 @@ public class BoardMainActivity extends AppCompatActivity {
         }
 
         String[] params = {userjson};
-        boardTask task = new boardTask();
-        task.execute(params);//스레드 실행 함수
+//        boardTask task = new boardTask();
+//        task.execute(params);//스레드 실행 함수
         imageButton2 = findViewById(R.id.imageButton2);
-        ImageLoadTask task2 = new ImageLoadTask("http://192.168.0.3:5000/imgdownload",imageButton2);
-        task2.execute();
+//        ImageLoadTask task2 = new ImageLoadTask("http://192.168.0.3:5000/imgdownload",imageButton2);
+//        task2.execute();
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("게시판");
@@ -289,9 +289,12 @@ public class BoardMainActivity extends AppCompatActivity {
 //                String Strjson = result_json_text.toString();
 //                Strjson.replaceAll("[(),]","");
 
-                TextView textView = (TextView)findViewById(R.id.testtext);
-                textView.setText(result_json_text);
-//                makeLinearLayout(grid);
+//                TextView textView = (TextView)findViewById(R.id.testtext);
+//                textView.setText(result_json_text);
+//                BoardText.setText("test");
+//                BoardText.setTextColor(Color.BLACK);
+//                BoardText.setPadding(ConvertDPtoPX(this, 35), 0, 0, 0);
+//                BoardText.setBackgroundColor(Color.TRANSPARENT);
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -305,22 +308,22 @@ public class BoardMainActivity extends AppCompatActivity {
         LinearLayout sl = new LinearLayout(this);
         sl.setOrientation(LinearLayout.VERTICAL);
         sl.setPadding(0, ConvertDPtoPX(this,10),0,0);
-
+        sl.setBackgroundColor(Color.TRANSPARENT);
         // addBoard에서 전달 받은 이미지 또는 서버에서 전달받은 이미지를 보여주며, board액티비티로 이동시키는 버튼
         ImageButton IB = new ImageButton(this);
         IB.setId(n);
         ImageLoadTask task2 = new ImageLoadTask("http://192.168.0.3:5000/imgdownload",IB);//Imageview(IB)에 해당 url에서 이미지를 받아 넣음
         task2.execute();
-        byte[] byteArray = BMAIntent.getByteArrayExtra("image");//해당 부분에서 한번 루프하여 다시 함수가 호출되고 2번 호출되면서 오류발생으로 앱 정지
+        byte[] byteArray = BMAIntent.getByteArrayExtra("image");
         IB.setPadding(ConvertDPtoPX(this, 35), 0, 0, 0);
 
         // 게시판명
         TextView BoardText = new TextView(this);
 //        BoardText.setText(BMAIntent.getStringExtra("boardName"));
-        BoardText.setText("test");
-        BoardText.setTextColor(Color.BLACK);
-        BoardText.setPadding(ConvertDPtoPX(this, 35), 0, 0, 0);
-        BoardText.setBackgroundColor(Color.WHITE);
+        boardTask task = new boardTask();
+        String[] params = {userjson};
+        task.execute(params);//스레드 실행 함수
+
         IB.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), boardActivity.class);
             intent.putExtra("GROUP", BMAIntent.getStringExtra("boardName"));
