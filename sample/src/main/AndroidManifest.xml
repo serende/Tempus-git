@@ -108,6 +108,21 @@
         <activity android:name="com.example.tempus.ui.friends.FriendListActivity" />
         <activity android:name="com.example.tempus.ui.friends.AddFriendsActivity" />
         <activity android:name="com.example.tempus.ui.friends.EnteringInformationOfFriendActivity" />
+
+        <receiver android:name=".YESBroadCastReceiver" android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.INPUT_METHOD_CHANGED"/>
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name=".NOBroadCastReceiver" android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.INPUT_METHOD_CHANGED"/>
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>
