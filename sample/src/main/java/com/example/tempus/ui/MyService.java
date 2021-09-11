@@ -21,11 +21,16 @@ import com.applandeo.Tempus.appClass;
 
 // 백그라운드에서도 알림이 동작하도록 서비스로 구현
 public class MyService extends Service {
-    NotificationManager Notifi_M;
+    NotificationManager Notifi_Manage;
     ServiceThread thread;
-    Notification Notifi;
+    //Notification Notifi;
+    Notification.Builder NotifiBuilder;
 
-    public MyService() {
+    String InviteUser;      // 게시판 초대를 보낸 사용자
+    String InviteGroupName; // 초대받은 게시판명
+    int InviteYN = 0;       // 게시판 초대 메시지 유무
+
+   public MyService() {
     }
 
     @Override
@@ -36,7 +41,7 @@ public class MyService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Notifi_M = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        Notifi_Manage = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         myServiceHandler handler = new myServiceHandler();
         thread = new ServiceThread(handler);
         thread.start();
@@ -46,7 +51,7 @@ public class MyService extends Service {
     //서비스가 종료될 때 할 작업
     public void onDestroy() {
         thread.stopForever();
-        thread = null;          //쓰레기 값을 만들어서 빠르게 회수하라고 null을 넣어줌.
+        thread = null;          // 쓰레기 값을 만들어서 빠르게 회수하라고 null을 넣어줌.
     }
 
     class myServiceHandler extends Handler {
@@ -54,9 +59,11 @@ public class MyService extends Service {
         @Override
         public void handleMessage(android.os.Message msg) {
             Intent intent = new Intent(MyService.this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             PendingIntent pendingIntent = PendingIntent.getActivity(
-                    MyService.this, 0, intent,PendingIntent.FLAG_UPDATE_CURRENT);
+                    MyService.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
+            /*
             Notifi = new Notification.Builder(getApplicationContext(), "Noti_id")
                     .setContentTitle("Tempus")              // 알림에서 위에 뜨는 메시지
                     .setContentText("게시판 초대 알림")        // 알림에서 밑에 뜨는 메시지
@@ -73,11 +80,24 @@ public class MyService extends Service {
 
             //확인하면 자동으로 알림이 제거 되도록
             Notifi.flags = Notification.FLAG_AUTO_CANCEL;
+            */
 
-            Notifi_M.notify( 777 , Notifi);
+            NotifiBuilder = new Notification.Builder(getApplicationContext(), "Noti_id");
+            NotifiBuilder.setContentTitle("Tempus")                         // 알림에서 위에 뜨는 메시지
+                    .setContentText(InviteGroupName + "게시판 초대 알림")      // 알림에서 밑에 뜨는 메시지
+                    .setSmallIcon(R.drawable.tempus_logo)                   // 알림에 작게 뜨는 아이콘
+                    .setTicker("알림!!!")                                    // 알림 발생 시 잠깐 나오는 텍스트
+                    .setContentIntent(pendingIntent)                        // 알림을 누르면 실행할 Intent
+                    .setAutoCancel(true)                                    // 확인하면 자동으로 알림이 지워지도록 설정
+                    .build();
 
-            //토스트 띄우기
-            Toast.makeText(MyService.this, "Tempus 알림", Toast.LENGTH_LONG).show();
+            // 초대 메시지가 왔을 경우에만 알림이 작동
+            if(InviteYN == 1){
+                Notifi_Manage.notify( 777 , NotifiBuilder.build());
+                InviteYN = 0;
+            } else if (InviteYN != 0) {
+                Toast.makeText(getApplicationContext(), "Notification Error", Toast.LENGTH_SHORT).show();
+            }
         }
     };
 }

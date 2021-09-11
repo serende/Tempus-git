@@ -36,8 +36,7 @@ public class appClass extends Application {
         }
 
         // 앱이 설치돼있을 때 기본적으로 알림 ON
-        // 초대가 왔을 때만 알림이 오도록 변경 필요
         Intent intent = new Intent(this, MyService.class);
-        //startService(intent);
+        startService(intent);
     }
 }
