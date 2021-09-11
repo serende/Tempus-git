@@ -1,7 +1,6 @@
 package com.example.tempus.ui;
 
 import android.app.Notification;
-import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -14,10 +13,11 @@ import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 
+import com.applandeo.Tempus.NOBroadCastReceiver;
 import com.applandeo.Tempus.R;
 
 import com.applandeo.Tempus.MainActivity;
-import com.applandeo.Tempus.appClass;
+import com.applandeo.Tempus.YESBroadCastReceiver;
 
 // 백그라운드에서도 알림이 동작하도록 서비스로 구현
 public class MyService extends Service {
@@ -82,6 +82,18 @@ public class MyService extends Service {
             Notifi.flags = Notification.FLAG_AUTO_CANCEL;
             */
 
+            Intent YESBroadCastIntent = new Intent(getApplicationContext(), YESBroadCastReceiver.class);
+            YESBroadCastIntent.setAction("accept");
+            YESBroadCastIntent.putExtra("EXTRA_NOTIFICATION_ID", 1);
+            PendingIntent YESBroadPendingIntent =
+                    PendingIntent.getBroadcast(getApplicationContext(), 0, YESBroadCastIntent, 0);
+
+            Intent NOBroadCastIntent = new Intent(getApplicationContext(), NOBroadCastReceiver.class);
+            NOBroadCastIntent.setAction("refuse");
+            NOBroadCastIntent.putExtra("EXTRA_NOTIFICATION_ID", 0);
+            PendingIntent NOBroadPendingIntent =
+                    PendingIntent.getBroadcast(getApplicationContext(), 0, NOBroadCastIntent, 0);
+
             NotifiBuilder = new Notification.Builder(getApplicationContext(), "Noti_id");
             NotifiBuilder.setContentTitle("Tempus")                         // 알림에서 위에 뜨는 메시지
                     .setContentText(InviteGroupName + "게시판 초대 알림")      // 알림에서 밑에 뜨는 메시지
@@ -89,7 +101,11 @@ public class MyService extends Service {
                     .setTicker("알림!!!")                                    // 알림 발생 시 잠깐 나오는 텍스트
                     .setContentIntent(pendingIntent)                        // 알림을 누르면 실행할 Intent
                     .setAutoCancel(true)                                    // 확인하면 자동으로 알림이 지워지도록 설정
+                    .addAction(R.drawable.tempus_logo, "수락", YESBroadPendingIntent)
+                    .addAction(R.drawable.tempus_logo, "거절", NOBroadPendingIntent)
                     .build();
+
+            InviteYN = 1;
 
             // 초대 메시지가 왔을 경우에만 알림이 작동
             if(InviteYN == 1){
