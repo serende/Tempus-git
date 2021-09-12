@@ -49,7 +49,7 @@ public class BoardMainActivity extends AppCompatActivity {
     private FloatingActionButton openFAB, addBoardFAB, friendFAB, shoppingFAB, notifyONFAB, notifyOFFFAB;
     private ImageButton imageButton1, imageButton2;
     private String id = "admin";//test용 인텐드 받은 이메일 계정
-    private String userjson,result;
+    private String userjson,result,userfileName;
 
     String lineEnd = "\r\n";
     String twoHyphens = "--";
@@ -63,7 +63,8 @@ public class BoardMainActivity extends AppCompatActivity {
     String InviteGroupName;
     int count = 0;
     String user_EMAIL;
-
+    LinearLayout.LayoutParams slParams;
+    LinearLayout.LayoutParams IBParams;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,7 +74,8 @@ public class BoardMainActivity extends AppCompatActivity {
         user_EMAIL = BMAIntent.getStringExtra("EMAIL");  // 로그인 액티비티에서 전달받은 사용자의 email
 
         grid = findViewById(R.id.grid);
-
+        slParams = new LinearLayout.LayoutParams(ConvertDPtoPX(this, 145), ConvertDPtoPX(this,174));
+        IBParams = new LinearLayout.LayoutParams(ConvertDPtoPX(this, 145), ConvertDPtoPX(this,175));
         JSONObject useremail = new JSONObject();
 
         try{
@@ -298,8 +300,10 @@ public class BoardMainActivity extends AppCompatActivity {
         int n = 0;
         LinearLayout sl = new LinearLayout(this);
         sl.setOrientation(LinearLayout.VERTICAL);
-        sl.setPadding(0, ConvertDPtoPX(this,10),0,0);
-        sl.setBackgroundColor(Color.TRANSPARENT);
+//        sl.setPadding(0, ConvertDPtoPX(this,10),0,0);
+            sl.setPadding(ConvertDPtoPX(this, 35), ConvertDPtoPX(this,10),0,0);
+            sl.setBackgroundColor(Color.TRANSPARENT);
+//            sl.setLayoutParams(slParams);
 
         TextView BoardText = new TextView(this);
         boardTask task = new boardTask(num);
@@ -322,12 +326,21 @@ public class BoardMainActivity extends AppCompatActivity {
         // addBoard에서 전달 받은 이미지 또는 서버에서 전달받은 이미지를 보여주며, board액티비티로 이동시키는 버튼
         ImageButton IB = new ImageButton(this);
 //        IB.setId(n);
+            JSONObject fileName = new JSONObject();
+            try{
+                fileName.put("name",result_json_text);
+                userfileName = fileName.toString();
+            }catch (JSONException e){
+                e.printStackTrace();
+            }
+        String[] params2 = {userfileName};
         ImageLoadTask task2 = new ImageLoadTask("http://192.168.0.3:5000/imgdownload",IB);//Imageview(IB)에 해당 url에서 이미지를 받아 넣음
-        task2.execute();
-        String a = IB.getTransitionName();
-
+//      ImageLoadTask task2 = new ImageLoadTask("https://webhook.site/2e08c0c3-79dc-4f65-bba8-3cba6718f78f",IB);
+        task2.execute(params2);
+        IB.setScaleType(ImageView.ScaleType.FIT_CENTER);
         byte[] byteArray = BMAIntent.getByteArrayExtra("image");
-        IB.setPadding(ConvertDPtoPX(this, 35), 0, 0, 0);
+//        IB.setLayoutParams(IBParams);
+//        IB.setPadding(ConvertDPtoPX(this, 35), 0, 0, 0);
 
 
         // 게시판명
@@ -353,10 +366,12 @@ public class BoardMainActivity extends AppCompatActivity {
         }
     }
 
-    public class ImageLoadTask extends AsyncTask<Void, Void, Bitmap> {
+    public class ImageLoadTask extends AsyncTask<String, Void, Bitmap> {
 
         private String urlStr;
         private ImageView imageView;
+
+        HttpURLConnection urlConnection = null;
         //HashMap 객체를 만들고 이미지의 주소를 메모리에 만들어진 비트맵 객체와 매핑
         private HashMap<String, Bitmap> bitmapHashMap = new HashMap<String, Bitmap>();
 
@@ -372,10 +387,24 @@ public class BoardMainActivity extends AppCompatActivity {
 
         //웹서버의 이미지 데이터를 받아 비트맵 객체로 만들어줌
         @Override
-        protected Bitmap doInBackground(Void... voids) {
+        protected Bitmap doInBackground(String... params) {
+            String fileName = params[0];
             Bitmap bitmap = null;
             try{
                 //새로운 비트맵 객체를 만들기 전에 해시테이블 안에 동일한 주소를 요청하는 경우에 이전에 만들어졌던 비트맵 객체를 메모리에서 해제
+                URL url = new URL(urlStr);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setConnectTimeout(15*1000);//Timeout setting
+                conn.setRequestProperty("Content-Type", "application/json");//Request body 전달시 json 형태로 전달
+                conn.setRequestMethod("GET");//보내는 데이터 형태는 post로 응답
+                conn.setDoOutput(true);//서버로 응답을 보냄
+                conn.setDoInput(true);//서버로부터 응답을 받음
+                conn.connect();
+                OutputStreamWriter streamWriter = new OutputStreamWriter(conn.getOutputStream());
+                streamWriter.write(fileName);//Request body에 json data 세팅
+                streamWriter.flush();//json data 입력후 저장
+                streamWriter.close();
+                conn.getResponseCode();
                 if(bitmapHashMap.containsKey(urlStr)){
                     Bitmap oldBitmap = bitmapHashMap.remove(urlStr);
                     if(oldBitmap != null){
@@ -383,10 +412,12 @@ public class BoardMainActivity extends AppCompatActivity {
                         oldBitmap = null;
                     }
                 }
-                URL url = new URL(urlStr);
+//                conn.getResponseCode();
                 bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream());
                 bitmapHashMap.put(urlStr, bitmap);
-                Toast.makeText(BoardMainActivity.this, "작성 일자 혹은 내용에 작성된 글이 없습니다.", Toast.LENGTH_SHORT).show();
+
+
+//                Toast.makeText(BoardMainActivity.this, "", Toast.LENGTH_SHORT).show();
             }catch (Exception e){
                 e.printStackTrace();
             }
