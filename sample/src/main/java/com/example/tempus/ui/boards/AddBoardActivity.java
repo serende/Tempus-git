@@ -138,7 +138,7 @@ public class AddBoardActivity extends AppCompatActivity {
             String[] params = {boardjson};
             AddboardTask Write = new AddboardTask();
             Write.execute(params);
-            DoFileUpload("http://192.168.0.3:5000/imgupload", getAbsolutePath(photoURI));
+            DoFileUpload("http://192.168.0.3:5000/imgupload", getAbsolutePath(photoURI),WR_BODY);
 
             //            Intent intent = new Intent(AddBoardActivity.this, BoardMainActivity.class);
 //            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);  // 상위 스택 액티비티 모두 제거
@@ -181,8 +181,8 @@ public class AddBoardActivity extends AppCompatActivity {
         checkPermission();
     }
 
-    public void DoFileUpload(String apiUrI, String absolutePath) {
-        HttpFileUpload(apiUrI, "", absolutePath);
+    public void DoFileUpload(String apiUrI, String absolutePath,String FN) {
+        HttpFileUpload(apiUrI, "", absolutePath,FN);
     }
 
     // 이미지의 절대경로를 전달
@@ -342,7 +342,7 @@ public class AddBoardActivity extends AppCompatActivity {
     }
 
     // 서버에 이미지 업로드
-    public void HttpFileUpload(String urlString, String params, String fileName) {
+    public void HttpFileUpload(String urlString, String params, String fileName,String boardName) {
         try {
             FileInputStream mFileInputStream = new FileInputStream(fileName);
             URL connectUrl = new URL(urlString);
@@ -366,7 +366,7 @@ public class AddBoardActivity extends AppCompatActivity {
             // write data
             DataOutputStream dos = new DataOutputStream(conn.getOutputStream());
             dos.writeBytes(twoHyphens + boundary + lineEnd);
-            dos.writeBytes("Content-Disposition: form-data; name=\"uploadedfile\";filename=\"" + fileName + "\"" + lineEnd);
+            dos.writeBytes("Content-Disposition: form-data; name=\"uploadedfile\";filename=\"" + boardName+".jpg" + "\"" + lineEnd);
             dos.writeBytes(lineEnd);
 
             int bytesAvailable = mFileInputStream.available();

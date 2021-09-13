@@ -167,7 +167,7 @@ public class BoardMainActivity extends AppCompatActivity {
         });
 
         try{
-            for(int i = 0; i<2;i++){
+            for(int i = 0; i<10;i++){
                 count=i;
             makeLinearLayout(grid,count);
             }
