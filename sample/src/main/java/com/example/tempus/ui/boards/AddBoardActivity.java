@@ -323,6 +323,7 @@ public class AddBoardActivity extends AppCompatActivity {
                 break;
             case PICK_FROM_ALBUM:
                 Uri photoUri = data.getData();
+                photoURI = data.getData();
 
                 Cursor cursor = null;
 

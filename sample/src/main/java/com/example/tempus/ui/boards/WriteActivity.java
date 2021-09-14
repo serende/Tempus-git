@@ -317,6 +317,7 @@ public class WriteActivity extends AppCompatActivity {
                 break;
             case PICK_FROM_ALBUM:
                 Uri photoUri = data.getData();
+                photoURI = data.getData();
 
                 Cursor cursor = null;
 
