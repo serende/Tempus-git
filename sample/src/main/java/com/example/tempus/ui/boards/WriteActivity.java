@@ -305,7 +305,8 @@ public class WriteActivity extends AppCompatActivity {
             case REQUEST_IMAGE_CROP:
                 if (resultCode == Activity.RESULT_OK) {
                     galleryAddPic();
-
+                    photoURI = data.getData();
+                    cropImage();
                     try{
                         // 이미지 뷰어에 이미지 전송
                         userImage.setImageURI(albumURI);
@@ -317,7 +318,8 @@ public class WriteActivity extends AppCompatActivity {
             case PICK_FROM_ALBUM:
                 Uri photoUri = data.getData();
                 photoURI = data.getData();
-
+                photoURI = data.getData();
+                cropImage();
                 Cursor cursor = null;
 
                 try {
