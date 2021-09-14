@@ -26,11 +26,6 @@
         android:usesCleartextTraffic="true">
         <activity android:name="com.example.tempus.ui.boards.ShoppingActivity"
             android:theme="@style/Theme.Tempus.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <service
@@ -50,7 +45,9 @@
         <activity
             android:name="com.example.tempus.ui.boards.CreateExpenditureHistoryActivityForWrite"
             android:theme="@style/Theme.Tempus.NoActionBar" />
-        <activity android:name="com.example.tempus.ui.boards.ContentActivity" />
+        <activity android:name="com.example.tempus.ui.boards.ContentActivity" >
+
+        </activity>
         <activity android:name="com.example.tempus.ui.friends.EditFriendInfoActivity" />
         <activity android:name=".uploadActivity" />
         <activity android:name=".sentimentAnalysisActivity" />
@@ -74,13 +71,11 @@
         <activity android:name=".ServerResponseActivity" />
         <activity android:name=".ServerRequestActivity" />
         <activity android:name=".MainActivity">
-            <!--
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            -->
         </activity>
         <activity
             android:name=".CalendarActivity"
