@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -76,6 +78,7 @@ public class WriteActivity extends AppCompatActivity {
     private static final int REQUEST_TAKE_PHOTO = 2222;
     private static final int REQUEST_TAKE_ALBUM = 3333;
     private static final int REQUEST_IMAGE_CROP = 4444;
+    private static final int PICK_FROM_ALBUM = 5555;
 
     Button changeDisplay;
     ImageButton addPhoto;
@@ -104,6 +107,9 @@ public class WriteActivity extends AppCompatActivity {
     String userboard;
     String groupName;
     String result;
+
+    private File tempFile;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -135,7 +141,8 @@ public class WriteActivity extends AppCompatActivity {
         addPhoto = findViewById(R.id.addPhoto);
         addPhoto.setOnClickListener(v -> {
             // file search
-            getAlbum();
+            //getAlbum();
+            goToAlbum();
         });
 
         dateEdit = findViewById(R.id.dateEdit);
@@ -212,6 +219,12 @@ public class WriteActivity extends AppCompatActivity {
         mCurrentPhotoPath = imageFile.getAbsolutePath();
 
         return imageFile;
+    }
+
+    private void goToAlbum(){
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+        startActivityForResult(intent, PICK_FROM_ALBUM);
     }
 
     private void getAlbum() {
@@ -302,7 +315,47 @@ public class WriteActivity extends AppCompatActivity {
                     }
                 }
                 break;
+            case PICK_FROM_ALBUM:
+                Uri photoUri = data.getData();
+
+                Cursor cursor = null;
+
+                try {
+
+                    /*
+                     *  Uri 스키마를
+                     *  content:/// 에서 file:/// 로  변경한다.
+                     */
+                    String[] proj = { MediaStore.Images.Media.DATA };
+
+                    assert photoUri != null;
+                    cursor = getContentResolver().query(photoUri, proj, null, null, null);
+
+                    assert cursor != null;
+                    int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+
+                    cursor.moveToFirst();
+
+                    tempFile = new File(cursor.getString(column_index));
+
+                } finally {
+                    if (cursor != null) {
+                        cursor.close();
+                    }
+                }
+
+                setImage();
         }
+    }
+
+    // 이미지 뷰어에
+    private void setImage() {
+        ImageView userImage = findViewById(R.id.userImage);
+
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        Bitmap originalBm = BitmapFactory.decodeFile(tempFile.getAbsolutePath(), options);
+
+        userImage.setImageBitmap(originalBm);
     }
 
     // 권한 설정
