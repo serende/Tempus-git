@@ -105,7 +105,7 @@ public class MyService extends Service {
                     .addAction(R.drawable.tempus_logo, "거절", NOBroadPendingIntent)
                     .build();
 
-            InviteYN = 1;
+            //InviteYN = 1;
 
             // 초대 메시지가 왔을 경우에만 알림이 작동
             if(InviteYN == 1){

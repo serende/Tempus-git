@@ -90,7 +90,7 @@ public class WriteActivity extends AppCompatActivity {
 
     ImageView userImage;
 
-    RadioGroup radioGroup;
+    //RadioGroup radioGroup;
     BufferedReader reader = null;
     String WR_date, WR_body;
 
@@ -125,6 +125,8 @@ public class WriteActivity extends AppCompatActivity {
             Intent intent = new Intent(getApplicationContext(), CreateExpenditureHistoryActivityForWrite.class);
             intent.putExtra("EMAIL", user_EMAIL);
             intent.putExtra("GROUP", groupName);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            WriteActivity.this.finish();
             startActivity(intent);
         });
 
@@ -141,6 +143,7 @@ public class WriteActivity extends AppCompatActivity {
 
         finButton = findViewById(R.id.finButton);
         finButton.setOnClickListener(view -> {
+
 
             WR_date = dateEdit.getText().toString();
             WR_body = contentEdit.getText().toString();
@@ -163,6 +166,7 @@ public class WriteActivity extends AppCompatActivity {
             DoFileUpload(urIString, getAbsolutePath(photoURI));
 
 
+
             Intent intent = new Intent(WriteActivity.this, boardActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);  // 상위 스택 액티비티 모두 제거
             intent.putExtra("EMAIL", user_EMAIL);
@@ -172,8 +176,8 @@ public class WriteActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        radioGroup = findViewById(R.id.radioGroup);
-        radioGroup.setOnCheckedChangeListener(radioGroupButtonChangeListener);
+        //radioGroup = findViewById(R.id.radioGroup);
+        //radioGroup.setOnCheckedChangeListener(radioGroupButtonChangeListener);
 
         checkPermission();
     }
@@ -218,7 +222,7 @@ public class WriteActivity extends AppCompatActivity {
         startActivityForResult(intent, REQUEST_TAKE_ALBUM);
     }
 
-    /* 갤러리에 크롭핑한 사진 저장
+    // 갤러리에 크롭핑한 사진 저장
     private void galleryAddPic() {
         Log.i("galleryAddPic", "Call");
         Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
@@ -229,7 +233,7 @@ public class WriteActivity extends AppCompatActivity {
         sendBroadcast(mediaScanIntent);
         Toast.makeText(this, "사진이 앨범에 저장되었습니다.", Toast.LENGTH_SHORT).show();
     }
-     */
+
 
     // 이미지 crop
     public void cropImage() {
@@ -259,7 +263,7 @@ public class WriteActivity extends AppCompatActivity {
                 if (resultCode == Activity.RESULT_OK) {
                     try {
                         Log.i("REQUEST_TAKE_PHOTO", "OK");
-                        //galleryAddPic();
+                        galleryAddPic();
 
                         userImage.setImageURI(imageUri);
                     } catch (Exception e) {
@@ -288,7 +292,7 @@ public class WriteActivity extends AppCompatActivity {
 
             case REQUEST_IMAGE_CROP:
                 if (resultCode == Activity.RESULT_OK) {
-                    //galleryAddPic();
+                    galleryAddPic();
 
                     try{
                         // 이미지 뷰어에 이미지 전송
@@ -351,6 +355,7 @@ public class WriteActivity extends AppCompatActivity {
         }
     }
 
+    /*
     RadioGroup.OnCheckedChangeListener radioGroupButtonChangeListener = new RadioGroup.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
@@ -381,7 +386,7 @@ public class WriteActivity extends AppCompatActivity {
 //            Toast.makeText(this, exc.getMessage(), Toast.LENGTH_SHORT).show();
 //        }
 //    }
-
+*/
     // 서버에 이미지 업로드
     public void HttpFileUpload(String urlString, String params, String fileName) {
         try {

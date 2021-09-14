@@ -74,7 +74,7 @@ public class EnteringInformationOfFriendActivity extends AppCompatActivity {
             StringWriter sw = new StringWriter();
             e.printStackTrace(new PrintWriter(sw));
             String exceptionAsStrting = sw.toString();
-            Log.e("CSP", exceptionAsStrting);
+            Log.e("CPERROR", exceptionAsStrting);
 
             e.printStackTrace();
         }
