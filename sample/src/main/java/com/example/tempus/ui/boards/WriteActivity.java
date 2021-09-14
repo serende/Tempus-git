@@ -141,7 +141,7 @@ public class WriteActivity extends AppCompatActivity {
         addPhoto = findViewById(R.id.addPhoto);
         addPhoto.setOnClickListener(v -> {
             // file search
-            //getAlbum();
+//            getAlbum();
             goToAlbum();
         });
 
@@ -170,7 +170,7 @@ public class WriteActivity extends AppCompatActivity {
 
             addPostTask task = new addPostTask();
             task.execute(params);
-            DoFileUpload(urIString, getAbsolutePath(photoURI));
+//            DoFileUpload(urIString, getAbsolutePath(photoURI));
 
 
 
@@ -277,7 +277,6 @@ public class WriteActivity extends AppCompatActivity {
                     try {
                         Log.i("REQUEST_TAKE_PHOTO", "OK");
                         galleryAddPic();
-
                         userImage.setImageURI(imageUri);
                     } catch (Exception e) {
                         Log.e("REQUEST_TAKE_PHOTO", e.toString());

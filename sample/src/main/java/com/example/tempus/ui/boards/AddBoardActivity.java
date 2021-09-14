@@ -283,7 +283,8 @@ public class AddBoardActivity extends AppCompatActivity {
                     try {
                         Log.i("REQUEST_TAKE_PHOTO", "OK");
                         galleryAddPic();
-
+//                        photoURI = data.getData();
+//                        cropImage();
                         userImage.setImageURI(imageUri);
                     } catch (Exception e) {
                         Log.e("REQUEST_TAKE_PHOTO", e.toString());
@@ -312,7 +313,8 @@ public class AddBoardActivity extends AppCompatActivity {
             case REQUEST_IMAGE_CROP:
                 if (resultCode == Activity.RESULT_OK) {
                     galleryAddPic();
-
+                    photoURI = data.getData();
+                    cropImage();
                     try{
                         // 이미지 뷰어에 이미지 전송
                         userImage.setImageURI(albumURI);
@@ -323,7 +325,8 @@ public class AddBoardActivity extends AppCompatActivity {
                 break;
             case PICK_FROM_ALBUM:
                 Uri photoUri = data.getData();
-
+                photoURI = data.getData();
+                cropImage();
                 Cursor cursor = null;
 
                 try {

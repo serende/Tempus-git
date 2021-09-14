@@ -129,7 +129,8 @@ public class boardActivity extends AppCompatActivity {
             try {
 
                 //String site_url_json = "http://273fb4d10f83.ngrok.io/post";
-                String site_url_json = "http://192.168.43.226:5000/board";
+//                String site_url_json = "http://192.168.43.226:5000/board";
+                String site_url_json = "http://192.168.0.3:5000/Post";
                 //ngrok http 8000 -host-header="localhost:8000"
                 //로컬 주소를 0.0.0.0으로 세팅하는 방법을 통해 해결이 가능할 것으로도 예상하나 모든 호스트에 대해서 접근을 허용하기 때문에 보안상 문제가 발생함(5/4)
                 //웹서버 주소에 따른 기능 변환
