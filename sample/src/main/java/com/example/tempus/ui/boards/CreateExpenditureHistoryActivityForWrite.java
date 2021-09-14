@@ -66,7 +66,7 @@ public class CreateExpenditureHistoryActivityForWrite extends AppCompatActivity 
     EditText tagEdit;
     EditText memoEdit;
 
-    RadioGroup radioGroup;
+    //RadioGroup radioGroup;
 
     String mCurrentPhotoPath;
     Uri imageUri;
@@ -121,8 +121,8 @@ public class CreateExpenditureHistoryActivityForWrite extends AppCompatActivity 
         // 메모 내용
         memoEdit = findViewById(R.id.memoEdit);
 
-        radioGroup = findViewById(R.id.radioGroup);
-        radioGroup.setOnCheckedChangeListener(radioGroupButtonChangeListener);
+        //radioGroup = findViewById(R.id.radioGroup);
+        //radioGroup.setOnCheckedChangeListener(radioGroupButtonChangeListener);
 
         Button finButton = findViewById(R.id.finButton);
         finButton.setOnClickListener(view -> {
@@ -220,6 +220,7 @@ public class CreateExpenditureHistoryActivityForWrite extends AppCompatActivity 
         checkPermission();
     }
 
+    /*
     RadioGroup.OnCheckedChangeListener radioGroupButtonChangeListener = (radioGroup, i) -> {
         if(i == R.id.allShareRadioButton){
             Toast.makeText(CreateExpenditureHistoryActivityForWrite.this, "지인 모두와 공유", Toast.LENGTH_SHORT).show();
@@ -231,6 +232,8 @@ public class CreateExpenditureHistoryActivityForWrite extends AppCompatActivity 
             Toast.makeText(CreateExpenditureHistoryActivityForWrite.this, "공유하지 않음", Toast.LENGTH_SHORT).show();
         }
     };
+
+     */
 
     public void DoFileUpload(String apiUrI, String absolutePath) {
         HttpFileUpload(apiUrI, "", absolutePath);
