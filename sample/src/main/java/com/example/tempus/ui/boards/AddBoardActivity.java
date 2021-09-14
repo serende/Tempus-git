@@ -63,7 +63,7 @@ public class AddBoardActivity extends AppCompatActivity {
     Button finButton;
     EditText BoardNameEdit;
     ImageButton addPhoto;
-    EditText memoEdit;
+    //EditText memoEdit;
     ImageView userImage;
 
     String mCurrentPhotoPath;
@@ -71,7 +71,7 @@ public class AddBoardActivity extends AppCompatActivity {
     Uri photoURI, albumURI;
 
     String BoardName;
-    String BoardMemo;
+    //String BoardMemo;
 
     String lineEnd = "\r\n";
     String twoHyphens = "--";
@@ -99,7 +99,7 @@ public class AddBoardActivity extends AppCompatActivity {
         try{
             BoardNameEdit = findViewById(R.id.BoardNameEdit);
             addPhoto = findViewById(R.id.addPhoto);
-            memoEdit = findViewById(R.id.memoEdit);
+            //memoEdit = findViewById(R.id.memoEdit);
             finButton = findViewById(R.id.finButton);
         } catch(Exception e){
             Log.e("EditERROR", "findViewById ERROR");
@@ -118,7 +118,7 @@ public class AddBoardActivity extends AppCompatActivity {
 
         });
 
-        BoardMemo = memoEdit.getText().toString();
+        // BoardMemo = memoEdit.getText().toString();
 
         finButton.setOnClickListener(v -> {
             // TODO
@@ -302,20 +302,12 @@ public class AddBoardActivity extends AppCompatActivity {
                 new AlertDialog.Builder(this)
                         .setTitle("알림")
                         .setMessage("저장소 권한이 거부되었습니다. 사용을 원하시면 설정에서 해당 권한을 직접 허용하셔야 합니다.")
-                        .setNeutralButton("설정", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                                intent.setData(Uri.parse("package:" + getPackageName()));
-                                startActivity(intent);
-                            }
+                        .setNeutralButton("설정", (dialogInterface, i) -> {
+                            Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                            intent.setData(Uri.parse("package:" + getPackageName()));
+                            startActivity(intent);
                         })
-                        .setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                finish();
-                            }
-                        })
+                        .setPositiveButton("확인", (dialogInterface, i) -> finish())
                         .setCancelable(false)
                         .create()
                         .show();

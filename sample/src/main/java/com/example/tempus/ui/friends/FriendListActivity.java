@@ -13,6 +13,8 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
@@ -20,8 +22,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.applandeo.Tempus.R;
+import com.example.tempus.ui.MyService;
+import com.example.tempus.ui.boards.AddBoardActivity;
+import com.example.tempus.ui.boards.BoardMainActivity;
 import com.example.tempus.ui.boards.WriteActivity;
 import com.example.tempus.ui.boards.boardActivity;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -43,6 +49,14 @@ public class FriendListActivity extends AppCompatActivity {
     Intent FLAIntent;
     String user_EMAIL;
 
+    private Animation fab_open, fab_close;
+    private Boolean isFabOpen = false;
+
+    private FloatingActionButton openFAB, boardMainFAB, shoppingFAB, notifyONFAB, notifyOFFFAB;
+
+    int InviteYN = 0;
+    String InviteGroupName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +77,93 @@ public class FriendListActivity extends AppCompatActivity {
         params = new LinearLayout.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT
                 , Toolbar.LayoutParams.WRAP_CONTENT);
 
+        openFAB = findViewById(R.id.openFAB);
+        openFAB.setOnClickListener(v -> {
+            anim();
+        });
+
+        try{
+            boardMainFAB = findViewById(R.id.boardMainFAB);
+            shoppingFAB = findViewById(R.id.shoppingFAB);
+            notifyONFAB = findViewById(R.id.notifyONFAB);
+            notifyOFFFAB = findViewById(R.id.notifyOFFFAB);
+        } catch (Exception e){
+            Log.e("FVBERROR", e.toString());
+        }
+
+        // anim()에서 사용할 애니메이션
+        fab_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
+        fab_close = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close);
+
+        // 게시판 추가 액티비티로 이동
+        boardMainFAB.setOnClickListener(v -> {
+            anim();
+            Intent intent = new Intent(getApplicationContext(), BoardMainActivity.class);
+            intent.putExtra("EMAIL", user_EMAIL);
+            startActivity(intent);
+        });
+
+        shoppingFAB.setOnClickListener(v -> {
+            anim();
+            // TODO
+        });
+
+        // 알림 구현은 됐으나 초대 됐을 때만 알림이 오도록 조건문 구현이 필요
+        // 현재 appClass를 통해 ON버튼을 누르기 전에도 앱을 설치해서 실행하면 알림이 ON이 되도록 구현돼있음
+        notifyONFAB.setOnClickListener(v -> {
+            anim();
+            Toast.makeText(getApplicationContext(),"알림 ON",Toast.LENGTH_SHORT).show();
+
+            Intent intent = new Intent(FriendListActivity.this, MyService.class);    // 알림 서비스 실행
+            startService(intent);
+        });
+
+        notifyOFFFAB.setOnClickListener(v -> {
+            anim();
+            Toast.makeText(getApplicationContext(),"알림 OFF",Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(FriendListActivity.this,MyService.class);     // 알림 서비스 종료
+            stopService(intent);
+        });
+
         MakeLinearLayout(lm);
+    }
+
+    // 애니메이션 실행 함수
+    public void anim() {
+        if(isFabOpen) {
+            try{
+                boardMainFAB.startAnimation(fab_close);
+                shoppingFAB.startAnimation(fab_close);
+                notifyONFAB.startAnimation(fab_close);
+                notifyOFFFAB.startAnimation(fab_close);
+
+                boardMainFAB.setClickable(false);
+                shoppingFAB.setClickable(false);
+                notifyONFAB.setClickable(false);
+                notifyOFFFAB.setClickable(false);
+
+                isFabOpen = false;
+            } catch (Exception e){
+                Log.e("animERROR", e.toString());
+            }
+
+        } else {
+            try{
+                boardMainFAB.startAnimation(fab_open);
+                shoppingFAB.startAnimation(fab_open);
+                notifyONFAB.startAnimation(fab_open);
+                notifyOFFFAB.startAnimation(fab_open);
+
+                boardMainFAB.setClickable(true);
+                shoppingFAB.setClickable(true);
+                notifyONFAB.setClickable(true);
+                notifyOFFFAB.setClickable(true);
+
+                isFabOpen = true;
+            } catch (Exception e){
+                Log.e("animERROR", e.toString());
+            }
+        }
     }
 
     // 파일에서 텍스트를 읽어 옴

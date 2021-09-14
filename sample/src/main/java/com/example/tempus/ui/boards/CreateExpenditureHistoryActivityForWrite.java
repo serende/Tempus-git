@@ -100,6 +100,8 @@ public class CreateExpenditureHistoryActivityForWrite extends AppCompatActivity 
         changeDisplay.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext(), WriteActivity.class);
             intent.putExtra("EMAIL", user_EMAIL);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            CreateExpenditureHistoryActivityForWrite.this.finish();
             startActivity(intent);
         });
 
@@ -270,6 +272,18 @@ public class CreateExpenditureHistoryActivityForWrite extends AppCompatActivity 
         startActivityForResult(intent, REQUEST_TAKE_ALBUM);
     }
 
+    // 갤러리에 크롭핑한 사진 저장
+    private void galleryAddPic() {
+        Log.i("galleryAddPic", "Call");
+        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        // 해당 경로에 있는 파일을 객체화
+        File f = new File(mCurrentPhotoPath);
+        Uri contentUri = Uri.fromFile(f);
+        mediaScanIntent.setData(contentUri);
+        sendBroadcast(mediaScanIntent);
+        Toast.makeText(this, "사진이 앨범에 저장되었습니다.", Toast.LENGTH_SHORT).show();
+    }
+
     // 이미지 crop
     public void cropImage() {
         Log.i("cropImage", "Call");
@@ -298,7 +312,7 @@ public class CreateExpenditureHistoryActivityForWrite extends AppCompatActivity 
                 if (resultCode == Activity.RESULT_OK) {
                     try {
                         Log.i("REQUEST_TAKE_PHOTO", "OK");
-                        //galleryAddPic();
+                        galleryAddPic();
 
                         userImage.setImageURI(imageUri);
                     } catch (Exception e) {
@@ -327,7 +341,7 @@ public class CreateExpenditureHistoryActivityForWrite extends AppCompatActivity 
 
             case REQUEST_IMAGE_CROP:
                 if (resultCode == Activity.RESULT_OK) {
-                    //galleryAddPic();
+                    galleryAddPic();
 
                     // 이미지 뷰어에 이미지 전송
                     userImage.setImageURI(albumURI);

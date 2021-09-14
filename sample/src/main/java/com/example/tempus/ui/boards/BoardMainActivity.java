@@ -64,6 +64,9 @@ public class BoardMainActivity extends AppCompatActivity {
     int count = 0;
     String user_EMAIL;
 
+    LinearLayout.LayoutParams slParams;
+    LinearLayout.LayoutParams IBParams;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +76,9 @@ public class BoardMainActivity extends AppCompatActivity {
         user_EMAIL = BMAIntent.getStringExtra("EMAIL");  // 로그인 액티비티에서 전달받은 사용자의 email
 
         grid = findViewById(R.id.grid);
+        // (MakeLinearLayout) 이미지 버튼: 145dp*145dp, 텍스트뷰 높이: 10dp, 이미지 버튼과 텍스트뷰 사이 거리 10dp
+        slParams = new LinearLayout.LayoutParams(ConvertDPtoPX(this, 145), ConvertDPtoPX(this, 174));
+        IBParams = new LinearLayout.LayoutParams(ConvertDPtoPX(this, 145), ConvertDPtoPX(this, 145));
 
         JSONObject useremail = new JSONObject();
 
@@ -295,15 +301,16 @@ public class BoardMainActivity extends AppCompatActivity {
     // 그리드 레이아웃 내에 리니어레이아웃을 생성할 함수
     public void makeLinearLayout(GridLayout gl,int num){
         try {
-        int n = 0;
-        LinearLayout sl = new LinearLayout(this);
-        sl.setOrientation(LinearLayout.VERTICAL);
-        sl.setPadding(0, ConvertDPtoPX(this,10),0,0);
-        sl.setBackgroundColor(Color.TRANSPARENT);
+            int n = 0;
+            LinearLayout sl = new LinearLayout(this);
+            sl.setOrientation(LinearLayout.VERTICAL);
+            sl.setPadding(0, ConvertDPtoPX(this,10),0,0);
+            sl.setBackgroundColor(Color.TRANSPARENT);
+            //sl.setLayoutParams(slParams);
 
-        TextView BoardText = new TextView(this);
-        boardTask task = new boardTask(num);
-        String[] params = {userjson};
+            TextView BoardText = new TextView(this);
+            boardTask task = new boardTask(num);
+            String[] params = {userjson};
 
             String resultjson = task.execute(params).get();//스레드 실행 함수
             JSONArray jsonarray = new JSONArray(resultjson);
@@ -314,41 +321,42 @@ public class BoardMainActivity extends AppCompatActivity {
             BoardText.setText(result_json_text);
             Log.d("FOR_LOG", result_json_text);
 
-        BoardText.setTextColor(Color.BLACK);
-        BoardText.setPadding(ConvertDPtoPX(this, 35), 0, 0, 0);
-        BoardText.setBackgroundColor(Color.TRANSPARENT);
+            BoardText.setTextColor(Color.BLACK);
+            BoardText.setPadding(ConvertDPtoPX(this, 35), 0, 0, 0);
+            BoardText.setBackgroundColor(Color.TRANSPARENT);
 
 
-        // addBoard에서 전달 받은 이미지 또는 서버에서 전달받은 이미지를 보여주며, board액티비티로 이동시키는 버튼
-        ImageButton IB = new ImageButton(this);
+            // addBoard에서 전달 받은 이미지 또는 서버에서 전달받은 이미지를 보여주며, board액티비티로 이동시키는 버튼
+            ImageButton IB = new ImageButton(this);
 //        IB.setId(n);
-        ImageLoadTask task2 = new ImageLoadTask("http://192.168.0.3:5000/imgdownload",IB);//Imageview(IB)에 해당 url에서 이미지를 받아 넣음
-        task2.execute();
-        String a = IB.getTransitionName();
+            ImageLoadTask task2 = new ImageLoadTask("http://192.168.0.3:5000/imgdownload",IB);//Imageview(IB)에 해당 url에서 이미지를 받아 넣음
+            task2.execute();
+            String a = IB.getTransitionName();
 
-        byte[] byteArray = BMAIntent.getByteArrayExtra("image");
-        IB.setPadding(ConvertDPtoPX(this, 35), 0, 0, 0);
+            byte[] byteArray = BMAIntent.getByteArrayExtra("image");
+            IB.setPadding(ConvertDPtoPX(this, 35), 0, 0, 0);
+            //IB.setLayoutParams(IBParams);
+            IB.setScaleType(ImageView.ScaleType.FIT_CENTER);
 
-
-        // 게시판명
+            // 게시판명
 
 //        BoardText.setText(BMAIntent.getStringExtra("boardName"));
 ////        String[] params = {userjson};
 ////        boardTask task = new boardTask();
 ////        task.execute(params);//스레드 실행 함수
 
-        IB.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), boardActivity.class);
-            intent.putExtra("GROUP", BMAIntent.getStringExtra("boardName"));
-            intent.putExtra("EMAIL", user_EMAIL);
-            startActivity(intent);
-        });
+            IB.setOnClickListener(v -> {
+                Intent intent = new Intent(getApplicationContext(), boardActivity.class);
+                intent.putExtra("GROUP", BMAIntent.getStringExtra("boardName"));
+                intent.putExtra("EMAIL", user_EMAIL);
+                startActivity(intent);
+            });
 
-        // 그리드 레이아웃에 뷰 추가
-        sl.addView(IB);
-        sl.addView(BoardText);
-        gl.addView(sl);
-        }catch(Exception e){
+            // 그리드 레이아웃에 뷰 추가
+            sl.addView(IB);
+            sl.addView(BoardText);
+            gl.addView(sl);
+        } catch(Exception e){
             e.printStackTrace();
         }
     }

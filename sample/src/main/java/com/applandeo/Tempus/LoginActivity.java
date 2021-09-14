@@ -1,7 +1,9 @@
 package com.applandeo.Tempus;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +13,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.core.app.ActivityCompat;
 
 import com.example.tempus.ui.boards.BoardMainActivity;
 import com.example.tempus.ui.friends.EnteringInformationOfFriendActivity;
@@ -23,6 +27,8 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -30,11 +36,16 @@ public class LoginActivity extends Activity {
 
     // UI references.
 
+    final static String FilePath= "/data/data/com.applandeo.materialcalendarsampleapp/files/check.txt";
+
     private EditText mEmailView;
     private EditText mPasswordView;
     String email,password;
     String userjson,result;
     BufferedReader reader = null;
+
+    String checkNum = "1";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,6 +98,17 @@ public class LoginActivity extends Activity {
             return false;
         });
 
+        try{
+            checkPermission();
+        }
+        catch (Exception e){
+            StringWriter sw = new StringWriter();
+            e.printStackTrace(new PrintWriter(sw));
+            String exceptionAsStrting = sw.toString();
+            Log.e("CPERROR", exceptionAsStrting);
+
+            e.printStackTrace();
+        }
     }
     private class loginTask extends AsyncTask<String, Void, String> {
         protected String doInBackground(String... params) {
@@ -143,4 +165,9 @@ public class LoginActivity extends Activity {
         }
     }
 
+    public void checkPermission(){
+        if(checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+        }
+    }
 }
