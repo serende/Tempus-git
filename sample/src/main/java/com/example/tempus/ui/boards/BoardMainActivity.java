@@ -352,7 +352,7 @@ public class BoardMainActivity extends AppCompatActivity {
 
         IB.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), boardActivity.class);
-            intent.putExtra("GROUP", BMAIntent.getStringExtra("boardName"));
+            intent.putExtra("GROUP", result_json_text);
             intent.putExtra("EMAIL", user_EMAIL);
             startActivity(intent);
         });

@@ -91,7 +91,7 @@ public class WriteActivity extends AppCompatActivity {
     ImageView userImage;
 
     RadioGroup radioGroup;
-
+    BufferedReader reader = null;
     String WR_date, WR_body;
 
     String lineEnd = "\r\n";
@@ -101,9 +101,9 @@ public class WriteActivity extends AppCompatActivity {
 
     Intent WAIntent;
     String user_EMAIL;
-
+    String userboard;
     String groupName;
-
+    String result;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -141,79 +141,27 @@ public class WriteActivity extends AppCompatActivity {
 
         finButton = findViewById(R.id.finButton);
         finButton.setOnClickListener(view -> {
-            JSONObject jsonObject = new JSONObject();
-
-            JSONObject head = new JSONObject();     //JSON 오브젝트의 head 부분
-            JSONObject body = new JSONObject();     //JSON 오브젝트의 body 부분
-
-            String headjson = null;
-            String bodyjson = null;
 
             WR_date = dateEdit.getText().toString();
             WR_body = contentEdit.getText().toString();
-
-            String urIString = "http://192.168.0.3:5000/imgupload";
-            //String urIString = "https://webhook.site/d4dc0f16-d848-41ba-a14f-bbea18b82018";
-            DoFileUpload(urIString, getAbsolutePath(photoURI));
-            //uploadMultipart(urIString, getAbsolutePath(photoURI));
-
-            /*
-            HttpPost post = new HttpPost("http://echo.200please.com");
-            InputStream inputStream = new FileInputStream(zipFileName);
-            File file = new File(imageFileName);
-            String message = "This is a multipart post";
-            MultipartEntityBuilder builder = MultipartEntityBuilder.create();
-            builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
-            builder.addBinaryBody
-                    ("upfile", file, ContentType.DEFAULT_BINARY, imageFileName);
-            builder.addBinaryBody
-                    ("upstream", inputStream, ContentType.create("application/zip"), zipFileName);
-            builder.addTextBody("text", message, ContentType.TEXT_PLAIN);
-
-            HttpEntity entity = builder.build();
-            post.setEntity(entity);
-            HttpResponse response = client.execute(post);
-            try {
-                AndroidUploader uploader = new AndroidUploader("user", "userPwd");
-
-                String path = getAbsolutePath(photoURI);
-
-                uploader.uploadPicture(path);
-            } catch (Exception e) {
-                Log.e(e.getClass().getName(), e.getMessage());
-            }
-
-
-
-            try {
-                head.put("WR_ID", "1");     //head 부분 생성 시작
-                head.put("WR_TYPE", "A");    //head 부분 생성 완료
-                // A: 자유 형식, B: 지출 목록 형식
-
-                jsonObject.put("head", head);   //head 오브젝트 추가
-                headjson = jsonObject.toString();
-                // 작성일자
-                body.put("WR_DATE", WR_date);   //body부분 생성 시작
-                // 글 내용
-                body.put("WR_BODY", WR_body);   //body부분 생성 완료
-
-
-                jsonObject.put("body", body);   //body 오브젝트 추가
-                bodyjson = jsonObject.toString();
-            } catch (JSONException e) {
+            JSONObject userjson = new JSONObject();
+            try{
+                userjson.put("GROUP",groupName);
+                userjson.put("WR_ID",user_EMAIL);
+                userjson.put("WR_TYPE","1");
+                userjson.put("WR_BODY",WR_body);
+                userboard = userjson.toString();
+            }catch (JSONException e){
                 e.printStackTrace();
             }
+            String[] params = {userboard};
+            String urIString = "http://192.168.0.3:5000/imgupload";
+            //String urIString = "https://webhook.site/d4dc0f16-d848-41ba-a14f-bbea18b82018";
 
-            // 작성 일자 혹은 내용이 빈 칸인 경우 완료버튼 onClick함수 종료
-            if (dateEdit.getText().length() == 0 || contentEdit.getText().length() == 0) {
-                Toast.makeText(WriteActivity.this, "작성 일자 혹은 내용에 작성된 글이 없습니다.", Toast.LENGTH_SHORT).show();
-                return;
-            }//            Log.e("json", "생성한 json : " + jsonObject.toString());
-            String[] params = {headjson,bodyjson};
-            PostTask Write = new PostTask();
-            Write.execute(params);
+            addPostTask task = new addPostTask();
+            task.execute(params);
+            DoFileUpload(urIString, getAbsolutePath(photoURI));
 
-             */
 
             Intent intent = new Intent(WriteActivity.this, boardActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);  // 상위 스택 액티비티 모두 제거
@@ -503,6 +451,56 @@ public class WriteActivity extends AppCompatActivity {
             Log.d("Test", "exception " + e.getMessage());
             Toast.makeText(WriteActivity.this, "오류 메세지" + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private class addPostTask extends AsyncTask<String, Void, String> {
+
+        protected String doInBackground(String... params) {
+            //String hjson = params[0];
+            String userdata = params[0];
+            try {
+                String host_url = "http://192.168.0.3:5000/addPost";
+//                String host_url = "https://webhook.site/2e08c0c3-79dc-4f65-bba8-3cba6718f78f";
+                URL url = new URL(host_url);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setConnectTimeout(15 * 1000);//Timeout setting
+                conn.setRequestProperty("Content-Type", "application/json");//Request body 전달시 json 형태로 전달
+                conn.setRequestMethod("POST");//보내는 데이터 형태는 post로 응답
+                conn.setDoOutput(true);//서버로 응답을 보냄
+                conn.setDoInput(true);//서버로부터 응답을 받음
+                conn.connect();
+                OutputStreamWriter streamWriter = new OutputStreamWriter(conn.getOutputStream());
+                streamWriter.write(userdata);//Request body에 json data 세팅
+                streamWriter.flush();//json data 입력후 저장
+                streamWriter.close();
+                InputStream inputStream = conn.getInputStream();
+                StringBuffer buffer = new StringBuffer();
+                reader = new BufferedReader(new InputStreamReader(inputStream));
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    buffer.append(line);
+                }
+                result = buffer.toString();
+                int responsecode = conn.getResponseCode();//http 응답코드 송신
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(String str) {
+            super.onPostExecute(str);
+            if (str.equals("error") == true) {
+                Toast.makeText(WriteActivity.this, "errer", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(WriteActivity.this, "전송 성공", Toast.LENGTH_SHORT).show();
+            }
+        }
+
     }
 }
 
