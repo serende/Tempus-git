@@ -10,7 +10,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <uses-feature android:name="android.hardware.camera2" />
 
@@ -24,14 +24,23 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name="com.example.tempus.ui.boards.ShoppingActivity"
+            android:theme="@style/Theme.Tempus.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <service
             android:name="com.example.tempus.ui.MyService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
 
         <activity
             android:name="com.example.tempus.ui.boards.InviteActivity"
-            android:theme="@style/Theme.Tempus.NoActionBar"></activity>
+            android:theme="@style/Theme.Tempus.NoActionBar" />
 
         <meta-data
             android:name="com.google.android.actions"
@@ -65,11 +74,13 @@
         <activity android:name=".ServerResponseActivity" />
         <activity android:name=".ServerRequestActivity" />
         <activity android:name=".MainActivity">
+            <!--
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            -->
         </activity>
         <activity
             android:name=".CalendarActivity"
@@ -109,20 +120,22 @@
         <activity android:name="com.example.tempus.ui.friends.AddFriendsActivity" />
         <activity android:name="com.example.tempus.ui.friends.EnteringInformationOfFriendActivity" />
 
-        <receiver android:name=".YESBroadCastReceiver" android:exported="true">
+        <receiver
+            android:name=".YESBroadCastReceiver"
+            android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
-                <action android:name="android.intent.action.INPUT_METHOD_CHANGED"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.INPUT_METHOD_CHANGED" />
             </intent-filter>
         </receiver>
-
-        <receiver android:name=".NOBroadCastReceiver" android:exported="true">
+        <receiver
+            android:name=".NOBroadCastReceiver"
+            android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
-                <action android:name="android.intent.action.INPUT_METHOD_CHANGED"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.INPUT_METHOD_CHANGED" />
             </intent-filter>
         </receiver>
-
     </application>
 
 </manifest>

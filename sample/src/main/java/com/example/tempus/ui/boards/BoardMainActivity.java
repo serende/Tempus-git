@@ -136,9 +136,11 @@ public class BoardMainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        // 가성비 제품 추천 액티비티로 이동
         shoppingFAB.setOnClickListener(v -> {
             anim();
-            // TODO
+            Intent intent = new Intent(getApplicationContext(), ShoppingActivity.class);
+            startActivity(intent);
         });
 
         // 알림 구현은 됐으나 초대 됐을 때만 알림이 오도록 조건문 구현이 필요
