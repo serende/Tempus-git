@@ -283,8 +283,7 @@ public class AddBoardActivity extends AppCompatActivity {
                     try {
                         Log.i("REQUEST_TAKE_PHOTO", "OK");
                         galleryAddPic();
-//                        photoURI = data.getData();
-//                        cropImage();
+
                         userImage.setImageURI(imageUri);
                     } catch (Exception e) {
                         Log.e("REQUEST_TAKE_PHOTO", e.toString());
