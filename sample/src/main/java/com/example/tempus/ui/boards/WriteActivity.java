@@ -165,12 +165,12 @@ public class WriteActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
             String[] params = {userboard};
-            String urIString = "http://192.168.0.3:5000/imgupload";
+            String urIString = "http://192.168.0.3:5000/imgupload_Post";
             //String urIString = "https://webhook.site/d4dc0f16-d848-41ba-a14f-bbea18b82018";
 
             addPostTask task = new addPostTask();
             task.execute(params);
-//            DoFileUpload(urIString, getAbsolutePath(photoURI));
+            DoFileUpload(urIString, getAbsolutePath(photoURI));
 
 
 
@@ -468,7 +468,7 @@ public class WriteActivity extends AppCompatActivity {
             // write data
             DataOutputStream dos = new DataOutputStream(conn.getOutputStream());
             dos.writeBytes(twoHyphens + boundary + lineEnd);
-            dos.writeBytes("Content-Disposition: form-data; name=\"uploadedfile\";filename=\"" + "그림에 맞는 제목"+".jpg" + "\"" + lineEnd);
+            dos.writeBytes("Content-Disposition: form-data; name=\"uploadedfile\";filename=\"" + "test"+".jpg" + "\"" + lineEnd);
             dos.writeBytes(lineEnd);
 
             int bytesAvailable = mFileInputStream.available();
