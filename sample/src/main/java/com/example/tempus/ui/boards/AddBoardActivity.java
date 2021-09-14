@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -59,6 +60,7 @@ public class AddBoardActivity extends AppCompatActivity {
     private static final int REQUEST_TAKE_PHOTO = 2222;
     private static final int REQUEST_TAKE_ALBUM = 3333;
     private static final int REQUEST_IMAGE_CROP = 4444;
+    private static final int PICK_FROM_ALBUM = 5555;
 
     Button finButton;
     EditText BoardNameEdit;
@@ -83,6 +85,8 @@ public class AddBoardActivity extends AppCompatActivity {
 
     Intent ABAIntent;
     String user_EMAIL;
+
+    private File tempFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,7 +115,8 @@ public class AddBoardActivity extends AppCompatActivity {
         addPhoto.setOnClickListener(v -> {
             // file search
             try{
-                getAlbum();
+                //getAlbum();
+                goToAlbum();
             } catch(Exception e){
                 Log.e("getAlbumError", e.toString());
             }
@@ -179,6 +184,22 @@ public class AddBoardActivity extends AppCompatActivity {
         });
 
         checkPermission();
+    }
+
+    private void goToAlbum(){
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+        startActivityForResult(intent, PICK_FROM_ALBUM);
+    }
+
+    // 이미지 뷰어에 이미지 넣기
+    private void setImage() {
+        ImageView userImage = findViewById(R.id.userImage);
+
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        Bitmap originalBm = BitmapFactory.decodeFile(tempFile.getAbsolutePath(), options);
+
+        userImage.setImageBitmap(originalBm);
     }
 
     public void DoFileUpload(String apiUrI, String absolutePath,String FN) {
@@ -300,6 +321,36 @@ public class AddBoardActivity extends AppCompatActivity {
                     }
                 }
                 break;
+            case PICK_FROM_ALBUM:
+                Uri photoUri = data.getData();
+
+                Cursor cursor = null;
+
+                try {
+
+                    /*
+                     *  Uri 스키마를
+                     *  content:/// 에서 file:/// 로  변경한다.
+                     */
+                    String[] proj = { MediaStore.Images.Media.DATA };
+
+                    assert photoUri != null;
+                    cursor = getContentResolver().query(photoUri, proj, null, null, null);
+
+                    assert cursor != null;
+                    int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+
+                    cursor.moveToFirst();
+
+                    tempFile = new File(cursor.getString(column_index));
+
+                } finally {
+                    if (cursor != null) {
+                        cursor.close();
+                    }
+                }
+
+                setImage();
         }
     }
 

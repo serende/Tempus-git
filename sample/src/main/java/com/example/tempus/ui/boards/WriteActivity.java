@@ -348,7 +348,7 @@ public class WriteActivity extends AppCompatActivity {
         }
     }
 
-    // 이미지 뷰어에
+    // 이미지 뷰어에 이미지 넣기
     private void setImage() {
         ImageView userImage = findViewById(R.id.userImage);
 
