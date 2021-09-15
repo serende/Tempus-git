@@ -275,10 +275,16 @@ public class boardActivity extends AppCompatActivity {
                 sl.addView(contentTV);
             }
             else if(WR_TYPE.equals("2")){    // 지출 내역 형식
+                LinearLayout tvLL = new LinearLayout(this);
+                tvLL.setLayoutParams(LayoutParams);
+                tvLL.setBackground(ContextCompat.getDrawable(this, R.drawable.layoutborder));
+
                 TextView tv = new TextView(this);
                 tv.setText("지출 내역");
                 tv.setLayoutParams(tvParams);
                 tv.setBackground(ContextCompat.getDrawable(this, R.drawable.layoutborder));
+
+                tvLL.addView(tv);
 
                 //**************************************************
                 // 제품명
@@ -336,6 +342,10 @@ public class boardActivity extends AppCompatActivity {
 
                 //**************************************************
                 // 메모
+                LinearLayout memoLL = new LinearLayout(this);
+                memoLL.setLayoutParams(LayoutParams);
+                memoLL.setBackground(ContextCompat.getDrawable(this, R.drawable.layoutborder));
+
                 TextView memoTv = new TextView(this);
                 TextView memoTV = new TextView(this);
 
@@ -346,30 +356,14 @@ public class boardActivity extends AppCompatActivity {
                 memoTV.setLayoutParams(btnParams);
                 memoTV.setBackground(ContextCompat.getDrawable(this, R.drawable.layoutborder));
 
-                sl.addView(tv);
+                memoLL.addView(memoTv);
+
+                sl.addView(tvLL);
                 sl.addView(pnameLL);
                 sl.addView(priceLL);
                 sl.addView(tagLL);
-                sl.addView(memoTv);
+                sl.addView(memoLL);
                 sl.addView(memoTV);
-
-                /*
-                pnameTV.setText("구매 제품명: " + WR_PNAME);
-                priceTV.setText("가격: " + WR_PRICE + "원");
-                 */
-
-                /*
-                ssl2.addView(tv);
-                ssl2.addView(pnameTv);
-                ssl2.addView(pnameTV);
-                ssl2.addView(priceTv);
-                ssl2.addView(priceTV);
-                ssl2.addView(tagTv);
-                ssl2.addView(tagTV);
-                ssl2.addView(memoTv);
-                ssl2.addView(memoTV);
-                sl.addView(ssl2);
-                 */
             }
             else {
                 Toast.makeText(getApplicationContext(), "TYPE ERROR", Toast.LENGTH_SHORT).show();
