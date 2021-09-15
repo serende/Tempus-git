@@ -52,7 +52,7 @@ public class FriendListActivity extends AppCompatActivity {
     private Animation fab_open, fab_close;
     private Boolean isFabOpen = false;
 
-    private FloatingActionButton openFAB, boardMainFAB, shoppingFAB, notifyONFAB, notifyOFFFAB;
+    //private FloatingActionButton openFAB, boardMainFAB, shoppingFAB, notifyONFAB, notifyOFFFAB;
 
     int InviteYN = 0;
     String InviteGroupName;
@@ -67,7 +67,7 @@ public class FriendListActivity extends AppCompatActivity {
 
         addButton = findViewById(R.id.addButton);
         addButton.setOnClickListener(v -> {
-            Intent intent = new Intent(this, AddFriendsActivity.class);
+            Intent intent = new Intent(this, EnteringInformationOfFriendActivity.class);
             intent.putExtra("EMAIL", user_EMAIL);
             startActivity(intent);
         });
@@ -77,6 +77,7 @@ public class FriendListActivity extends AppCompatActivity {
         params = new LinearLayout.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT
                 , Toolbar.LayoutParams.WRAP_CONTENT);
 
+        /*
         openFAB = findViewById(R.id.openFAB);
         openFAB.setOnClickListener(v -> {
             anim();
@@ -108,8 +109,6 @@ public class FriendListActivity extends AppCompatActivity {
             // TODO
         });
 
-        // 알림 구현은 됐으나 초대 됐을 때만 알림이 오도록 조건문 구현이 필요
-        // 현재 appClass를 통해 ON버튼을 누르기 전에도 앱을 설치해서 실행하면 알림이 ON이 되도록 구현돼있음
         notifyONFAB.setOnClickListener(v -> {
             anim();
             Toast.makeText(getApplicationContext(),"알림 ON",Toast.LENGTH_SHORT).show();
@@ -124,10 +123,12 @@ public class FriendListActivity extends AppCompatActivity {
             Intent intent = new Intent(FriendListActivity.this,MyService.class);     // 알림 서비스 종료
             stopService(intent);
         });
-
+*/
         MakeLinearLayout(lm);
+
     }
 
+    /*
     // 애니메이션 실행 함수
     public void anim() {
         if(isFabOpen) {
@@ -165,6 +166,8 @@ public class FriendListActivity extends AppCompatActivity {
             }
         }
     }
+
+     */
 
     // 파일에서 텍스트를 읽어 옴
     public String ReadFile (String path){
