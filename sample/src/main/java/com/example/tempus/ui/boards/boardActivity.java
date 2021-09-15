@@ -52,7 +52,10 @@ public class boardActivity extends AppCompatActivity {
     String WR_BODY; //content
     String WR_CONNUM; // content number
     String WR_GROUP;
-    String WR_PNAME, WR_PRICE, WR_TAG, WR_MEMO;
+    String WR_PNAME="q";
+    String WR_PRICE="q";
+    String WR_TAG="q";
+    String WR_MEMO="q";
 
     private String userjson,result,userfileName;
 
@@ -245,8 +248,8 @@ public class boardActivity extends AppCompatActivity {
             ssl.addView(nameView);
 
             sl.addView(ssl);
-
-            if(WR_TYPE =="1"){  // 자유 형식
+            WR_TYPE =  jsonobj.getString("TYPE");
+            if(WR_TYPE.equals("1")){  // 자유 형식
                 //**************************************************
                 // 글 내용
                 TextView contentTV = new TextView(this);
@@ -271,7 +274,7 @@ public class boardActivity extends AppCompatActivity {
 
                 sl.addView(contentTV);
             }
-            else if(WR_TYPE == "2"){    // 지출 내역 형식
+            else if(WR_TYPE.equals("2")){    // 지출 내역 형식
                 TextView tv = new TextView(this);
                 tv.setText("지출 내역");
                 tv.setLayoutParams(tvParams);
