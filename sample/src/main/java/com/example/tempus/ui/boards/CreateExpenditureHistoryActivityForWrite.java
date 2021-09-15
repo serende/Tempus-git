@@ -77,7 +77,7 @@ public class CreateExpenditureHistoryActivityForWrite extends AppCompatActivity 
 
     ImageView userImage;
 
-    String WR_date, WR_body;
+    String WR_date, WR_body, WR_type;
 
     String lineEnd = "\r\n";
     String twoHyphens = "--";
@@ -148,6 +148,8 @@ public class CreateExpenditureHistoryActivityForWrite extends AppCompatActivity 
             WR_body = productNameEdit.getText().toString() + " | " + priceEdit.getText().toString()
                     + "원 | "+purchaseDateEdit.getText().toString() + " | "
                     + tagEdit.getText().toString() + " | " + memoEdit.getText().toString();
+
+            WR_type = "2";
 
             String urIString = "http://192.168.0.3:5000/imgupload";
             //String urIString = "https://webhook.site/d4dc0f16-d848-41ba-a14f-bbea18b82018";
