@@ -133,7 +133,7 @@ public class AddBoardActivity extends AppCompatActivity {
             WR_BODY = BoardNameEdit.getText().toString();//addboard내 게시판 제목을 담을 변수
             JSONObject userdata = new JSONObject();
             try{
-                userdata.put("WR_ID",user_id);//임시로 인텐드 받을 이메일을 미리 선언하여 사용중
+                userdata.put("WR_ID",user_EMAIL);//임시로 인텐드 받을 이메일을 미리 선언하여 사용중
                 userdata.put("WR_BODY",WR_BODY);
 //                userdata.put("WR_CONTENT",memoEdit);//게시판 설명 데이터를 담을 변수, 현재 게시판 설명에 대한 사용처가 없어 변수는 미사용중
                 boardjson = userdata.toString();
