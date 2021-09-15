@@ -60,14 +60,14 @@ public class ShoppingActivity extends AppCompatActivity {
         lparams.weight = 1.0f;
         lparams.gravity = Gravity.LEFT | Gravity.CENTER;
 
-        URLparams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ConvertDPtoPX(this, 50));
+        URLparams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ConvertDPtoPX(this, 80));
         URLparams.weight = 1.0f;
         URLparams.gravity = Gravity.LEFT | Gravity.CENTER;
 
         searchBtn.setOnClickListener(v->{
             productName = nameEdit.getText().toString();
             // 기존에 존재하던 ll 내부의 view를 모두 제거
-            //ll.removeAllViews();
+            ll.removeAllViews();
 
             try{
                 for(int i = 0; i<5;i++)
