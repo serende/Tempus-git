@@ -84,7 +84,7 @@ public class WriteActivity extends AppCompatActivity {
     ImageButton addPhoto;
     Button finButton;
 
-    EditText dateEdit;
+    //EditText dateEdit;
     EditText contentEdit;
 
     String mCurrentPhotoPath;
@@ -145,14 +145,14 @@ public class WriteActivity extends AppCompatActivity {
             goToAlbum();
         });
 
-        dateEdit = findViewById(R.id.dateEdit);
+        //dateEdit = findViewById(R.id.dateEdit);
         contentEdit = findViewById(R.id.contentEdit);
 
         finButton = findViewById(R.id.finButton);
         finButton.setOnClickListener(view -> {
 
 
-            WR_date = dateEdit.getText().toString();
+            //WR_date = dateEdit.getText().toString();
             WR_body = contentEdit.getText().toString();
             JSONObject userjson = new JSONObject();
             try{
