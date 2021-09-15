@@ -45,7 +45,7 @@ public class ShoppingActivity extends AppCompatActivity {
     String productURL = "https://www.naver.com/";
     String json;
     int count = 0;
-
+    JSONObject jsonobj;
     LinearLayout.LayoutParams lparams, URLparams;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,13 +68,23 @@ public class ShoppingActivity extends AppCompatActivity {
             productName = nameEdit.getText().toString();
             // 기존에 존재하던 ll 내부의 view를 모두 제거
             ll.removeAllViews();
+            ShoppingTask Task = new ShoppingTask();
+            JSONObject prdname = new JSONObject();
 
-            try{
-                for(int i = 0; i<5;i++){
+            try {
+                prdname.put("prdname", productName);
+                json = prdname.toString();
+
+                String[] params = {json};
+                String result = Task.execute(params).get();
+                JSONArray jsonarray = new JSONArray(result);
+
+                for (int i = 0; i < 5; i++) {
                     count = i;
+                    jsonobj = jsonarray.getJSONObject(count);
                     makeLinearLayout(ll);
                 }
-            } catch(Exception e){
+            }catch(Exception e){
                 Log.e("makeLinearerror", e.toString());}
         });
     }
@@ -91,19 +101,7 @@ public class ShoppingActivity extends AppCompatActivity {
             ssl.setPadding(0, ConvertDPtoPX(this, 10), 0, 0);
              */
 
-            ShoppingTask Task = new ShoppingTask();
-            JSONObject prdname = new JSONObject();
 
-            try {
-                prdname.put("prdname", productName);
-                json = prdname.toString();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            String[] params = {json};
-            String result = Task.execute(params).get();
-            JSONArray jsonarray = new JSONArray(result);
-            JSONObject jsonobj = jsonarray.getJSONObject(count);
             String result_productName =  jsonobj.getString("name");
             String result_price = jsonobj.getString("price");
             String result_link = jsonobj.getString("link");
@@ -133,7 +131,7 @@ public class ShoppingActivity extends AppCompatActivity {
             URLBtn.setBackground(ContextCompat.getDrawable(this, R.drawable.layoutborder));
             URLBtn.setLayoutParams(URLparams);
             URLBtn.setOnClickListener(v -> {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(productURL));
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(result_link));
                 startActivity(intent);
             });
 
