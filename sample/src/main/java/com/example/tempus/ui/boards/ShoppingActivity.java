@@ -116,7 +116,7 @@ public class ShoppingActivity extends AppCompatActivity {
             pName.setLayoutParams(lparams);
 
             TextView scoreTV = new TextView(this);
-            scoreTV.setText("평점: " + result_score);
+            scoreTV.setText("추천점수: " + result_score);
             //scoreTV.setTextSize(ConvertDPtoPX(this, 3));
             scoreTV.setTextColor(Color.BLACK);
             scoreTV.setBackground(ContextCompat.getDrawable(this, R.drawable.layoutborder));
