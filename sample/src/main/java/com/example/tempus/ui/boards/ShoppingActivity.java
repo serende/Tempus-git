@@ -1,6 +1,7 @@
 package com.example.tempus.ui.boards;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +11,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -43,6 +45,8 @@ public class ShoppingActivity extends AppCompatActivity {
     String productURL = "https://www.naver.com/";
     String json;
     int count = 0;
+
+    LinearLayout.LayoutParams lparams;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,8 +56,11 @@ public class ShoppingActivity extends AppCompatActivity {
         searchBtn = findViewById(R.id.searchBtn);
         ll = findViewById(R.id.ll);
 
+        lparams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ConvertDPtoPX(this, 30));
+        lparams.weight = 1.0f;
+        lparams.gravity = Gravity.LEFT | Gravity.CENTER;
+
         searchBtn.setOnClickListener(v->{
-            // 서버로 nameEdit.getText().toString() 을 전달하고 정보를 받아오는 코드
             productName = nameEdit.getText().toString();
             // 기존에 존재하던 ll 내부의 view를 모두 제거
             ll.removeAllViews();
@@ -70,8 +77,15 @@ public class ShoppingActivity extends AppCompatActivity {
     public void makeLinearLayout(LinearLayout ll){
         try {
             LinearLayout sl = new LinearLayout(this);
-            sl.setOrientation(LinearLayout.HORIZONTAL);
+            sl.setOrientation(LinearLayout.VERTICAL);
             sl.setPadding(0, ConvertDPtoPX(this, 10), 0, 0);
+
+            /*
+            LinearLayout ssl = new LinearLayout(this);
+            ssl.setOrientation(LinearLayout.HORIZONTAL);
+            ssl.setPadding(0, ConvertDPtoPX(this, 10), 0, 0);
+             */
+
             ShoppingTask Task = new ShoppingTask();
             JSONObject prdname = new JSONObject();
 
@@ -88,29 +102,38 @@ public class ShoppingActivity extends AppCompatActivity {
             String result_productName =  jsonobj.getString("name");
             String result_price = jsonobj.getString("price");
             String result_link = jsonobj.getString("link");
+            float result_score = jsonobj.getInt("score");
+
             TextView pName = new TextView(this);
-
-            // 서버에서 productName과 productPrice에 제품명, 가격을 넣는 코드
-
             pName.setText(result_productName + "       가격 : " + result_price + "원      ");
-            pName.setTextSize(ConvertDPtoPX(this, 7));
+            //pName.setTextSize(ConvertDPtoPX(this, 3));
             pName.setTextColor(Color.BLACK);
-            pName.setPadding(ConvertDPtoPX(this, 20), 0, 0, 0);
+            //pName.setPadding(ConvertDPtoPX(this, 20), 0, 0, 0);
+            pName.setBackground(ContextCompat.getDrawable(this, R.drawable.layoutborder));
+            pName.setLayoutParams(lparams);
+
+            TextView scoreTV = new TextView(this);
+            scoreTV.setText("평점: " + result_score);
+            //scoreTV.setTextSize(ConvertDPtoPX(this, 3));
+            scoreTV.setTextColor(Color.BLACK);
+            scoreTV.setBackground(ContextCompat.getDrawable(this, R.drawable.layoutborder));
+            scoreTV.setLayoutParams(lparams);
 
             Button URLBtn = new Button(this);
-
-            // 서버에서 productURL에 제품 판매 링크를 넣는 코드
 
             URLBtn.setText(result_link);
             URLBtn.setBackgroundColor(Color.WHITE);
             URLBtn.setTextColor(Color.BLUE);
-            URLBtn.setTextSize(ConvertDPtoPX(this, 7));
+            //URLBtn.setTextSize(ConvertDPtoPX(this, 3));
+            URLBtn.setBackground(ContextCompat.getDrawable(this, R.drawable.layoutborder));
+            URLBtn.setLayoutParams(lparams);
             URLBtn.setOnClickListener(v -> {
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(productURL));
                 startActivity(intent);
             });
 
             sl.addView(pName);
+            sl.addView(scoreTV);
             sl.addView(URLBtn);
             ll.addView(sl);
         } catch (Exception e){
