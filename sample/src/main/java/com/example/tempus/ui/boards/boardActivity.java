@@ -201,12 +201,12 @@ public class boardActivity extends AppCompatActivity {
         sl.setLayoutParams(LayoutParams);
         sl.setBackground(ContextCompat.getDrawable(this, R.drawable.layoutborder4));
 
-        TextView btn = new TextView(this);
-        btn.setLayoutParams(btnParams);
-        btn.setText("contents");
-        btn.setBackgroundColor(Color.WHITE);
-        btn.setGravity(Gravity.LEFT|Gravity.START);
-        btn.setBackground(ContextCompat.getDrawable(this, R.drawable.layoutborder4));
+        TextView contentTV = new TextView(this);
+        contentTV.setLayoutParams(btnParams);
+        contentTV.setText("contents");
+        contentTV.setBackgroundColor(Color.WHITE);
+        contentTV.setGravity(Gravity.LEFT|Gravity.START);
+        contentTV.setBackground(ContextCompat.getDrawable(this, R.drawable.layoutborder4));
         /*
         btn.setOnClickListener(v -> {
             Intent intent = new Intent(boardActivity.this, ContentActivity.class);
@@ -241,7 +241,7 @@ public class boardActivity extends AppCompatActivity {
         ssl.addView(dateView);
         ssl.addView(nameView);
 
-        sl.addView(btn);
+        sl.addView(contentTV);
         sl.addView(ssl);
 
         // 첨부된 사진이 있으면 생성하도록 변경 필요(현재는 임시 조건문)
