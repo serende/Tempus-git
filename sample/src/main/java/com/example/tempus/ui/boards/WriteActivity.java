@@ -170,7 +170,7 @@ public class WriteActivity extends AppCompatActivity {
 
             addPostTask task = new addPostTask();
             task.execute(params);
-            DoFileUpload(urIString, getAbsolutePath(photoURI));
+            DoFileUpload(urIString, getAbsolutePath(photoURI),groupName);
 
 
 
@@ -189,8 +189,8 @@ public class WriteActivity extends AppCompatActivity {
         checkPermission();
     }
 
-    public void DoFileUpload(String apiUrI, String absolutePath) {
-        HttpFileUpload(apiUrI, "", absolutePath);
+    public void DoFileUpload(String apiUrI, String absolutePath,String FN) {
+        HttpFileUpload(apiUrI, "", absolutePath,FN);
     }
 
     // 이미지의 절대경로를 전달
@@ -443,7 +443,7 @@ public class WriteActivity extends AppCompatActivity {
 //    }
 */
     // 서버에 이미지 업로드
-    public void HttpFileUpload(String urlString, String params, String fileName) {
+    public void HttpFileUpload(String urlString, String params, String fileName,String boardName) {
         try {
 
             FileInputStream mFileInputStream = new FileInputStream(fileName);
@@ -468,7 +468,7 @@ public class WriteActivity extends AppCompatActivity {
             // write data
             DataOutputStream dos = new DataOutputStream(conn.getOutputStream());
             dos.writeBytes(twoHyphens + boundary + lineEnd);
-            dos.writeBytes("Content-Disposition: form-data; name=\"uploadedfile\";filename=\"" + "test"+".jpg" + "\"" + lineEnd);
+            dos.writeBytes("Content-Disposition: form-data; name=\"uploadedfile\";filename=\"" + boardName + "\"" + lineEnd);
             dos.writeBytes(lineEnd);
 
             int bytesAvailable = mFileInputStream.available();
