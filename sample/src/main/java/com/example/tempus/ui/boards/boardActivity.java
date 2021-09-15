@@ -77,7 +77,7 @@ public class boardActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("게시판                             그룹: " + BAIntent.getStringExtra("GROUP"));
+        getSupportActionBar().setTitle("게시판 그룹: " + BAIntent.getStringExtra("GROUP"));
 
         /*
         dateView = findViewById(R.id.dateView);
@@ -88,8 +88,8 @@ public class boardActivity extends AppCompatActivity {
         //groupTextView.setText("그룹: " + BAIntent.getStringExtra("GROUP"));
 
         WR_GROUP = BAIntent.getStringExtra("GROUP");
-        PostTask task = new PostTask();
-        task.execute();
+//        PostTask task = new PostTask();
+//        task.execute();
 
         addFAB = findViewById(R.id.addFAB);
         addFAB.setOnClickListener(v -> {
@@ -131,6 +131,7 @@ public class boardActivity extends AppCompatActivity {
 
         try{
             for(int i = 0; i<9;i++){
+                count = i;
                 MakeLinearLayout(ll);
             }
         } catch(Exception e){Log.e("makeLinearerror", e.toString());}
@@ -147,7 +148,7 @@ public class boardActivity extends AppCompatActivity {
         protected String doInBackground(String... params) {
             String userid = params[0];
             try {
-                String site_url_json = "http://192.168.0.3:5000/board";
+                String site_url_json = "http://192.168.0.3:5000/Post";
 //                String site_url_json = "https://webhook.site/088d425c-1da8-4bb0-922d-f632cf432ec4";
                 URL url = new URL(site_url_json);
 
@@ -183,30 +184,44 @@ public class boardActivity extends AppCompatActivity {
     }
 
     public void MakeLinearLayout(LinearLayout ll){
-        LinearLayout.LayoutParams LayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        LayoutParams.weight = 1.0f;
-        LayoutParams.gravity = Gravity.CENTER;
+        try {
+            LinearLayout.LayoutParams LayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            LayoutParams.weight = 1.0f;
+            LayoutParams.gravity = Gravity.CENTER;
 
-        LinearLayout.LayoutParams btnParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ConvertDPtoPX(this, 200));
-        btnParams.gravity = Gravity.LEFT|Gravity.START;
+            LinearLayout.LayoutParams btnParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ConvertDPtoPX(this, 200));
+            btnParams.gravity = Gravity.LEFT | Gravity.START;
 
-        LinearLayout.LayoutParams tvParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ConvertDPtoPX(this, 30));
-        tvParams.gravity = Gravity.LEFT|Gravity.CENTER;
+            LinearLayout.LayoutParams tvParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ConvertDPtoPX(this, 30));
+            tvParams.gravity = Gravity.LEFT | Gravity.CENTER;
 
-        LinearLayout.LayoutParams IVParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        IVParams.gravity = Gravity.CENTER;
+            LinearLayout.LayoutParams IVParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            IVParams.gravity = Gravity.CENTER;
 
-        LinearLayout sl = new LinearLayout(this);
-        sl.setOrientation(LinearLayout.VERTICAL);
-        sl.setLayoutParams(LayoutParams);
-        sl.setBackground(ContextCompat.getDrawable(this, R.drawable.layoutborder4));
+            LinearLayout sl = new LinearLayout(this);
+            sl.setOrientation(LinearLayout.VERTICAL);
+            sl.setLayoutParams(LayoutParams);
+            sl.setBackground(ContextCompat.getDrawable(this, R.drawable.layoutborder4));
+            PostTask Task = new PostTask();
+            JSONObject usergroup = new JSONObject();
 
-        TextView contentTV = new TextView(this);
-        contentTV.setLayoutParams(btnParams);
-        contentTV.setText("contents");
-        contentTV.setBackgroundColor(Color.WHITE);
-        contentTV.setGravity(Gravity.LEFT|Gravity.START);
-        contentTV.setBackground(ContextCompat.getDrawable(this, R.drawable.layoutborder4));
+            try{
+                usergroup.put("WR_GROUP",WR_GROUP);
+                userjson = usergroup.toString();
+            }catch (JSONException e){
+                e.printStackTrace();
+            }
+            String[] params = {userjson};
+            String result = Task.execute(params).get();
+            JSONArray jsonarray = new JSONArray(result);
+            JSONObject jsonobj = jsonarray.getJSONObject(count);
+            String result_body =  jsonobj.getString("BODY");
+            TextView contentTV = new TextView(this);
+            contentTV.setLayoutParams(btnParams);
+            contentTV.setText(result_body);
+            contentTV.setBackgroundColor(Color.WHITE);
+            contentTV.setGravity(Gravity.LEFT | Gravity.START);
+            contentTV.setBackground(ContextCompat.getDrawable(this, R.drawable.layoutborder4));
         /*
         btn.setOnClickListener(v -> {
             Intent intent = new Intent(boardActivity.this, ContentActivity.class);
@@ -221,59 +236,64 @@ public class boardActivity extends AppCompatActivity {
 
          */
 
-        LinearLayout ssl = new LinearLayout(this);
-        ssl.setOrientation(LinearLayout.HORIZONTAL);
-        ssl.setBackground(ContextCompat.getDrawable(this, R.drawable.layoutborder));
+            LinearLayout ssl = new LinearLayout(this);
+            ssl.setOrientation(LinearLayout.HORIZONTAL);
+            ssl.setBackground(ContextCompat.getDrawable(this, R.drawable.layoutborder));
 
-        TextView dateView = new TextView(this);
-        dateView.setLayoutParams(tvParams);
-        dateView.setGravity(Gravity.CENTER);
-        dateView.setText("작성 일자: "+"date" + "                                    ");
-        dateView.setPadding(ConvertDPtoPX(this,4),0,0,0);
-        //dateView.setBackground(ContextCompat.getDrawable(this, R.drawable.layoutborder));
+            String result_date =  jsonobj.getString("DATE");
+            TextView dateView = new TextView(this);
+            dateView.setLayoutParams(tvParams);
+            dateView.setGravity(Gravity.CENTER);
+            dateView.setText("작성 일자: " + result_date);
+            dateView.setPadding(ConvertDPtoPX(this, 4), 0, 0, 0);
+            //dateView.setBackground(ContextCompat.getDrawable(this, R.drawable.layoutborder));
 
-        TextView nameView = new TextView(this);
-        nameView.setText("작성자: "+"NAME");
-        nameView.setGravity(Gravity.CENTER);
-        nameView.setLayoutParams(tvParams);
-        //nameView.setBackground(ContextCompat.getDrawable(this, R.drawable.layoutborder));
+            TextView nameView = new TextView(this);
+            String result_ID = jsonobj.getString("ID");
+            nameView.setText("작성자: " + result_ID);
+            nameView.setGravity(Gravity.CENTER);
+            nameView.setLayoutParams(tvParams);
+            //nameView.setBackground(ContextCompat.getDrawable(this, R.drawable.layoutborder));
 
-        ssl.addView(dateView);
-        ssl.addView(nameView);
+            ssl.addView(dateView);
+            ssl.addView(nameView);
 
-        sl.addView(contentTV);
-        sl.addView(ssl);
+            sl.addView(contentTV);
+            sl.addView(ssl);
 
-        // 첨부된 사진이 있으면 생성하도록 변경 필요(현재는 임시 조건문)
-        int i=0;
-        if(i==1){
-            TextView tv = new TextView(this);
-            tv.setText("첨부된 사진");
-            tv.setLayoutParams(tvParams);
-            tv.setGravity(Gravity.CENTER);
+            // 첨부된 사진이 있으면 생성하도록 변경 필요(현재는 임시 조건문)
+            int i = 0;
+            if (i == 1) {
+                TextView tv = new TextView(this);
+                tv.setText("첨부된 사진");
+                tv.setLayoutParams(tvParams);
+                tv.setGravity(Gravity.CENTER);
 
-            ImageView IV = new ImageView(this);
-            IV.setLayoutParams(IVParams);
+                ImageView IV = new ImageView(this);
+                IV.setLayoutParams(IVParams);
 
-            JSONObject fileName = new JSONObject();
-            try{
-                fileName.put("name",BAIntent.getStringExtra("GROUP"));
-                userfileName = fileName.toString();
-            }catch (JSONException e){
-                e.printStackTrace();
-            }
-            String[] params2 = {userfileName};
-            boardActivity.ImageLoadTask task2 = new boardActivity.ImageLoadTask("http://192.168.0.3:5000/imgdownload",IV);//Imageview(IB)에 해당 url에서 이미지를 받아 넣음
+                JSONObject fileName = new JSONObject();
+                try {
+                    fileName.put("name", BAIntent.getStringExtra("GROUP"));
+                    userfileName = fileName.toString();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                String[] params2 = {userfileName};
+                boardActivity.ImageLoadTask task2 = new boardActivity.ImageLoadTask("http://192.168.0.3:5000/imgdownload", IV);//Imageview(IB)에 해당 url에서 이미지를 받아 넣음
 //          ImageLoadTask task2 = new ImageLoadTask("https://webhook.site/2e08c0c3-79dc-4f65-bba8-3cba6718f78f",IB);
-            task2.execute(params2);
-            IV.setScaleType(ImageView.ScaleType.FIT_CENTER);
-            byte[] byteArray = BAIntent.getByteArrayExtra("image");
+//            task2.execute(params2);
+                IV.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                byte[] byteArray = BAIntent.getByteArrayExtra("image");
 
-            sl.addView(tv);
-            sl.addView(IV);
+                sl.addView(tv);
+                sl.addView(IV);
+            }
+
+            ll.addView(sl);
+        }catch (Exception e){
+            e.printStackTrace();
         }
-
-        ll.addView(sl);
     }
 
     // 동적 레이아웃에서 사이즈를 DP로 쓰기 위한 함수
