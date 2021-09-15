@@ -17,6 +17,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -36,11 +37,14 @@ import com.applandeo.Tempus.R;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -59,6 +63,7 @@ public class CreateExpenditureHistoryActivityForWrite extends AppCompatActivity 
     private static final int REQUEST_IMAGE_CROP = 4444;
     private static final int PICK_FROM_ALBUM = 5555;
 
+    BufferedReader reader = null;
     TextView dayView;
 
     ImageButton addPhoto;
@@ -69,20 +74,18 @@ public class CreateExpenditureHistoryActivityForWrite extends AppCompatActivity 
     EditText tagEdit;
     EditText memoEdit;
 
-    //RadioGroup radioGroup;
-
     String mCurrentPhotoPath;
     Uri imageUri;
     Uri photoURI, albumURI;
 
     ImageView userImage;
 
-    String WR_date, WR_body, WR_type;
-
     String lineEnd = "\r\n";
     String twoHyphens = "--";
     String boundary = "boundary=----WebKitFormBoundarylLEkUd8JSJOasqs0";
     String user_id = "test";
+    String result;
+    String userboard;
 
     Intent CEHAIntent;
     String user_EMAIL;
@@ -127,94 +130,30 @@ public class CreateExpenditureHistoryActivityForWrite extends AppCompatActivity 
         // 메모 내용
         memoEdit = findViewById(R.id.memoEdit);
 
-        //radioGroup = findViewById(R.id.radioGroup);
-        //radioGroup.setOnCheckedChangeListener(radioGroupButtonChangeListener);
-
         Button finButton = findViewById(R.id.finButton);
         finButton.setOnClickListener(view -> {
-            JSONObject jsonObject = new JSONObject();
-
-            JSONObject head = new JSONObject();     //JSON 오브젝트의 head 부분
-            JSONObject body = new JSONObject();     //JSON 오브젝트의 body 부분
-
-            String headjson = null;
-            String bodyjson = null;
-
-            // 구매일자
-            WR_date = purchaseDateEdit.getText().toString();
-
-            // 제품명~메모까지 합친 내용, '|'로 구분
-            // 출력 화면에서 TYPE이 지출내역인 경우 WR_body를 '|'를 통해 해체하여 정보를 구분할 수 있도록 구현 필요
-            WR_body = productNameEdit.getText().toString() + " | " + priceEdit.getText().toString()
-                    + "원 | "+purchaseDateEdit.getText().toString() + " | "
-                    + tagEdit.getText().toString() + " | " + memoEdit.getText().toString();
-
-            WR_type = "2";
-
-            String urIString = "http://192.168.0.3:5000/imgupload";
-            //String urIString = "https://webhook.site/d4dc0f16-d848-41ba-a14f-bbea18b82018";
-            DoFileUpload(urIString, getAbsolutePath(photoURI));
-            /*
-            uploadMultipart(urIString, getAbsolutePath(photoURI));
-
-            HttpPost post = new HttpPost("http://echo.200please.com");
-            InputStream inputStream = new FileInputStream(zipFileName);
-            File file = new File(imageFileName);
-            String message = "This is a multipart post";
-            MultipartEntityBuilder builder = MultipartEntityBuilder.create();
-            builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
-            builder.addBinaryBody
-                    ("upfile", file, ContentType.DEFAULT_BINARY, imageFileName);
-            builder.addBinaryBody
-                    ("upstream", inputStream, ContentType.create("application/zip"), zipFileName);
-            builder.addTextBody("text", message, ContentType.TEXT_PLAIN);
-
-            HttpEntity entity = builder.build();
-            post.setEntity(entity);
-            HttpResponse response = client.execute(post);
-            try {
-
-                AndroidUploader uploader = new AndroidUploader("user", "userPwd");
-
-                String path = getAbsolutePath(photoURI);
-
-                uploader.uploadPicture(path);
-
-            } catch (Exception e) {
-
-                Log.e(e.getClass().getName(), e.getMessage());
-
-            }
-
-
-            try {
-                head.put("WR_ID", "1");     //head 부분 생성 시작
-                head.put("WR_TYPE", "A");    //head 부분 생성 완료
-                // A: 자유 형식, B: 지출 목록 형식
-
-                jsonObject.put("head", head);   //head 오브젝트 추가
-                headjson = jsonObject.toString();
-                // 작성일자
-                body.put("WR_DATE", WR_date);   //body부분 생성 시작
-                // 글 내용
-                body.put("WR_BODY", WR_body);   //body부분 생성 완료
-
-
-                jsonObject.put("body", body);   //body 오브젝트 추가
-                bodyjson = jsonObject.toString();
-            } catch (JSONException e) {
+            JSONObject userjson = new JSONObject();
+            try{
+                userjson.put("GROUP",groupName);
+                userjson.put("WR_ID",user_EMAIL);
+                userjson.put("WR_TYPE","2");
+                userjson.put("WR_DATE", purchaseDateEdit.getText().toString());
+                userjson.put("WR_PNAME", productNameEdit.getText().toString());
+                userjson.put("WR_PRICE", priceEdit.getText().toString());
+                userjson.put("WR_TAG", tagEdit.getText().toString());
+                userjson.put("WR_MEMO", memoEdit.getText().toString());
+                userboard = userjson.toString();
+            }catch (JSONException e){
                 e.printStackTrace();
             }
+            String[] params = {userboard};
+            String urIString = "http://192.168.0.3:5000/imgupload_Post";
+            //String urIString = "https://webhook.site/d4dc0f16-d848-41ba-a14f-bbea18b82018";
 
-            // 작성 일자 혹은 내용이 빈 칸인 경우 완료버튼 onClick함수 종료
-            if (dateEdit.getText().length() == 0 || contentEdit.getText().length() == 0) {
-                Toast.makeText(CreateExpenditureHistoryActivityForWrite.this, "작성 일자 혹은 내용에 작성된 글이 없습니다.", Toast.LENGTH_SHORT).show();
-                return;
-            }//            Log.e("json", "생성한 json : " + jsonObject.toString());
-            String[] params = {headjson,bodyjson};
-            PostTask Write = new PostTask();
-            Write.execute(params);
- */
+            CreateExpenditureHistoryActivityForWrite.addPostTask task = new CreateExpenditureHistoryActivityForWrite.addPostTask();
+            task.execute(params);
+            DoFileUpload(urIString, getAbsolutePath(photoURI),groupName);
+
             Intent intent = new Intent(CreateExpenditureHistoryActivityForWrite.this, boardActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);  // 상위 스택 액티비티 모두 제거
             intent.putExtra("EMAIL", user_EMAIL);
@@ -228,23 +167,8 @@ public class CreateExpenditureHistoryActivityForWrite extends AppCompatActivity 
         checkPermission();
     }
 
-    /*
-    RadioGroup.OnCheckedChangeListener radioGroupButtonChangeListener = (radioGroup, i) -> {
-        if(i == R.id.allShareRadioButton){
-            Toast.makeText(CreateExpenditureHistoryActivityForWrite.this, "지인 모두와 공유", Toast.LENGTH_SHORT).show();
-        }
-        else if(i == R.id.partShareRadioButton){
-            Toast.makeText(CreateExpenditureHistoryActivityForWrite.this, "특정 그룹과 공유", Toast.LENGTH_SHORT).show();
-        }
-        else if(i == R.id.nonShareRadioButton){
-            Toast.makeText(CreateExpenditureHistoryActivityForWrite.this, "공유하지 않음", Toast.LENGTH_SHORT).show();
-        }
-    };
-
-     */
-
-    public void DoFileUpload(String apiUrI, String absolutePath) {
-        HttpFileUpload(apiUrI, "", absolutePath);
+    public void DoFileUpload(String apiUrI, String absolutePath,String FN) {
+        HttpFileUpload(apiUrI, "", absolutePath,FN);
     }
 
     // 이미지의 절대경로를 전달
@@ -451,8 +375,9 @@ public class CreateExpenditureHistoryActivityForWrite extends AppCompatActivity 
     }
 
     // 서버에 이미지 업로드
-    public void HttpFileUpload(String urlString, String params, String fileName) {
+    public void HttpFileUpload(String urlString, String params, String fileName,String boardName) {
         try {
+
             FileInputStream mFileInputStream = new FileInputStream(fileName);
             URL connectUrl = new URL(urlString);
             Log.d("Test", "mFileInputStream  is " + mFileInputStream);
@@ -475,7 +400,7 @@ public class CreateExpenditureHistoryActivityForWrite extends AppCompatActivity 
             // write data
             DataOutputStream dos = new DataOutputStream(conn.getOutputStream());
             dos.writeBytes(twoHyphens + boundary + lineEnd);
-            dos.writeBytes("Content-Disposition: form-data; name=\"uploadedfile\";filename=\"" + fileName + "\"" + lineEnd);
+            dos.writeBytes("Content-Disposition: form-data; name=\"uploadedfile\";filename=\"" + boardName + "\"" + lineEnd);
             dos.writeBytes(lineEnd);
 
             int bytesAvailable = mFileInputStream.available();
@@ -512,13 +437,61 @@ public class CreateExpenditureHistoryActivityForWrite extends AppCompatActivity 
             }
             String s = b.toString();
             Log.e("Test", "result = " + s);
-            // 원본에서 EditText/TextView에 텍스트 설정하는 것으로 추정하여 주석처리
-            // mEdityEntry.setText(s);
             dos.close();
             Toast.makeText(CreateExpenditureHistoryActivityForWrite.this, "전송 완료", Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             Log.d("Test", "exception " + e.getMessage());
             Toast.makeText(CreateExpenditureHistoryActivityForWrite.this, "오류 메세지" + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private class addPostTask extends AsyncTask<String, Void, String> {
+
+        protected String doInBackground(String... params) {
+            //String hjson = params[0];
+            String userdata = params[0];
+            try {
+                String host_url = "http://192.168.0.3:5000/addPost";
+//                String host_url = "https://webhook.site/2e08c0c3-79dc-4f65-bba8-3cba6718f78f";
+                URL url = new URL(host_url);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setConnectTimeout(15 * 1000);//Timeout setting
+                conn.setRequestProperty("Content-Type", "application/json");//Request body 전달시 json 형태로 전달
+                conn.setRequestMethod("POST");//보내는 데이터 형태는 post로 응답
+                conn.setDoOutput(true);//서버로 응답을 보냄
+                conn.setDoInput(true);//서버로부터 응답을 받음
+                conn.connect();
+                OutputStreamWriter streamWriter = new OutputStreamWriter(conn.getOutputStream());
+                streamWriter.write(userdata);//Request body에 json data 세팅
+                streamWriter.flush();//json data 입력후 저장
+                streamWriter.close();
+                InputStream inputStream = conn.getInputStream();
+                StringBuffer buffer = new StringBuffer();
+                reader = new BufferedReader(new InputStreamReader(inputStream));
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    buffer.append(line);
+                }
+                result = buffer.toString();
+                int responsecode = conn.getResponseCode();//http 응답코드 송신
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(String str) {
+            super.onPostExecute(str);
+            if (str.equals("error") == true) {
+                Toast.makeText(CreateExpenditureHistoryActivityForWrite.this, "errer", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(CreateExpenditureHistoryActivityForWrite.this, "전송 성공", Toast.LENGTH_SHORT).show();
+            }
+        }
+
     }
 }

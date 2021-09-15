@@ -92,10 +92,7 @@ public class WriteActivity extends AppCompatActivity {
     Uri photoURI, albumURI;
 
     ImageView userImage;
-
-    //RadioGroup radioGroup;
     BufferedReader reader = null;
-    String WR_date, WR_body;
 
     String lineEnd = "\r\n";
     String twoHyphens = "--";
@@ -150,16 +147,12 @@ public class WriteActivity extends AppCompatActivity {
 
         finButton = findViewById(R.id.finButton);
         finButton.setOnClickListener(view -> {
-
-
-            //WR_date = dateEdit.getText().toString();
-            WR_body = contentEdit.getText().toString();
             JSONObject userjson = new JSONObject();
             try{
                 userjson.put("GROUP",groupName);
                 userjson.put("WR_ID",user_EMAIL);
                 userjson.put("WR_TYPE","1");
-                userjson.put("WR_BODY",WR_body);
+                userjson.put("WR_BODY",contentEdit.getText().toString());
                 userboard = userjson.toString();
             }catch (JSONException e){
                 e.printStackTrace();
@@ -172,8 +165,6 @@ public class WriteActivity extends AppCompatActivity {
             task.execute(params);
             DoFileUpload(urIString, getAbsolutePath(photoURI),groupName);
 
-
-
             Intent intent = new Intent(WriteActivity.this, boardActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);  // 상위 스택 액티비티 모두 제거
             intent.putExtra("EMAIL", user_EMAIL);
@@ -182,10 +173,6 @@ public class WriteActivity extends AppCompatActivity {
             WriteActivity.this.finish();
             startActivity(intent);
         });
-
-        //radioGroup = findViewById(R.id.radioGroup);
-        //radioGroup.setOnCheckedChangeListener(radioGroupButtonChangeListener);
-
         checkPermission();
     }
 
@@ -410,20 +397,6 @@ public class WriteActivity extends AppCompatActivity {
         }
     }
 
-    /*
-    RadioGroup.OnCheckedChangeListener radioGroupButtonChangeListener = new RadioGroup.OnCheckedChangeListener() {
-        @Override
-        public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
-            if (i == R.id.allShareRadioButton) {
-                Toast.makeText(WriteActivity.this, "지인 모두와 공유", Toast.LENGTH_SHORT).show();
-            } else if (i == R.id.partShareRadioButton) {
-                Toast.makeText(WriteActivity.this, "특정 그룹과 공유", Toast.LENGTH_SHORT).show();
-            } else if (i == R.id.nonShareRadioButton) {
-                Toast.makeText(WriteActivity.this, "공유하지 않음", Toast.LENGTH_SHORT).show();
-            }
-        }
-    };
-
 //    public void uploadMultipart(String url, String path) {
 //        try {
 //            String uploadId = UUID.randomUUID().toString();
@@ -441,7 +414,6 @@ public class WriteActivity extends AppCompatActivity {
 //            Toast.makeText(this, exc.getMessage(), Toast.LENGTH_SHORT).show();
 //        }
 //    }
-*/
     // 서버에 이미지 업로드
     public void HttpFileUpload(String urlString, String params, String fileName,String boardName) {
         try {
@@ -560,7 +532,6 @@ public class WriteActivity extends AppCompatActivity {
                 Toast.makeText(WriteActivity.this, "전송 성공", Toast.LENGTH_SHORT).show();
             }
         }
-
     }
 }
 
