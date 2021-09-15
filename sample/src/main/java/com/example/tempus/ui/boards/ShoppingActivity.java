@@ -46,7 +46,7 @@ public class ShoppingActivity extends AppCompatActivity {
     String json;
     int count = 0;
 
-    LinearLayout.LayoutParams lparams;
+    LinearLayout.LayoutParams lparams, URLparams;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,10 +60,14 @@ public class ShoppingActivity extends AppCompatActivity {
         lparams.weight = 1.0f;
         lparams.gravity = Gravity.LEFT | Gravity.CENTER;
 
+        URLparams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ConvertDPtoPX(this, 50));
+        URLparams.weight = 1.0f;
+        URLparams.gravity = Gravity.LEFT | Gravity.CENTER;
+
         searchBtn.setOnClickListener(v->{
             productName = nameEdit.getText().toString();
             // 기존에 존재하던 ll 내부의 view를 모두 제거
-            ll.removeAllViews();
+            //ll.removeAllViews();
 
             try{
                 for(int i = 0; i<5;i++)
@@ -126,7 +130,7 @@ public class ShoppingActivity extends AppCompatActivity {
             URLBtn.setTextColor(Color.BLUE);
             //URLBtn.setTextSize(ConvertDPtoPX(this, 3));
             URLBtn.setBackground(ContextCompat.getDrawable(this, R.drawable.layoutborder));
-            URLBtn.setLayoutParams(lparams);
+            URLBtn.setLayoutParams(URLparams);
             URLBtn.setOnClickListener(v -> {
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(productURL));
                 startActivity(intent);
