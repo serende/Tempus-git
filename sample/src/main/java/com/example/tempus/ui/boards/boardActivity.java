@@ -278,12 +278,14 @@ public class boardActivity extends AppCompatActivity {
                 TextView tv = new TextView(this);
                 tv.setText("지출 내역");
                 tv.setLayoutParams(tvParams);
+                tv.setBackground(ContextCompat.getDrawable(this, R.drawable.layoutborder));
 
                 //**************************************************
                 // 제품명
                 LinearLayout pnameLL = new LinearLayout(this);
                 pnameLL.setOrientation(LinearLayout.HORIZONTAL);
                 pnameLL.setLayoutParams(LayoutParams);
+                pnameLL.setBackground(ContextCompat.getDrawable(this, R.drawable.layoutborder));
 
                 TextView pnameTv = new TextView(this);
                 TextView pnameTV = new TextView(this);
@@ -301,6 +303,7 @@ public class boardActivity extends AppCompatActivity {
                 LinearLayout priceLL = new LinearLayout(this);
                 priceLL.setOrientation(LinearLayout.HORIZONTAL);
                 priceLL.setLayoutParams(LayoutParams);
+                priceLL.setBackground(ContextCompat.getDrawable(this, R.drawable.layoutborder));
 
                 TextView priceTv = new TextView(this);
                 TextView priceTV = new TextView(this);
@@ -318,6 +321,7 @@ public class boardActivity extends AppCompatActivity {
                 LinearLayout tagLL = new LinearLayout(this);
                 tagLL.setOrientation(LinearLayout.HORIZONTAL);
                 tagLL.setLayoutParams(LayoutParams);
+                tagLL.setBackground(ContextCompat.getDrawable(this, R.drawable.layoutborder));
 
                 TextView tagTv = new TextView(this);
                 TextView tagTV = new TextView(this);
@@ -337,8 +341,10 @@ public class boardActivity extends AppCompatActivity {
 
                 memoTv.setText("메모");
                 memoTv.setLayoutParams(tvParams);
+                memoTv.setBackground(ContextCompat.getDrawable(this, R.drawable.layoutborder));
                 memoTV.setText(WR_MEMO);
                 memoTV.setLayoutParams(btnParams);
+                memoTV.setBackground(ContextCompat.getDrawable(this, R.drawable.layoutborder));
 
                 sl.addView(tv);
                 sl.addView(pnameLL);
