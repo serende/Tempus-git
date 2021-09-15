@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -28,6 +29,7 @@ import com.google.gson.JsonParser;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -50,6 +52,7 @@ public class boardActivity extends AppCompatActivity {
     String WR_BODY; //content
     String WR_CONNUM; // content number
     String WR_GROUP;
+    String WR_PNAME, WR_PRICE, WR_TAG, WR_MEMO;
 
     private String userjson,result,userfileName;
 
@@ -61,7 +64,7 @@ public class boardActivity extends AppCompatActivity {
     Integer nameNum;
 
     LinearLayout ll;
-    LinearLayout.LayoutParams params;
+    LinearLayout.LayoutParams params, LayoutParams, btnParams, tvParams, IVParams, weightParams;
 
     String user_EMAIL;
 
@@ -79,13 +82,7 @@ public class boardActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("게시판 그룹: " + BAIntent.getStringExtra("GROUP"));
 
-        /*
-        dateView = findViewById(R.id.dateView);
-        contentView = findViewById(R.id.contentView);
-         */
-
-        //groupTextView = findViewById(R.id.groupTextView);
-        //groupTextView.setText("그룹: " + BAIntent.getStringExtra("GROUP"));
+        ParamsInit();
 
         WR_GROUP = BAIntent.getStringExtra("GROUP");
 //        PostTask task = new PostTask();
@@ -183,21 +180,27 @@ public class boardActivity extends AppCompatActivity {
         }
     }
 
+    public void ParamsInit(){
+        LayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        LayoutParams.weight = 1.0f;
+        LayoutParams.gravity = Gravity.CENTER;
+
+        btnParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ConvertDPtoPX(this, 200));
+        btnParams.gravity = Gravity.LEFT | Gravity.START;
+
+        tvParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ConvertDPtoPX(this, 30));
+        tvParams.gravity = Gravity.LEFT | Gravity.CENTER;
+
+        IVParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        IVParams.gravity = Gravity.CENTER;
+
+        weightParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ConvertDPtoPX(this, 30));
+        weightParams.weight = 1.0f;
+        weightParams.gravity = Gravity.LEFT | Gravity.CENTER;
+    }
+
     public void MakeLinearLayout(LinearLayout ll){
         try {
-            LinearLayout.LayoutParams LayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            LayoutParams.weight = 1.0f;
-            LayoutParams.gravity = Gravity.CENTER;
-
-            LinearLayout.LayoutParams btnParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ConvertDPtoPX(this, 200));
-            btnParams.gravity = Gravity.LEFT | Gravity.START;
-
-            LinearLayout.LayoutParams tvParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ConvertDPtoPX(this, 30));
-            tvParams.gravity = Gravity.LEFT | Gravity.CENTER;
-
-            LinearLayout.LayoutParams IVParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            IVParams.gravity = Gravity.CENTER;
-
             LinearLayout sl = new LinearLayout(this);
             sl.setOrientation(LinearLayout.VERTICAL);
             sl.setLayoutParams(LayoutParams);
@@ -216,13 +219,43 @@ public class boardActivity extends AppCompatActivity {
             JSONArray jsonarray = new JSONArray(result);
             JSONObject jsonobj = jsonarray.getJSONObject(count);
             String result_body =  jsonobj.getString("BODY");
-            TextView contentTV = new TextView(this);
-            contentTV.setLayoutParams(btnParams);
-            contentTV.setText(result_body);
-            contentTV.setBackgroundColor(Color.WHITE);
-            contentTV.setGravity(Gravity.LEFT | Gravity.START);
-            contentTV.setBackground(ContextCompat.getDrawable(this, R.drawable.layoutborder4));
-        /*
+
+            LinearLayout ssl = new LinearLayout(this);
+            ssl.setOrientation(LinearLayout.HORIZONTAL);
+            ssl.setBackground(ContextCompat.getDrawable(this, R.drawable.layoutborder));
+
+            //**************************************************
+            // 작성 일자
+            String result_date =  jsonobj.getString("DATE");
+            TextView dateView = new TextView(this);
+            dateView.setLayoutParams(tvParams);
+            dateView.setGravity(Gravity.CENTER);
+            dateView.setText("작성 일자: " + result_date + "               ");
+            dateView.setPadding(ConvertDPtoPX(this, 4), 0, 0, 0);
+
+            //**************************************************
+            // 작성자명
+            TextView nameView = new TextView(this);
+            String result_ID = jsonobj.getString("ID");
+            nameView.setText("작성자: " + result_ID);
+            nameView.setGravity(Gravity.CENTER);
+            nameView.setLayoutParams(tvParams);
+
+            ssl.addView(dateView);
+            ssl.addView(nameView);
+
+            sl.addView(ssl);
+
+            if(WR_TYPE =="1"){  // 자유 형식
+                //**************************************************
+                // 글 내용
+                TextView contentTV = new TextView(this);
+                contentTV.setLayoutParams(btnParams);
+                contentTV.setText(result_body);
+                contentTV.setBackgroundColor(Color.WHITE);
+                contentTV.setGravity(Gravity.LEFT | Gravity.START);
+                contentTV.setBackground(ContextCompat.getDrawable(this, R.drawable.layoutborder4));
+                /*
         btn.setOnClickListener(v -> {
             Intent intent = new Intent(boardActivity.this, ContentActivity.class);
             intent.putExtra("ID", WR_ID);
@@ -236,30 +269,102 @@ public class boardActivity extends AppCompatActivity {
 
          */
 
-            LinearLayout ssl = new LinearLayout(this);
-            ssl.setOrientation(LinearLayout.HORIZONTAL);
-            ssl.setBackground(ContextCompat.getDrawable(this, R.drawable.layoutborder));
+                sl.addView(contentTV);
+            }
+            else if(WR_TYPE == "2"){    // 지출 내역 형식
+                TextView tv = new TextView(this);
+                tv.setText("지출 내역");
+                tv.setLayoutParams(tvParams);
 
-            String result_date =  jsonobj.getString("DATE");
-            TextView dateView = new TextView(this);
-            dateView.setLayoutParams(tvParams);
-            dateView.setGravity(Gravity.CENTER);
-            dateView.setText("작성 일자: " + result_date);
-            dateView.setPadding(ConvertDPtoPX(this, 4), 0, 0, 0);
-            //dateView.setBackground(ContextCompat.getDrawable(this, R.drawable.layoutborder));
+                //**************************************************
+                // 제품명
+                LinearLayout pnameLL = new LinearLayout(this);
+                pnameLL.setOrientation(LinearLayout.HORIZONTAL);
+                pnameLL.setLayoutParams(LayoutParams);
 
-            TextView nameView = new TextView(this);
-            String result_ID = jsonobj.getString("ID");
-            nameView.setText("작성자: " + result_ID);
-            nameView.setGravity(Gravity.CENTER);
-            nameView.setLayoutParams(tvParams);
-            //nameView.setBackground(ContextCompat.getDrawable(this, R.drawable.layoutborder));
+                TextView pnameTv = new TextView(this);
+                TextView pnameTV = new TextView(this);
 
-            ssl.addView(dateView);
-            ssl.addView(nameView);
+                pnameTv.setText("구매 제품명");
+                pnameTv.setLayoutParams(weightParams);
+                pnameTV.setText(WR_PNAME);
+                pnameTV.setLayoutParams(weightParams);
 
-            sl.addView(contentTV);
-            sl.addView(ssl);
+                pnameLL.addView(pnameTv);
+                pnameLL.addView(pnameTV);
+
+                //**************************************************
+                // 가격
+                LinearLayout priceLL = new LinearLayout(this);
+                priceLL.setOrientation(LinearLayout.HORIZONTAL);
+                priceLL.setLayoutParams(LayoutParams);
+
+                TextView priceTv = new TextView(this);
+                TextView priceTV = new TextView(this);
+
+                priceTv.setText("가격");
+                priceTv.setLayoutParams(weightParams);
+                priceTV.setText(WR_PRICE);
+                priceTV.setLayoutParams(weightParams);
+
+                priceLL.addView(priceTv);
+                priceLL.addView(priceTV);
+
+                //**************************************************
+                // 태그
+                LinearLayout tagLL = new LinearLayout(this);
+                tagLL.setOrientation(LinearLayout.HORIZONTAL);
+                tagLL.setLayoutParams(LayoutParams);
+
+                TextView tagTv = new TextView(this);
+                TextView tagTV = new TextView(this);
+
+                tagTv.setText("태그");
+                tagTv.setLayoutParams(weightParams);
+                tagTV.setText(WR_TAG);
+                tagTV.setLayoutParams(weightParams);
+
+                tagLL.addView(tagTv);
+                tagLL.addView(tagTV);
+
+                //**************************************************
+                // 메모
+                TextView memoTv = new TextView(this);
+                TextView memoTV = new TextView(this);
+
+                memoTv.setText("메모");
+                memoTv.setLayoutParams(tvParams);
+                memoTV.setText(WR_MEMO);
+                memoTV.setLayoutParams(btnParams);
+
+                sl.addView(tv);
+                sl.addView(pnameLL);
+                sl.addView(priceLL);
+                sl.addView(tagLL);
+                sl.addView(memoTv);
+                sl.addView(memoTV);
+
+                /*
+                pnameTV.setText("구매 제품명: " + WR_PNAME);
+                priceTV.setText("가격: " + WR_PRICE + "원");
+                 */
+
+                /*
+                ssl2.addView(tv);
+                ssl2.addView(pnameTv);
+                ssl2.addView(pnameTV);
+                ssl2.addView(priceTv);
+                ssl2.addView(priceTV);
+                ssl2.addView(tagTv);
+                ssl2.addView(tagTV);
+                ssl2.addView(memoTv);
+                ssl2.addView(memoTV);
+                sl.addView(ssl2);
+                 */
+            }
+            else {
+                Toast.makeText(getApplicationContext(), "TYPE ERROR", Toast.LENGTH_SHORT).show();
+            }
 
             // 첨부된 사진이 있으면 생성하도록 변경 필요(현재는 임시 조건문)
             int i = 0;
@@ -292,7 +397,7 @@ public class boardActivity extends AppCompatActivity {
 
             ll.addView(sl);
         }catch (Exception e){
-            e.printStackTrace();
+            Log.e("MakeLinearERROR", e.toString());
         }
     }
 
