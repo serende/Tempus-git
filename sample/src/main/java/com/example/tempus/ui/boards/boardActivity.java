@@ -295,10 +295,10 @@ public class boardActivity extends AppCompatActivity {
 
                 TextView pnameTv = new TextView(this);
                 TextView pnameTV = new TextView(this);
-
+                String result_pname =  jsonobj.getString("WR_PNAME");
                 pnameTv.setText("구매 제품명");
                 pnameTv.setLayoutParams(weightParams);
-                pnameTV.setText(WR_PNAME);
+                pnameTV.setText(result_pname);
                 pnameTV.setLayoutParams(weightParams);
 
                 pnameLL.addView(pnameTv);
@@ -313,10 +313,10 @@ public class boardActivity extends AppCompatActivity {
 
                 TextView priceTv = new TextView(this);
                 TextView priceTV = new TextView(this);
-
+                String result_price =  jsonobj.getString("WR_PRICE");
                 priceTv.setText("가격");
                 priceTv.setLayoutParams(weightParams);
-                priceTV.setText(WR_PRICE);
+                priceTV.setText(result_price);
                 priceTV.setLayoutParams(weightParams);
 
                 priceLL.addView(priceTv);
@@ -331,10 +331,10 @@ public class boardActivity extends AppCompatActivity {
 
                 TextView tagTv = new TextView(this);
                 TextView tagTV = new TextView(this);
-
+                String result_tag =  jsonobj.getString("WR_TAG");
                 tagTv.setText("태그");
                 tagTv.setLayoutParams(weightParams);
-                tagTV.setText(WR_TAG);
+                tagTV.setText(result_tag);
                 tagTV.setLayoutParams(weightParams);
 
                 tagLL.addView(tagTv);
@@ -348,11 +348,11 @@ public class boardActivity extends AppCompatActivity {
 
                 TextView memoTv = new TextView(this);
                 TextView memoTV = new TextView(this);
-
+                String result_memo =  jsonobj.getString("WR_MEMO");
                 memoTv.setText("메모");
                 memoTv.setLayoutParams(tvParams);
                 memoTv.setBackground(ContextCompat.getDrawable(this, R.drawable.layoutborder));
-                memoTV.setText(WR_MEMO);
+                memoTV.setText(result_memo);
                 memoTV.setLayoutParams(btnParams);
                 memoTV.setBackground(ContextCompat.getDrawable(this, R.drawable.layoutborder));
 
