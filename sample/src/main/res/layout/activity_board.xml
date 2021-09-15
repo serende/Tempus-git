@@ -7,10 +7,26 @@
     tools:context="com.example.tempus.ui.boards.boardActivity"
     android:orientation="vertical">
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/Theme.Tempus.AppBarOverlay">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/Theme.Tempus.PopupOverlay"/>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!--
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="@drawable/layoutborder4">
+        android:background="@drawable/layoutborder4"
+        android:layout_above="@+id/scrollView">
 
         <TextView
             android:layout_width="wrap_content"
@@ -30,7 +46,9 @@
             android:textColor="@color/black"
             android:layout_gravity="center"/>
     </LinearLayout>
+    -->
 
+    <!--
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -63,14 +81,33 @@
         </LinearLayout>
 
     </LinearLayout>
+    -->
 
-    <!-- 동적 레이아웃 -->
-    <LinearLayout
-        android:id="@+id/ll"
+    <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="270dp"/>
+        android:layout_height="match_parent"
+        >
+
+        <!-- 동적 레이아웃 -->
+        <LinearLayout
+            android:id="@+id/ll"
+            android:layout_width="match_parent"
+            android:layout_height="4000dp"
+            android:orientation="vertical"
+            android:layout_marginTop="53dp"
+            />
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="55dp"/>
+
+    </LinearLayout>
+
 
     <!-- 지인 초대로 이동 -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton

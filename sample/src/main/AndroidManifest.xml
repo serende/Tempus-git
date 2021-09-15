@@ -46,7 +46,6 @@
             android:name="com.example.tempus.ui.boards.CreateExpenditureHistoryActivityForWrite"
             android:theme="@style/Theme.Tempus.NoActionBar" />
         <activity android:name="com.example.tempus.ui.boards.ContentActivity" >
-
         </activity>
         <activity android:name="com.example.tempus.ui.friends.EditFriendInfoActivity" />
         <activity android:name=".uploadActivity" />
@@ -57,7 +56,9 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="com.example.tempus.ui.boards.boardActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar" >
+
+        </activity>
 
         <provider
             android:name="androidx.core.content.FileProvider"
