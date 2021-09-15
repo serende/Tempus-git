@@ -70,9 +70,10 @@ public class ShoppingActivity extends AppCompatActivity {
             ll.removeAllViews();
 
             try{
-                for(int i = 0; i<5;i++)
+                for(int i = 0; i<5;i++){
                     count = i;
                     makeLinearLayout(ll);
+                }
             } catch(Exception e){
                 Log.e("makeLinearerror", e.toString());}
         });
