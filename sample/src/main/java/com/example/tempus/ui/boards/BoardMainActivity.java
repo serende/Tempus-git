@@ -309,7 +309,7 @@ public class BoardMainActivity extends AppCompatActivity {
             int n = 0;
             LinearLayout sl = new LinearLayout(this);
             sl.setOrientation(LinearLayout.VERTICAL);
-            sl.setPadding(0, ConvertDPtoPX(this,10),0,0);
+            sl.setPadding(0, ConvertDPtoPX(this,60),0,0);
             sl.setBackgroundColor(Color.TRANSPARENT);
 //            sl.setLayoutParams(slParams);
 
