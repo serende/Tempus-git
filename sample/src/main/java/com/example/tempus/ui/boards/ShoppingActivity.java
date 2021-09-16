@@ -60,7 +60,7 @@ public class ShoppingActivity extends AppCompatActivity {
         lparams.weight = 1.0f;
         lparams.gravity = Gravity.LEFT | Gravity.CENTER;
 
-        URLparams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ConvertDPtoPX(this, 80));
+        URLparams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ConvertDPtoPX(this, 30));
         URLparams.weight = 1.0f;
         URLparams.gravity = Gravity.LEFT | Gravity.CENTER;
 
@@ -124,7 +124,7 @@ public class ShoppingActivity extends AppCompatActivity {
 
             Button URLBtn = new Button(this);
 
-            URLBtn.setText(result_link);
+            URLBtn.setText("링크");
             URLBtn.setBackgroundColor(Color.WHITE);
             URLBtn.setTextColor(Color.BLUE);
             //URLBtn.setTextSize(ConvertDPtoPX(this, 3));
