@@ -57,7 +57,7 @@ public class ShoppingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_shopping);
 
         SAIntent = getIntent();
-        host_ip = SAIntent.getStringExtra(host_ip);
+        host_ip = SAIntent.getStringExtra("host_ip");
 
         nameEdit = findViewById(R.id.nameEdit);
         searchBtn = findViewById(R.id.searchBtn);
@@ -168,7 +168,7 @@ public class ShoppingActivity extends AppCompatActivity {
         protected String doInBackground(String... params) {
             String prdname = params[0];
             try {
-                String site_url_json = "http://192.168.0.3:5000/productRecommendation";
+                String site_url_json = host_ip+"productRecommendation";
 //                String site_url_json = "https://webhook.site/088d425c-1da8-4bb0-922d-f632cf432ec4";
                 URL url = new URL(site_url_json);
 

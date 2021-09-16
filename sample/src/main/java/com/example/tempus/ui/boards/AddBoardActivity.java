@@ -85,7 +85,7 @@ public class AddBoardActivity extends AppCompatActivity {
 
     Intent ABAIntent;
     String user_EMAIL;
-
+    String host_ip;
     private File tempFile;
 
     @Override
@@ -100,6 +100,7 @@ public class AddBoardActivity extends AppCompatActivity {
         ABAIntent = getIntent();
         user_EMAIL = ABAIntent.getStringExtra("EMAIL");
         userImage = findViewById(R.id.userImage);
+        host_ip = ABAIntent.getStringExtra("host_ip");
         try{
             BoardNameEdit = findViewById(R.id.BoardNameEdit);
             addPhoto = findViewById(R.id.addPhoto);
@@ -143,7 +144,7 @@ public class AddBoardActivity extends AppCompatActivity {
             String[] params = {boardjson};
             AddboardTask Write = new AddboardTask();
             Write.execute(params);
-            DoFileUpload("http://192.168.0.3:5000/imgupload", getAbsolutePath(photoURI),WR_BODY);
+            DoFileUpload(host_ip+"imgupload", getAbsolutePath(photoURI),WR_BODY);
 
             //            Intent intent = new Intent(AddBoardActivity.this, BoardMainActivity.class);
 //            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);  // 상위 스택 액티비티 모두 제거
@@ -473,7 +474,7 @@ public class AddBoardActivity extends AppCompatActivity {
             //String hjson = params[0];
             String userdata = params[0];
             try {
-                String host_url = "http://192.168.0.3:5000/addboard";
+                String host_url = host_ip+"addboard";
 //                String host_url = "https://webhook.site/2e08c0c3-79dc-4f65-bba8-3cba6718f78f";
                 URL url = new URL(host_url);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();

@@ -39,7 +39,7 @@ public class SignupActivity extends AppCompatActivity {
         setContentView(R.layout.activity_signup);
 
         SAIntent = getIntent();
-        host_ip = SAIntent.getStringExtra(host_ip);
+        host_ip = SAIntent.getStringExtra("host_ip");
 
         mNameView = (EditText) findViewById(R.id.signup_name);
         mPhoneNumberView = (EditText) findViewById(R.id.signup_phonenumber);
@@ -86,7 +86,7 @@ public class SignupActivity extends AppCompatActivity {
             //String hjson = params[0];
             String userdata = params[0];
             try {
-                String host_url = "http://192.168.0.3:5000/signup";
+                String host_url = host_ip+"signup";
                 URL url = new URL(host_url);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setConnectTimeout(15*1000);//Timeout setting

@@ -102,7 +102,7 @@ public class CreateExpenditureHistoryActivityForWrite extends AppCompatActivity 
         CEHAIntent = getIntent();
         user_EMAIL = CEHAIntent.getStringExtra("EMAIL");
         groupName = CEHAIntent.getStringExtra("GROUP");
-        host_ip = CEHAIntent.getStringExtra(host_ip);
+        host_ip = CEHAIntent.getStringExtra("host_ip");
 
         dayView = findViewById(R.id.dayView);
 
@@ -150,7 +150,7 @@ public class CreateExpenditureHistoryActivityForWrite extends AppCompatActivity 
                 e.printStackTrace();
             }
             String[] params = {userboard};
-            String urIString = "http://192.168.0.3:5000/imgupload_Post";
+            String urIString = host_ip+"imgupload_Post";
             //String urIString = "https://webhook.site/d4dc0f16-d848-41ba-a14f-bbea18b82018";
 
             CreateExpenditureHistoryActivityForWrite.addPostTask task = new CreateExpenditureHistoryActivityForWrite.addPostTask();
@@ -455,7 +455,7 @@ public class CreateExpenditureHistoryActivityForWrite extends AppCompatActivity 
             //String hjson = params[0];
             String userdata = params[0];
             try {
-                String host_url = "http://192.168.0.3:5000/addPost";
+                String host_url = host_ip+"addPost";
 //                String host_url = "https://webhook.site/2e08c0c3-79dc-4f65-bba8-3cba6718f78f";
                 URL url = new URL(host_url);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();

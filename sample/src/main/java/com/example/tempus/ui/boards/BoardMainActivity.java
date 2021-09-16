@@ -76,7 +76,7 @@ public class BoardMainActivity extends AppCompatActivity {
 
         BMAIntent = getIntent();
         user_EMAIL = BMAIntent.getStringExtra("EMAIL");  // 로그인 액티비티에서 전달받은 사용자의 email
-        host_ip = BMAIntent.getStringExtra(host_ip);
+        host_ip = BMAIntent.getStringExtra("host_ip");
 
         grid = findViewById(R.id.grid);
 
@@ -256,7 +256,7 @@ public class BoardMainActivity extends AppCompatActivity {
         protected String doInBackground(String... params) {
             String userid = params[0];
             try {
-                String site_url_json = "http://192.168.0.3:5000/board";
+                String site_url_json = host_ip+"board";
 //                String site_url_json = "https://webhook.site/088d425c-1da8-4bb0-922d-f632cf432ec4";
                 URL url = new URL(site_url_json);
 
@@ -351,7 +351,7 @@ public class BoardMainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
             String[] params2 = {userfileName};
-            ImageLoadTask task2 = new ImageLoadTask("http://192.168.0.3:5000/imgdownload",IB);//Imageview(IB)에 해당 url에서 이미지를 받아 넣음
+            ImageLoadTask task2 = new ImageLoadTask(host_ip+"imgdownload",IB);//Imageview(IB)에 해당 url에서 이미지를 받아 넣음
 //          ImageLoadTask task2 = new ImageLoadTask("https://webhook.site/2e08c0c3-79dc-4f65-bba8-3cba6718f78f",IB);
             task2.execute(params2);
             IB.setScaleType(ImageView.ScaleType.FIT_CENTER);

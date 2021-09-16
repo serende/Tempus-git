@@ -82,7 +82,7 @@ public class boardActivity extends AppCompatActivity {
         names = getIntent().getStringArrayExtra("names");
         nameNum = getIntent().getIntExtra("nameNum", 0);
         user_EMAIL = BAIntent.getStringExtra("EMAIL");
-        host_ip = BAIntent.getStringExtra(host_ip);
+        host_ip = BAIntent.getStringExtra("host_ip");
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -153,7 +153,7 @@ public class boardActivity extends AppCompatActivity {
         protected String doInBackground(String... params) {
             String userid = params[0];
             try {
-                String site_url_json = "http://192.168.0.3:5000/Post";
+                String site_url_json = host_ip+"Post";
 //                String site_url_json = "https://webhook.site/088d425c-1da8-4bb0-922d-f632cf432ec4";
                 URL url = new URL(site_url_json);
 
@@ -393,7 +393,7 @@ public class boardActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 String[] params2 = {userfileName};
-                boardActivity.ImageLoadTask task2 = new boardActivity.ImageLoadTask("http://192.168.0.3:5000/imgdownload", IV);//Imageview(IB)에 해당 url에서 이미지를 받아 넣음
+                boardActivity.ImageLoadTask task2 = new boardActivity.ImageLoadTask(host_ip+"imgdownload", IV);//Imageview(IB)에 해당 url에서 이미지를 받아 넣음
 //          ImageLoadTask task2 = new ImageLoadTask("https://webhook.site/2e08c0c3-79dc-4f65-bba8-3cba6718f78f",IB);
 //            task2.execute(params2);
                 IV.setScaleType(ImageView.ScaleType.FIT_CENTER);
