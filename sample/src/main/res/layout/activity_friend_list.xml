@@ -69,7 +69,7 @@
     <LinearLayout
         android:id="@+id/ll"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="500dp"
         android:orientation="vertical">
     </LinearLayout>
 
@@ -127,4 +127,24 @@
         app:srcCompat="@drawable/ic_notify_on"
         />
         -->
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/shoppingFAB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="10dp"
+        app:srcCompat="@drawable/ic_shopping"
+        />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/boardMainFAB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="0dp"
+        android:layout_marginRight="10dp"
+        app:srcCompat="@drawable/ic_home" />
+
 </LinearLayout>
