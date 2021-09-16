@@ -128,12 +128,13 @@ public class ShoppingActivity extends AppCompatActivity {
             scoreTV.setTextColor(Color.BLACK);
             scoreTV.setBackground(ContextCompat.getDrawable(this, R.drawable.layoutborder));
             scoreTV.setLayoutParams(lparams);
+            scoreTV.setGravity(Gravity.CENTER);
             scoreTV.setPadding(ConvertDPtoPX(this, 20), 0, 0, 0);
             Button URLBtn = new Button(this);
 
             URLBtn.setText("링크");
-            URLBtn.setBackgroundColor(Color.WHITE);
-            URLBtn.setTextColor(Color.BLUE);
+            URLBtn.setBackgroundColor(Color.BLUE);
+            URLBtn.setTextColor(Color.WHITE);
             //URLBtn.setTextSize(ConvertDPtoPX(this, 3));
             URLBtn.setBackground(ContextCompat.getDrawable(this, R.drawable.layoutborder));
             URLBtn.setLayoutParams(URLparams);
