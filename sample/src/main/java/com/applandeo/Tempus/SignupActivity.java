@@ -29,10 +29,17 @@ public class SignupActivity extends AppCompatActivity {
     String name,pnum,address,email,password,password2;
     String userjson,result;
     BufferedReader reader = null;
+
+    Intent SAIntent;
+    String host_ip;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
+
+        SAIntent = getIntent();
+        host_ip = SAIntent.getStringExtra(host_ip);
 
         mNameView = (EditText) findViewById(R.id.signup_name);
         mPhoneNumberView = (EditText) findViewById(R.id.signup_phonenumber);
@@ -119,6 +126,7 @@ public class SignupActivity extends AppCompatActivity {
                 else{
                     Toast.makeText(SignupActivity.this, "회원가입이 되었습니다.", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
+                    intent.putExtra("host_ip",host_ip);
                     startActivity(intent);
                 }
 

@@ -46,6 +46,8 @@ public class LoginActivity extends Activity {
 
     String checkNum = "1";
 
+    String host_ip;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,8 +80,9 @@ public class LoginActivity extends Activity {
 
         SignUpButton.setOnClickListener(v -> {
             //회원 가입 페이지로 이동
-            Intent Signintent = new Intent(this, SignupActivity.class);//임시 페이지
-            startActivity(Signintent);
+            Intent intent = new Intent(this, SignupActivity.class);//임시 페이지
+            intent.putExtra("host_ip", host_ip);
+            startActivity(intent);
         });
 
         mEmailView.setOnEditorActionListener((textView, id, keyEvent) -> {
@@ -157,6 +160,7 @@ public class LoginActivity extends Activity {
                 Intent intent = new Intent(LoginActivity.this, BoardMainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);  // 상위 스택 액티비티 모두 제거
                 intent.putExtra("EMAIL", mEmailView.getText().toString());
+                intent.putExtra("host_ip", host_ip);
 //                Toast.makeText(getApplicationContext(), mEmailView.getText().toString(), Toast.LENGTH_SHORT).show();
 
                 LoginActivity.this.finish();

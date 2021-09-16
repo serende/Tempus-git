@@ -64,6 +64,8 @@ public class BoardMainActivity extends AppCompatActivity {
     int count = 0;
     String user_EMAIL;
 
+    String host_ip;
+
     LinearLayout.LayoutParams slParams;
     LinearLayout.LayoutParams IBParams;
 
@@ -74,6 +76,7 @@ public class BoardMainActivity extends AppCompatActivity {
 
         BMAIntent = getIntent();
         user_EMAIL = BMAIntent.getStringExtra("EMAIL");  // 로그인 액티비티에서 전달받은 사용자의 email
+        host_ip = BMAIntent.getStringExtra(host_ip);
 
         grid = findViewById(R.id.grid);
 
@@ -125,6 +128,7 @@ public class BoardMainActivity extends AppCompatActivity {
             anim();
             Intent intent = new Intent(getApplicationContext(), AddBoardActivity.class);
             intent.putExtra("EMAIL", user_EMAIL);
+            intent.putExtra("host_ip",host_ip);
             startActivity(intent);
         });
 
@@ -133,6 +137,7 @@ public class BoardMainActivity extends AppCompatActivity {
             anim();
             Intent intent = new Intent(getApplicationContext(), FriendListActivity.class);
             intent.putExtra("EMAIL", user_EMAIL);
+            intent.putExtra("host_ip",host_ip);
             startActivity(intent);
         });
 
@@ -140,6 +145,7 @@ public class BoardMainActivity extends AppCompatActivity {
         shoppingFAB.setOnClickListener(v -> {
             anim();
             Intent intent = new Intent(getApplicationContext(), ShoppingActivity.class);
+            intent.putExtra("host_ip",host_ip);
             startActivity(intent);
         });
 
@@ -149,6 +155,7 @@ public class BoardMainActivity extends AppCompatActivity {
             anim();
             Toast.makeText(getApplicationContext(),"알림 ON",Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(BoardMainActivity.this, MyService.class);    // 알림 서비스 실행
+            intent.putExtra("host_ip",host_ip);
             startService(intent);
         });
 
@@ -172,7 +179,7 @@ public class BoardMainActivity extends AppCompatActivity {
             baIntent2.putExtra("EMAIL", user_EMAIL);
             startActivity(baIntent2);
         });
-        
+
  */
 
         try{
@@ -363,6 +370,7 @@ public class BoardMainActivity extends AppCompatActivity {
             Intent intent = new Intent(getApplicationContext(), boardActivity.class);
             intent.putExtra("GROUP", result_json_text);
             intent.putExtra("EMAIL", user_EMAIL);
+            intent.putExtra("host_ip",host_ip);
             startActivity(intent);
         });
 
