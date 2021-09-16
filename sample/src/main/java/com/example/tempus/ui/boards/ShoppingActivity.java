@@ -56,11 +56,11 @@ public class ShoppingActivity extends AppCompatActivity {
         searchBtn = findViewById(R.id.searchBtn);
         ll = findViewById(R.id.ll);
 
-        lparams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ConvertDPtoPX(this, 30));
+        lparams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ConvertDPtoPX(this, 40));
         lparams.weight = 1.0f;
         lparams.gravity = Gravity.LEFT | Gravity.CENTER;
 
-        URLparams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ConvertDPtoPX(this, 30));
+        URLparams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ConvertDPtoPX(this, 40));
         URLparams.weight = 1.0f;
         URLparams.gravity = Gravity.LEFT | Gravity.CENTER;
 
@@ -111,7 +111,7 @@ public class ShoppingActivity extends AppCompatActivity {
             pName.setText(result_productName + "       가격 : " + result_price + "원      ");
             //pName.setTextSize(ConvertDPtoPX(this, 3));
             pName.setTextColor(Color.BLACK);
-            //pName.setPadding(ConvertDPtoPX(this, 20), 0, 0, 0);
+            pName.setPadding(ConvertDPtoPX(this, 20), 0, 0, 0);
             pName.setBackground(ContextCompat.getDrawable(this, R.drawable.layoutborder));
             pName.setLayoutParams(lparams);
 
@@ -121,7 +121,7 @@ public class ShoppingActivity extends AppCompatActivity {
             scoreTV.setTextColor(Color.BLACK);
             scoreTV.setBackground(ContextCompat.getDrawable(this, R.drawable.layoutborder));
             scoreTV.setLayoutParams(lparams);
-
+            scoreTV.setPadding(ConvertDPtoPX(this, 20), 0, 0, 0);
             Button URLBtn = new Button(this);
 
             URLBtn.setText("링크");
