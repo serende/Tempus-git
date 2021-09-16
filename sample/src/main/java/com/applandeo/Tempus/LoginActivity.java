@@ -46,7 +46,7 @@ public class LoginActivity extends Activity {
 
     String checkNum = "1";
 
-    String host_ip= "http://192.168.0.3:5000/";
+    String host_ip= "http://192.168.43.226:5000/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
