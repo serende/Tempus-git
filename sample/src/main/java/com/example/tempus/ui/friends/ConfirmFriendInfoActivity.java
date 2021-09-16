@@ -63,7 +63,7 @@ public class ConfirmFriendInfoActivity extends AppCompatActivity {
             Intent intent = new Intent(ConfirmFriendInfoActivity.this, EditFriendInfoActivity.class);
             intent.putExtra("지인 번호", n);
             intent.putExtra("EMAIL", user_EMAIL);
-            intent.putExtra("host_ip",host_ip);
+            intent.putExtra("host_ip","host_ip");
             startActivity(intent);
         });
     }

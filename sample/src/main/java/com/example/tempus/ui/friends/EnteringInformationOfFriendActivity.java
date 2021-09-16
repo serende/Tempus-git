@@ -50,7 +50,7 @@ public class EnteringInformationOfFriendActivity extends AppCompatActivity {
 
         EIFIntent = getIntent();
         user_EMAIL = EIFIntent.getStringExtra("EMAIL");
-        host_ip = EIFIntent.getStringExtra(host_ip);
+        host_ip = EIFIntent.getStringExtra("host_ip");
 
         // 전화번호 기입
         phoneNumberEditText = findViewById(R.id.phoneNumberEditText);

@@ -41,7 +41,7 @@ public class EditFriendInfoActivity extends AppCompatActivity {
 
         EFIAIntent = getIntent();
         user_EMAIL = EFIAIntent.getStringExtra("EMAIL");
-        host_ip = EFIAIntent.getStringExtra(host_ip);
+        host_ip = EFIAIntent.getStringExtra("host_ip");
 
 
         // 전화번호 기입

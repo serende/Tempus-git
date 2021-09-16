@@ -63,7 +63,7 @@ public class InviteActivity extends AppCompatActivity {
 
         IAIntent = getIntent();
         user_EMAIL = IAIntent.getStringExtra("EMAIL");
-        host_ip = IAIntent.getStringExtra(host_ip);
+        host_ip = IAIntent.getStringExtra("host_ip");
 
         addButton = findViewById(R.id.addButton);
         finButton = findViewById(R.id.finButton);

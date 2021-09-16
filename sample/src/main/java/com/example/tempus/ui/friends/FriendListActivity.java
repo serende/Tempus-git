@@ -69,7 +69,7 @@ public class FriendListActivity extends AppCompatActivity {
 
         FLAIntent = getIntent();
         user_EMAIL = FLAIntent.getStringExtra("EMAIL");
-        host_ip = FLAIntent.getStringExtra(host_ip);
+        host_ip = FLAIntent.getStringExtra("host_ip");
 
         addButton = findViewById(R.id.addButton);
         addButton.setOnClickListener(v -> {
