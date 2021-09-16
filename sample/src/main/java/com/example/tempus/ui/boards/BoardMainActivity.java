@@ -163,6 +163,7 @@ public class BoardMainActivity extends AppCompatActivity {
             anim();
             Toast.makeText(getApplicationContext(),"알림 OFF",Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(BoardMainActivity.this,MyService.class);     // 알림 서비스 종료
+            intent.putExtra("host_ip",host_ip);
             stopService(intent);
         });
 /*

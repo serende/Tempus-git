@@ -41,6 +41,8 @@ public class EnteringInformationOfFriendActivity extends AppCompatActivity {
     Intent EIFIntent;
     String user_EMAIL;
 
+    String host_ip;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +50,7 @@ public class EnteringInformationOfFriendActivity extends AppCompatActivity {
 
         EIFIntent = getIntent();
         user_EMAIL = EIFIntent.getStringExtra("EMAIL");
+        host_ip = EIFIntent.getStringExtra(host_ip);
 
         // 전화번호 기입
         phoneNumberEditText = findViewById(R.id.phoneNumberEditText);
@@ -106,6 +109,7 @@ public class EnteringInformationOfFriendActivity extends AppCompatActivity {
                 Intent intent = new Intent(v.getContext(), FriendListActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);  // 상위 스택 액티비티 모두 제거
                 intent.putExtra("EMAIL", user_EMAIL);
+                intent.putExtra("host_ip",host_ip);
                 EnteringInformationOfFriendActivity.this.finish();
                 startActivity(intent);
             } catch (Exception e){
