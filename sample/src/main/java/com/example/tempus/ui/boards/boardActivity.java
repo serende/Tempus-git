@@ -239,6 +239,7 @@ public class boardActivity extends AppCompatActivity {
             dateView.setLayoutParams(tvParams);
             dateView.setGravity(Gravity.CENTER);
             dateView.setText("작성 일자: " + result_date + "               ");
+            dateView.setTextColor(Color.BLACK);
             dateView.setPadding(ConvertDPtoPX(this, 4), 0, 0, 0);
 
             //**************************************************
@@ -247,6 +248,7 @@ public class boardActivity extends AppCompatActivity {
             String result_ID = jsonobj.getString("ID");
             nameView.setText("작성자: " + result_ID);
             nameView.setGravity(Gravity.CENTER);
+            nameView.setTextColor(Color.BLACK);
             nameView.setLayoutParams(tvParams);
 
             ssl.addView(dateView);
@@ -261,6 +263,7 @@ public class boardActivity extends AppCompatActivity {
                 contentTV.setLayoutParams(btnParams);
                 contentTV.setText(result_body);
                 contentTV.setBackgroundColor(Color.WHITE);
+                contentTV.setTextColor(Color.BLACK);
                 contentTV.setGravity(Gravity.LEFT | Gravity.START);
                 contentTV.setBackground(ContextCompat.getDrawable(this, R.drawable.layoutborder4));
                 /*
@@ -286,6 +289,7 @@ public class boardActivity extends AppCompatActivity {
 
                 TextView tv = new TextView(this);
                 tv.setText("지출 내역");
+                tv.setTextColor(Color.BLACK);
                 tv.setLayoutParams(tvParams);
                 tv.setBackground(ContextCompat.getDrawable(this, R.drawable.layoutborder));
 
@@ -302,8 +306,10 @@ public class boardActivity extends AppCompatActivity {
                 TextView pnameTV = new TextView(this);
                 String result_pname =  jsonobj.getString("WR_PNAME");
                 pnameTv.setText("구매 제품명");
+                pnameTv.setTextColor(Color.BLACK);
                 pnameTv.setLayoutParams(weightParams);
                 pnameTV.setText(result_pname);
+                pnameTV.setTextColor(Color.BLACK);
                 pnameTV.setLayoutParams(weightParams);
 
                 pnameLL.addView(pnameTv);
@@ -321,8 +327,10 @@ public class boardActivity extends AppCompatActivity {
                 String result_price =  jsonobj.getString("WR_PRICE");
                 priceTv.setText("가격");
                 priceTv.setLayoutParams(weightParams);
+                priceTv.setTextColor(Color.BLACK);
                 priceTV.setText(result_price);
                 priceTV.setLayoutParams(weightParams);
+                priceTV.setTextColor(Color.BLACK);
 
                 priceLL.addView(priceTv);
                 priceLL.addView(priceTV);
@@ -339,8 +347,10 @@ public class boardActivity extends AppCompatActivity {
                 String result_tag =  jsonobj.getString("WR_TAG");
                 tagTv.setText("태그");
                 tagTv.setLayoutParams(weightParams);
+                tagTv.setTextColor(Color.BLACK);
                 tagTV.setText(result_tag);
                 tagTV.setLayoutParams(weightParams);
+                tagTV.setTextColor(Color.BLACK);
 
                 tagLL.addView(tagTv);
                 tagLL.addView(tagTV);
@@ -356,9 +366,11 @@ public class boardActivity extends AppCompatActivity {
                 String result_memo =  jsonobj.getString("WR_MEMO");
                 memoTv.setText("메모");
                 memoTv.setLayoutParams(tvParams);
+                memoTv.setTextColor(Color.BLACK);
                 memoTv.setBackground(ContextCompat.getDrawable(this, R.drawable.layoutborder));
                 memoTV.setText(result_memo);
                 memoTV.setLayoutParams(btnParams);
+                memoTV.setTextColor(Color.BLACK);
                 memoTV.setBackground(ContextCompat.getDrawable(this, R.drawable.layoutborder));
 
                 memoLL.addView(memoTv);
@@ -380,6 +392,7 @@ public class boardActivity extends AppCompatActivity {
                 TextView tv = new TextView(this);
                 tv.setText("첨부된 사진");
                 tv.setLayoutParams(tvParams);
+                tv.setTextColor(Color.BLACK);
                 tv.setGravity(Gravity.CENTER);
 
                 ImageView IV = new ImageView(this);
