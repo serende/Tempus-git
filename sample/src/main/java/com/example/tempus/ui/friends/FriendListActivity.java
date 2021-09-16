@@ -3,6 +3,7 @@ package com.example.tempus.ui.friends;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.icu.text.IDNA;
 import android.os.Bundle;
 
@@ -242,10 +243,12 @@ public class FriendListActivity extends AppCompatActivity {
 
                     InfoView1.setText(" " + readArr[5*n+1]);
                     InfoView1.setGravity(Gravity.CENTER);
+                    //InfoView1.setTextColor(Color.BLUE);
                     InfoView1.setPadding(102, 40, 0, 0);
 
                     InfoView2.setText(" " + readArr[5*n+3]);
                     InfoView2.setPadding(250,40,0,0);
+                    //InfoView2.setTextColor(Color.BLUE);
                     sl.addView(InfoView1);
                     sl.addView(InfoView2);
 
@@ -261,6 +264,7 @@ public class FriendListActivity extends AppCompatActivity {
                     btn.setId(n + 1);
                     btn.setText("정보 확인");
                     btn.setPadding(200,10,100,0);
+                    btn.setTextColor(Color.BLUE);
                     btn.setBackgroundColor(0);
 
                     final int friendNum = n;
