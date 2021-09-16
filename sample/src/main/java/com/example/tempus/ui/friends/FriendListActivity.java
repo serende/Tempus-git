@@ -25,6 +25,7 @@ import com.applandeo.Tempus.R;
 import com.example.tempus.ui.MyService;
 import com.example.tempus.ui.boards.AddBoardActivity;
 import com.example.tempus.ui.boards.BoardMainActivity;
+import com.example.tempus.ui.boards.ShoppingActivity;
 import com.example.tempus.ui.boards.WriteActivity;
 import com.example.tempus.ui.boards.boardActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -53,6 +54,7 @@ public class FriendListActivity extends AppCompatActivity {
     private Boolean isFabOpen = false;
 
     //private FloatingActionButton openFAB, boardMainFAB, shoppingFAB, notifyONFAB, notifyOFFFAB;
+    private FloatingActionButton boardMainFAB, shoppingFAB;
 
     int InviteYN = 0;
     String InviteGroupName;
@@ -83,11 +85,13 @@ public class FriendListActivity extends AppCompatActivity {
             anim();
         });
 
+         */
+
         try{
             boardMainFAB = findViewById(R.id.boardMainFAB);
             shoppingFAB = findViewById(R.id.shoppingFAB);
-            notifyONFAB = findViewById(R.id.notifyONFAB);
-            notifyOFFFAB = findViewById(R.id.notifyOFFFAB);
+            //notifyONFAB = findViewById(R.id.notifyONFAB);
+            //notifyOFFFAB = findViewById(R.id.notifyOFFFAB);
         } catch (Exception e){
             Log.e("FVBERROR", e.toString());
         }
@@ -98,17 +102,19 @@ public class FriendListActivity extends AppCompatActivity {
 
         // 게시판 추가 액티비티로 이동
         boardMainFAB.setOnClickListener(v -> {
-            anim();
+            //anim();
             Intent intent = new Intent(getApplicationContext(), BoardMainActivity.class);
             intent.putExtra("EMAIL", user_EMAIL);
             startActivity(intent);
         });
 
         shoppingFAB.setOnClickListener(v -> {
-            anim();
-            // TODO
+            //anim();
+            Intent intent = new Intent(getApplicationContext(), ShoppingActivity.class);
+            startActivity(intent);
         });
 
+        /*
         notifyONFAB.setOnClickListener(v -> {
             anim();
             Toast.makeText(getApplicationContext(),"알림 ON",Toast.LENGTH_SHORT).show();
@@ -123,25 +129,24 @@ public class FriendListActivity extends AppCompatActivity {
             Intent intent = new Intent(FriendListActivity.this,MyService.class);     // 알림 서비스 종료
             stopService(intent);
         });
-*/
+         */
         MakeLinearLayout(lm);
 
     }
 
-    /*
     // 애니메이션 실행 함수
     public void anim() {
         if(isFabOpen) {
             try{
                 boardMainFAB.startAnimation(fab_close);
                 shoppingFAB.startAnimation(fab_close);
-                notifyONFAB.startAnimation(fab_close);
-                notifyOFFFAB.startAnimation(fab_close);
+                //notifyONFAB.startAnimation(fab_close);
+                //notifyOFFFAB.startAnimation(fab_close);
 
                 boardMainFAB.setClickable(false);
                 shoppingFAB.setClickable(false);
-                notifyONFAB.setClickable(false);
-                notifyOFFFAB.setClickable(false);
+                //notifyONFAB.setClickable(false);
+                //notifyOFFFAB.setClickable(false);
 
                 isFabOpen = false;
             } catch (Exception e){
@@ -152,13 +157,13 @@ public class FriendListActivity extends AppCompatActivity {
             try{
                 boardMainFAB.startAnimation(fab_open);
                 shoppingFAB.startAnimation(fab_open);
-                notifyONFAB.startAnimation(fab_open);
-                notifyOFFFAB.startAnimation(fab_open);
+                //notifyONFAB.startAnimation(fab_open);
+                //notifyOFFFAB.startAnimation(fab_open);
 
                 boardMainFAB.setClickable(true);
                 shoppingFAB.setClickable(true);
-                notifyONFAB.setClickable(true);
-                notifyOFFFAB.setClickable(true);
+                //notifyONFAB.setClickable(true);
+                //notifyOFFFAB.setClickable(true);
 
                 isFabOpen = true;
             } catch (Exception e){
@@ -166,8 +171,6 @@ public class FriendListActivity extends AppCompatActivity {
             }
         }
     }
-
-     */
 
     // 파일에서 텍스트를 읽어 옴
     public String ReadFile (String path){
