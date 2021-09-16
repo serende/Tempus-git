@@ -213,6 +213,7 @@ public class boardActivity extends AppCompatActivity {
             sl.setOrientation(LinearLayout.VERTICAL);
             sl.setLayoutParams(LayoutParams);
             sl.setBackground(ContextCompat.getDrawable(this, R.drawable.layoutborder4));
+            sl.setBackgroundColor(getResources().getColor(R.color.boardColor));
             PostTask Task = new PostTask();
             JSONObject usergroup = new JSONObject();
 
