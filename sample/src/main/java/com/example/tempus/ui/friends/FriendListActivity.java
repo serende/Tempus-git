@@ -105,6 +105,8 @@ public class FriendListActivity extends AppCompatActivity {
             //anim();
             Intent intent = new Intent(getApplicationContext(), BoardMainActivity.class);
             intent.putExtra("EMAIL", user_EMAIL);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            FriendListActivity.this.finish();
             startActivity(intent);
         });
 
