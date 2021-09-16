@@ -17,6 +17,7 @@
             android:layout_height="wrap_content"
             android:text="지인 정보 확인"
             android:layout_marginLeft="20dp"
+            android:textColor="@color/black"
             android:layout_gravity="center"/>
         <Button
             android:id="@+id/finButton"
@@ -47,18 +48,21 @@
                 android:layout_marginTop="30dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
+                android:textColor="@color/black"
                 android:text="등록된 전화번호"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:layout_marginLeft="20dp"
+                android:textColor="@color/black"
                 android:text="등록된 이름"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:layout_marginLeft="20dp"
+                android:textColor="@color/black"
                 android:text="이메일"/>
             <TextView
                 android:layout_width="wrap_content"
@@ -66,6 +70,7 @@
                 android:layout_marginTop="30dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginBottom="30dp"
+                android:textColor="@color/black"
                 android:text="그룹"/>
         </LinearLayout>
 
@@ -80,6 +85,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="29dp"
+                android:textColor="@color/black"
                 android:gravity="center"/>
             <TextView
                 android:id="@+id/nameTextView"
@@ -87,6 +93,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="31dp"
+                android:textColor="@color/black"
                 android:gravity="center"/>
             <TextView
                 android:id="@+id/emailTextView"
@@ -94,6 +101,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="30dp"
+                android:textColor="@color/black"
                 android:gravity="center"/>
             <TextView
                 android:id="@+id/groupTextView"
@@ -101,6 +109,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="30dp"
+                android:textColor="@color/black"
                 android:gravity="center"/>
         </LinearLayout>
 
