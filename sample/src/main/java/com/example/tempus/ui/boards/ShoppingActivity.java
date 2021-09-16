@@ -135,7 +135,7 @@ public class ShoppingActivity extends AppCompatActivity {
             URLBtn.setText("링크");
             //URLBtn.setBackgroundColor(Color.BLUE);
             URLBtn.setBackgroundColor(getResources().getColor(R.color.skyblue));
-            URLBtn.setTextColor(Color.WHITE);
+            URLBtn.setTextColor(Color.BLACK);
             //URLBtn.setTextSize(ConvertDPtoPX(this, 3));
             URLBtn.setBackground(ContextCompat.getDrawable(this, R.drawable.layoutborder));
             URLBtn.setLayoutParams(URLparams);
