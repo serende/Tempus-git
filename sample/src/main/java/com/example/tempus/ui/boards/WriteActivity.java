@@ -106,6 +106,8 @@ public class WriteActivity extends AppCompatActivity {
     String result;
     String host_ip;
 
+    String WR_type = "1";
+
     private File tempFile;
 
     @Override
@@ -154,7 +156,7 @@ public class WriteActivity extends AppCompatActivity {
             try{
                 userjson.put("GROUP",groupName);
                 userjson.put("WR_ID",user_EMAIL);
-                userjson.put("WR_TYPE","1");
+                userjson.put("WR_TYPE",WR_type);
                 userjson.put("WR_BODY",contentEdit.getText().toString());
                 userboard = userjson.toString();
             }catch (JSONException e){
@@ -349,6 +351,9 @@ public class WriteActivity extends AppCompatActivity {
         Bitmap originalBm = BitmapFactory.decodeFile(tempFile.getAbsolutePath(), options);
 
         userImage.setImageBitmap(originalBm);
+
+        // 이미지가 뷰어에 들어갔다면 type을 3으로
+        WR_type = "3";
     }
 
     // 권한 설정
