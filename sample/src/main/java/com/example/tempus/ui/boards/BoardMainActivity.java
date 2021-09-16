@@ -354,7 +354,7 @@ public class BoardMainActivity extends AppCompatActivity {
             ImageLoadTask task2 = new ImageLoadTask(host_ip+"imgdownload",IB);//Imageview(IB)에 해당 url에서 이미지를 받아 넣음
 //          ImageLoadTask task2 = new ImageLoadTask("https://webhook.site/2e08c0c3-79dc-4f65-bba8-3cba6718f78f",IB);
             task2.execute(params2);
-            IB.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            IB.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
             byte[] byteArray = BMAIntent.getByteArrayExtra("image");
 //          IB.setLayoutParams(IBParams);
 //          IB.setPadding(ConvertDPtoPX(this, 35), 0, 0, 0);
