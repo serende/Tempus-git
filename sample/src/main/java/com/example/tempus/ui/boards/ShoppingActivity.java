@@ -47,10 +47,17 @@ public class ShoppingActivity extends AppCompatActivity {
     int count = 0;
     JSONObject jsonobj;
     LinearLayout.LayoutParams lparams, URLparams;
+
+    Intent SAIntent;
+    String host_ip;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shopping);
+
+        SAIntent = getIntent();
+        host_ip = SAIntent.getStringExtra(host_ip);
 
         nameEdit = findViewById(R.id.nameEdit);
         searchBtn = findViewById(R.id.searchBtn);
