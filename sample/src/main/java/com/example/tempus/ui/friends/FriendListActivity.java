@@ -59,6 +59,8 @@ public class FriendListActivity extends AppCompatActivity {
     int InviteYN = 0;
     String InviteGroupName;
 
+    String host_ip;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,11 +68,13 @@ public class FriendListActivity extends AppCompatActivity {
 
         FLAIntent = getIntent();
         user_EMAIL = FLAIntent.getStringExtra("EMAIL");
+        host_ip = FLAIntent.getStringExtra(host_ip);
 
         addButton = findViewById(R.id.addButton);
         addButton.setOnClickListener(v -> {
             Intent intent = new Intent(this, EnteringInformationOfFriendActivity.class);
             intent.putExtra("EMAIL", user_EMAIL);
+            intent.putExtra("host_ip",host_ip);
             startActivity(intent);
         });
 
@@ -106,6 +110,7 @@ public class FriendListActivity extends AppCompatActivity {
             Intent intent = new Intent(getApplicationContext(), BoardMainActivity.class);
             intent.putExtra("EMAIL", user_EMAIL);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra("host_ip",host_ip);
             FriendListActivity.this.finish();
             startActivity(intent);
         });
@@ -113,6 +118,7 @@ public class FriendListActivity extends AppCompatActivity {
         shoppingFAB.setOnClickListener(v -> {
             //anim();
             Intent intent = new Intent(getApplicationContext(), ShoppingActivity.class);
+            intent.putExtra("host_ip",host_ip);
             startActivity(intent);
         });
 
@@ -266,6 +272,7 @@ public class FriendListActivity extends AppCompatActivity {
                         Intent intent = new Intent(FriendListActivity.this, ConfirmFriendInfoActivity.class);
                         intent.putExtra("지인 번호", friendNum);
                         intent.putExtra("EMAIL", user_EMAIL);
+                        intent.putExtra("host_ip",host_ip);
                         startActivity(intent);
                     });
 

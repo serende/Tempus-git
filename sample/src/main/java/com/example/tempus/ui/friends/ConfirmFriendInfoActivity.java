@@ -38,6 +38,8 @@ public class ConfirmFriendInfoActivity extends AppCompatActivity {
     Intent CFIAIntent;
     String user_EMAIL;
 
+    String host_ip;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +47,7 @@ public class ConfirmFriendInfoActivity extends AppCompatActivity {
 
         CFIAIntent = getIntent();
         user_EMAIL = CFIAIntent.getStringExtra("EMAIL");
+        host_ip = CFIAIntent.getStringExtra(host_ip);
 
         phoneNumberTextView = findViewById(R.id.phoneNumberTextView);
         nameTextView = findViewById(R.id.nameTextView);
@@ -60,6 +63,7 @@ public class ConfirmFriendInfoActivity extends AppCompatActivity {
             Intent intent = new Intent(ConfirmFriendInfoActivity.this, EditFriendInfoActivity.class);
             intent.putExtra("지인 번호", n);
             intent.putExtra("EMAIL", user_EMAIL);
+            intent.putExtra("host_ip",host_ip);
             startActivity(intent);
         });
     }
