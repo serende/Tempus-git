@@ -216,6 +216,10 @@ public class FriendListActivity extends AppCompatActivity {
         // '|'를 기준으로 지인 정보 분류
         String[] readArr = read.split("\\|");
 
+        LinearLayout.LayoutParams weightParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ConvertDPtoPX(this, 50));
+        weightParams.weight = 1.0f;
+        weightParams.gravity = Gravity.CENTER;
+
         if (readArr != null)
         {
             int nCnt = readArr.length;
@@ -241,21 +245,24 @@ public class FriendListActivity extends AppCompatActivity {
                     TextView InfoView1 = new TextView(this);
                     TextView InfoView2 = new TextView(this);
 
-                    InfoView1.setText(" " + readArr[5*n+1]);
+                    InfoView1.setText(readArr[5*n+1]);
                     InfoView1.setGravity(Gravity.CENTER);
-                    //InfoView1.setTextColor(Color.BLUE);
-                    InfoView1.setPadding(102, 40, 0, 0);
+                    InfoView1.setTextColor(Color.BLACK);
+                    InfoView1.setLayoutParams(weightParams);
+                    //InfoView1.setPadding(102, 40, 0, 0);
 
-                    InfoView2.setText(" " + readArr[5*n+3]);
-                    InfoView2.setPadding(250,40,0,0);
-                    //InfoView2.setTextColor(Color.BLUE);
+                    InfoView2.setText(readArr[5*n+3]);
+                    //InfoView2.setPadding(250,40,0,0);
+                    InfoView2.setTextColor(Color.BLACK);
+                    InfoView2.setGravity(Gravity.CENTER);
+                    InfoView2.setLayoutParams(weightParams);
                     sl.addView(InfoView1);
                     sl.addView(InfoView2);
 
                     Log.v("setText", " " + readArr[5*n+1] + " " + readArr[5*n+3]);
 
                     LinearLayout btnL = new LinearLayout(this);
-                    btnL.setLayoutParams(Riparams);
+                    btnL.setLayoutParams(weightParams);
 
                     // 버튼 생성
                     final Button btn = new Button(this);
@@ -263,8 +270,9 @@ public class FriendListActivity extends AppCompatActivity {
                     // setId 버튼에 대한 키값
                     btn.setId(n + 1);
                     btn.setText("정보 확인");
-                    btn.setPadding(200,10,100,0);
+                    //btn.setPadding(200,10,100,0);
                     btn.setTextColor(Color.BLUE);
+                    btn.setGravity(Gravity.CENTER);
                     btn.setBackgroundColor(0);
 
                     final int friendNum = n;

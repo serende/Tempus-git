@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.tempus.ui.friends.FriendListActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/flistColor">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -40,37 +41,46 @@
         android:background="@drawable/layoutborder">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_weight="1">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="이름"
                 android:layout_marginTop="10dp"
-                android:layout_marginLeft="50dp"/>
+                android:layout_gravity="center"/>
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_weight="1">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="그룹"
                 android:layout_marginTop="10dp"
-                android:layout_marginLeft="115dp"/>
+                android:layout_gravity="center"
+                />
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/ll"
         android:layout_width="match_parent"
         android:layout_height="500dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@color/flistColor">
     </LinearLayout>
 
     <!--플로팅 버튼을 사용할 경우 위의 동적 레이아웃 높이를 200dp로
