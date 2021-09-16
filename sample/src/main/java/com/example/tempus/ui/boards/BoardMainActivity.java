@@ -355,6 +355,7 @@ public class BoardMainActivity extends AppCompatActivity {
 //          ImageLoadTask task2 = new ImageLoadTask("https://webhook.site/2e08c0c3-79dc-4f65-bba8-3cba6718f78f",IB);
             task2.execute(params2);
             IB.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+            IB.setLayoutParams(IBParams);
             byte[] byteArray = BMAIntent.getByteArrayExtra("image");
 //          IB.setLayoutParams(IBParams);
 //          IB.setPadding(ConvertDPtoPX(this, 35), 0, 0, 0);

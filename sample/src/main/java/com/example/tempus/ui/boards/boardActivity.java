@@ -383,13 +383,26 @@ public class boardActivity extends AppCompatActivity {
                 sl.addView(memoLL);
                 sl.addView(memoTV);
             }
-            else {
-                Toast.makeText(getApplicationContext(), "TYPE ERROR", Toast.LENGTH_SHORT).show();
-            }
+            else if(WR_TYPE.equals("3")){
+                TextView contentTV = new TextView(this);
+                contentTV.setLayoutParams(btnParams);
+                contentTV.setText(result_body);
+                contentTV.setBackgroundColor(Color.WHITE);
+                contentTV.setTextColor(Color.BLACK);
+                contentTV.setGravity(Gravity.LEFT | Gravity.START);
+                contentTV.setBackground(ContextCompat.getDrawable(this, R.drawable.layoutborder4));
 
-            // 첨부된 사진이 있으면 생성하도록 변경 필요(현재는 임시 조건문)
-            int i = 0;
-            if (i == 1) {
+                JSONObject fileName = new JSONObject();
+                try {
+                    fileName.put("name", BAIntent.getStringExtra("GROUP"));
+                    fileName.put("count",count);
+                    userfileName = fileName.toString();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                String[] params2 = {userfileName};
+
+                // 첨부된 사진이 있으면 생성하도록 변경 필요(현재는 임시 조건문)
                 TextView tv = new TextView(this);
                 tv.setText("첨부된 사진");
                 tv.setLayoutParams(tvParams);
@@ -398,24 +411,19 @@ public class boardActivity extends AppCompatActivity {
 
                 ImageView IV = new ImageView(this);
                 IV.setLayoutParams(IVParams);
-
-                JSONObject fileName = new JSONObject();
-                try {
-                    fileName.put("name", BAIntent.getStringExtra("GROUP"));
-                    userfileName = fileName.toString();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                String[] params2 = {userfileName};
-                boardActivity.ImageLoadTask task2 = new boardActivity.ImageLoadTask(host_ip+"imgdownload", IV);//Imageview(IB)에 해당 url에서 이미지를 받아 넣음
-//          ImageLoadTask task2 = new ImageLoadTask("https://webhook.site/2e08c0c3-79dc-4f65-bba8-3cba6718f78f",IB);
-//            task2.execute(params2);
+                boardActivity.ImageLoadTask task2 = new boardActivity.ImageLoadTask(host_ip+"imgdownload_post", IV);
+                task2.execute(params2);
                 IV.setScaleType(ImageView.ScaleType.FIT_CENTER);
                 byte[] byteArray = BAIntent.getByteArrayExtra("image");
 
                 sl.addView(tv);
                 sl.addView(IV);
             }
+            else {
+                Toast.makeText(getApplicationContext(), "TYPE ERROR", Toast.LENGTH_SHORT).show();
+            }
+
+
 
             ll.addView(sl);
         }catch (Exception e){
