@@ -90,6 +90,7 @@ public class CreateExpenditureHistoryActivityForWrite extends AppCompatActivity 
     Intent CEHAIntent;
     String user_EMAIL;
     String groupName;
+    String host_ip;
 
     private File tempFile;
 
@@ -101,6 +102,7 @@ public class CreateExpenditureHistoryActivityForWrite extends AppCompatActivity 
         CEHAIntent = getIntent();
         user_EMAIL = CEHAIntent.getStringExtra("EMAIL");
         groupName = CEHAIntent.getStringExtra("GROUP");
+        host_ip = CEHAIntent.getStringExtra(host_ip);
 
         dayView = findViewById(R.id.dayView);
 
@@ -108,6 +110,7 @@ public class CreateExpenditureHistoryActivityForWrite extends AppCompatActivity 
         changeDisplay.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext(), WriteActivity.class);
             intent.putExtra("EMAIL", user_EMAIL);
+            intent.putExtra("host_ip",host_ip);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             CreateExpenditureHistoryActivityForWrite.this.finish();
             startActivity(intent);
@@ -158,6 +161,7 @@ public class CreateExpenditureHistoryActivityForWrite extends AppCompatActivity 
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);  // 상위 스택 액티비티 모두 제거
             intent.putExtra("EMAIL", user_EMAIL);
             intent.putExtra("GROUP", groupName);
+            intent.putExtra("host_ip",host_ip);
             CreateExpenditureHistoryActivityForWrite.this.finish();
             startActivity(intent);
         });

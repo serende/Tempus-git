@@ -70,6 +70,8 @@ public class boardActivity extends AppCompatActivity {
     LinearLayout.LayoutParams params, LayoutParams, btnParams, tvParams, IVParams, weightParams;
 
     String user_EMAIL;
+    String host_ip;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +82,7 @@ public class boardActivity extends AppCompatActivity {
         names = getIntent().getStringArrayExtra("names");
         nameNum = getIntent().getIntExtra("nameNum", 0);
         user_EMAIL = BAIntent.getStringExtra("EMAIL");
+        host_ip = BAIntent.getStringExtra(host_ip);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -96,6 +99,7 @@ public class boardActivity extends AppCompatActivity {
             Intent intent = new Intent(boardActivity.this, WriteActivity.class);
             intent.putExtra("EMAIL", user_EMAIL);
             intent.putExtra("GROUP", BAIntent.getStringExtra("GROUP"));
+            intent.putExtra("host_ip",host_ip);
             startActivity(intent);
         });
 
@@ -106,6 +110,7 @@ public class boardActivity extends AppCompatActivity {
             Intent intent = new Intent(boardActivity.this, InviteActivity.class);
             intent.putExtra("GROUP", BAIntent.getStringExtra("GROUP"));
             intent.putExtra("EMAIL", user_EMAIL);
+            intent.putExtra("host_ip",host_ip);
             startActivity(intent);
         });
 

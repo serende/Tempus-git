@@ -49,6 +49,8 @@ public class InviteActivity extends AppCompatActivity {
     Intent IAIntent;
 
     String user_EMAIL;
+    String host_ip;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +63,7 @@ public class InviteActivity extends AppCompatActivity {
 
         IAIntent = getIntent();
         user_EMAIL = IAIntent.getStringExtra("EMAIL");
+        host_ip = IAIntent.getStringExtra(host_ip);
 
         addButton = findViewById(R.id.addButton);
         finButton = findViewById(R.id.finButton);
@@ -75,15 +78,16 @@ public class InviteActivity extends AppCompatActivity {
         addButton.setOnClickListener(v -> {
             Intent intent = new Intent(this, AddFriendsActivity.class);
             intent.putExtra("EMAIL", user_EMAIL);
+            intent.putExtra("host_ip",host_ip);
             startActivity(intent);
         });
         finButton.setOnClickListener(v -> {
-            // Board로 이동하면서 선택한 지인 정보 전달하도록 변경 필요
             Intent intent = new Intent(this, boardActivity.class);
             intent.putExtra("names", names);
             intent.putExtra("nameNum", nameNum);
             intent.putExtra("GROUP", IAIntent.getStringExtra("GROUP"));
             intent.putExtra("EMAIL", user_EMAIL);
+            intent.putExtra("host_ip",host_ip);
 
             for(int i = 0; i<nameNum; i++){
                 Log.i("testNames", names[i] + " " + nameNum + " ");
@@ -190,10 +194,11 @@ public class InviteActivity extends AppCompatActivity {
                     btn.setOnClickListener(v -> {
                         Log.d("log", "position :" + friendNum);
 
-                        Intent baIntent = new Intent(InviteActivity.this, ConfirmFriendInfoActivity.class);
-                        baIntent.putExtra("지인 번호", friendNum);
-                        baIntent.putExtra("EMAIL", user_EMAIL);
-                        startActivity(baIntent);
+                        Intent intent = new Intent(InviteActivity.this, ConfirmFriendInfoActivity.class);
+                        intent.putExtra("지인 번호", friendNum);
+                        intent.putExtra("EMAIL", user_EMAIL);
+                        intent.putExtra("host_ip",host_ip);
+                        startActivity(intent);
                     });
 
                     // 멤버로 추가할 지인을 선택하는 체크박스

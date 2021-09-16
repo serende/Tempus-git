@@ -104,6 +104,7 @@ public class WriteActivity extends AppCompatActivity {
     String userboard;
     String groupName;
     String result;
+    String host_ip;
 
     private File tempFile;
 
@@ -115,6 +116,7 @@ public class WriteActivity extends AppCompatActivity {
         WAIntent = getIntent();
         user_EMAIL = WAIntent.getStringExtra("EMAIL");
         groupName = WAIntent.getStringExtra("GROUP");
+        host_ip = WAIntent.getStringExtra(host_ip);
 
         // Disable StrictMode
         StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
@@ -128,6 +130,7 @@ public class WriteActivity extends AppCompatActivity {
             Intent intent = new Intent(getApplicationContext(), CreateExpenditureHistoryActivityForWrite.class);
             intent.putExtra("EMAIL", user_EMAIL);
             intent.putExtra("GROUP", groupName);
+            intent.putExtra("host_ip",host_ip);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             WriteActivity.this.finish();
             startActivity(intent);
@@ -169,6 +172,7 @@ public class WriteActivity extends AppCompatActivity {
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);  // 상위 스택 액티비티 모두 제거
             intent.putExtra("EMAIL", user_EMAIL);
             intent.putExtra("GROUP", groupName);
+            intent.putExtra("host_ip",host_ip);
 
             WriteActivity.this.finish();
             startActivity(intent);
