@@ -72,11 +72,7 @@
         <activity android:name=".ServerResponseActivity" />
         <activity android:name=".ServerRequestActivity" />
         <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".CalendarActivity"
@@ -111,7 +107,13 @@
         <activity android:name=".SignupActivity" />
         <activity
             android:name=".LoginActivity"
-            android:label="@string/title_activity_login" />
+            android:label="@string/title_activity_login" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name="com.example.tempus.ui.friends.FriendListActivity" />
         <activity android:name="com.example.tempus.ui.friends.AddFriendsActivity" />
         <activity android:name="com.example.tempus.ui.friends.EnteringInformationOfFriendActivity" />

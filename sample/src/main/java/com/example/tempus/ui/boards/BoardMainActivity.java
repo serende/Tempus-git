@@ -47,7 +47,7 @@ public class BoardMainActivity extends AppCompatActivity {
     private Boolean isFabOpen = false;
 
     private FloatingActionButton openFAB, addBoardFAB, friendFAB, shoppingFAB, notifyONFAB, notifyOFFFAB;
-    private ImageButton imageButton1, imageButton2;
+    //private ImageButton imageButton1, imageButton2;
     private String id = "admin";//test용 인텐드 받은 이메일 계정
     private String userjson,result,userfileName;
 
@@ -93,7 +93,7 @@ public class BoardMainActivity extends AppCompatActivity {
         String[] params = {userjson};
 //        boardTask task = new boardTask();
 //        task.execute(params);//스레드 실행 함수
-        imageButton2 = findViewById(R.id.imageButton2);
+        //imageButton2 = findViewById(R.id.imageButton2);
 //        ImageLoadTask task2 = new ImageLoadTask("http://192.168.0.3:5000/imgdownload",imageButton2);
 //        task2.execute();
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -115,7 +115,7 @@ public class BoardMainActivity extends AppCompatActivity {
             shoppingFAB = findViewById(R.id.shoppingFAB);
             notifyONFAB = findViewById(R.id.notifyONFAB);
             notifyOFFFAB = findViewById(R.id.notifyOFFFAB);
-            imageButton1 = findViewById(R.id.imageButton1);
+            //imageButton1 = findViewById(R.id.imageButton1);
         } catch (Exception e){
             Log.e("FVBERROR", e.toString());
         }
@@ -158,7 +158,7 @@ public class BoardMainActivity extends AppCompatActivity {
             Intent intent = new Intent(BoardMainActivity.this,MyService.class);     // 알림 서비스 종료
             stopService(intent);
         });
-
+/*
         imageButton1.setOnClickListener(view -> {
             Intent baIntent = new Intent(getApplicationContext(), boardActivity.class);
             baIntent.putExtra("그룹명", "2팀 게시판");
@@ -172,6 +172,8 @@ public class BoardMainActivity extends AppCompatActivity {
             baIntent2.putExtra("EMAIL", user_EMAIL);
             startActivity(baIntent2);
         });
+        
+ */
 
         try{
             for(int i = 0; i<10;i++){
