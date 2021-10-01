@@ -61,6 +61,9 @@ public class LoginActivity extends Activity {
         Button loginInButton = findViewById(R.id.login); // login button
         Button SignUpButton = findViewById(R.id.sign_up); // sign up button
 
+        // 자동 로그인, 입력된 이메일 정보를 저장
+        SaveSharedPreference.setUserName(LoginActivity.this, mEmailView.getText().toString());
+
         loginInButton.setOnClickListener(v -> {
             //서버 구축시 데이터 넘김
             email = mEmailView.getText().toString();
