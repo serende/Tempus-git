@@ -16,7 +16,7 @@ public class FirstAuthActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_first_auth);
 
-        if(SaveSharedPreference.getUserName(FirstAuthActivity.this).length() == 0) {
+        if(SaveSharedPreference.getUserName().length() == 0) {
             // call Login Activity
             intent = new Intent(FirstAuthActivity.this, LoginActivity.class);
             startActivity(intent);
@@ -24,7 +24,7 @@ public class FirstAuthActivity extends AppCompatActivity {
         } else {
             // Call BoardMainActivity
             intent = new Intent(FirstAuthActivity.this, BoardMainActivity.class);
-            intent.putExtra("EMAIL", SaveSharedPreference.getUserName(this));
+            intent.putExtra("EMAIL", SaveSharedPreference.getUserName());
             startActivity(intent);
             this.finish();
         }
