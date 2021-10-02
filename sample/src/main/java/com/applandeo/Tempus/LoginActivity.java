@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.content.SharedPreferences;
 
 import androidx.core.app.ActivityCompat;
 
@@ -31,6 +32,8 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
+import static com.applandeo.Tempus.SaveSharedPreference.*;
 
 public class LoginActivity extends Activity {
 
@@ -62,7 +65,22 @@ public class LoginActivity extends Activity {
         Button SignUpButton = findViewById(R.id.sign_up); // sign up button
 
         // 자동 로그인, 입력된 이메일 정보를 저장
-        SaveSharedPreference.setUserName(LoginActivity.this, mEmailView.getText().toString());
+        //SaveSharedPreference.setUserName(LoginActivity.this, mEmailView.getText().toString());
+
+        // SharedPreference로 저장된 파일에 저장된 계정이 있으면 boardmain으로 이동
+        try{
+            if(getUserName().length() != 0) {
+                // Call BoardMainActivity
+                Intent intent = new Intent(LoginActivity.this, BoardMainActivity.class);
+                intent.putExtra("EMAIL", getUserName());
+                intent.putExtra("host_ip", host_ip);
+                startActivity(intent);
+                this.finish();
+            }
+        } catch(Exception e){
+            Log.e("SPERROR", e.toString());
+        }
+
 
         loginInButton.setOnClickListener(v -> {
             //서버 구축시 데이터 넘김
@@ -160,6 +178,8 @@ public class LoginActivity extends Activity {
             }
             else{
                 Toast.makeText(LoginActivity.this, "로그인 성공", Toast.LENGTH_SHORT).show();
+
+                setUserName(LoginActivity.this, mEmailView.getText().toString());   // userName을 SharedPreference로 저장
                 Intent intent = new Intent(LoginActivity.this, BoardMainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);  // 상위 스택 액티비티 모두 제거
                 intent.putExtra("EMAIL", mEmailView.getText().toString());

@@ -22,9 +22,9 @@ public class FirstAuthActivity extends AppCompatActivity {
             startActivity(intent);
             this.finish();
         } else {
-            // Call Next Activity
+            // Call BoardMainActivity
             intent = new Intent(FirstAuthActivity.this, BoardMainActivity.class);
-            intent.putExtra("STD_NUM", SaveSharedPreference.getUserName(this).toString());
+            intent.putExtra("EMAIL", SaveSharedPreference.getUserName(this));
             startActivity(intent);
             this.finish();
         }
