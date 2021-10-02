@@ -69,10 +69,10 @@ public class LoginActivity extends Activity {
 
         // SharedPreference로 저장된 파일에 저장된 계정이 있으면 boardmain으로 이동
         try{
-            if(getUserName().length() != 0) {
+            if(getUserName(LoginActivity.this).length() != 0) {
                 // Call BoardMainActivity
                 Intent intent = new Intent(LoginActivity.this, BoardMainActivity.class);
-                intent.putExtra("EMAIL", getUserName());
+                intent.putExtra("EMAIL", getUserName(LoginActivity.this));
                 intent.putExtra("host_ip", host_ip);
                 startActivity(intent);
                 this.finish();
